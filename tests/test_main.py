@@ -8,6 +8,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import main
+from src.phases import PHASE_HANDLERS
 from scripts import src_image
 
 
@@ -29,6 +30,10 @@ class DownloadLlmTests(unittest.TestCase):
     def test_parse_size_units(self) -> None:
         self.assertEqual(main.parse_size("5GB"), 5_000_000_000)
         self.assertEqual(main.parse_size("2MiB"), 2 * 1024 * 1024)
+
+    def test_main_reexports_parse_size_and_internal_phase_handlers(self) -> None:
+        self.assertEqual(main.parse_size("1KB"), 1000)
+        self.assertIn("pull_llm", PHASE_HANDLERS)
 
     def test_split_and_restore_streaming(self) -> None:
         payload = b"abcdefghi"

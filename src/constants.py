@@ -1,0 +1,42 @@
+from __future__ import annotations
+
+from pathlib import Path
+
+BASE_DIR = Path("model_weights")
+DEFAULT_MAX_PART_SIZE = "5GB"
+DEFAULT_MAX_DOCKER_IMAGE_SIZE = "5GB"
+BUFFER_SIZE = 8 * 1024 * 1024
+
+PHASE_PULL_LLM = "pull_llm"
+PHASE_PUSH_DOCKER = "push_docker"
+PHASE_PULL_DOCKERHUB = "pull_dockerhub"
+PHASE_RESTORE_LLM = "restore_llm"
+VALID_PHASES = (
+    PHASE_PULL_LLM,
+    PHASE_PUSH_DOCKER,
+    PHASE_PULL_DOCKERHUB,
+    PHASE_RESTORE_LLM,
+)
+
+STATE_FILENAME = "state.json"
+RAW_DIRNAME = "raw"
+PARTS_DIRNAME = "parts"
+DOCKERFILES_DIRNAME = "dockerfiles"
+EXTRACTED_DIRNAME = "extracted"
+RESTORED_DIRNAME = "restored"
+
+DEFAULT_DOCKER_NAMESPACE = "hieucien"
+DOCKER_PULL_PREFIX_ENV = "DOCKER_PULL_PREFIX"
+ALPINE_IMAGE_NAME = "alpine:3.22.4"
+MODEL_PARTS_CONTAINER_DIR = "/model_parts"
+
+DEFAULT_HUGGINGFACE_REVISION = "main"
+HUGGINGFACE_DOMAIN = "huggingface.co"
+HUGGINGFACE_REPO_TYPE = "model"
+
+CONFIRM_YES = "y"
+CONFIRM_NO = "n"
+CONFIRM_YES_ALL_INPUT = "ya"
+CONFIRM_NO_ALL_INPUT = "no"
+CONFIRM_YES_ALL = "yes_all"
+CONFIRM_NO_ALL = "no_all"

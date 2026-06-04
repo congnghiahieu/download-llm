@@ -19,6 +19,7 @@ dev = [
 exclude = ["node_modules/", ".agents/", ".venv/"]
 
 [tool.pyrefly]
+search-path = ["."]
 project-includes = [
     "**/*.py*",
     "**/*.ipynb",

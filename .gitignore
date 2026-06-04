@@ -13,3 +13,5 @@ wheels/
 model_weights/*/raw/
 model_weights/*/parts/
 model_weights/*/extracted/
+
+pyrefly-type-check-errors.json

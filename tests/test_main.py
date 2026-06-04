@@ -12,7 +12,9 @@ import main
 
 class DownloadLlmTests(unittest.TestCase):
     def test_parse_huggingface_root_url_defaults_main(self) -> None:
-        repo_id, revision = main.parse_huggingface_url("https://huggingface.co/Qwen/Qwen3.6-27B", None)
+        repo_id, revision = main.parse_huggingface_url(
+            "https://huggingface.co/Qwen/Qwen3.6-27B", None
+        )
         self.assertEqual(repo_id, "Qwen/Qwen3.6-27B")
         self.assertEqual(revision, "main")
 
@@ -35,13 +37,18 @@ class DownloadLlmTests(unittest.TestCase):
             raw.parent.mkdir(parents=True)
             raw.write_bytes(payload)
 
-            raw_sha, parts = main.split_raw_file(raw, Path("nested/model.bin"), root / "parts", 4)
+            raw_sha, parts = main.split_raw_file(
+                raw, Path("nested/model.bin"), root / "parts", 4
+            )
             self.assertEqual(raw_sha, hashlib.sha256(payload).hexdigest())
-            self.assertEqual([part["part_filename"] for part in parts], [
-                "nested/model-part0001.bin",
-                "nested/model-part0002.bin",
-                "nested/model-part0003.bin",
-            ])
+            self.assertEqual(
+                [part["part_filename"] for part in parts],
+                [
+                    "nested/model-part0001.bin",
+                    "nested/model-part0002.bin",
+                    "nested/model-part0003.bin",
+                ],
+            )
 
             raw_meta = {
                 "filename": "nested/model.bin",
@@ -57,7 +64,12 @@ class DownloadLlmTests(unittest.TestCase):
 
             restored = main.restore_raw_file(root / "model", raw_meta, parts)
             self.assertTrue(restored["restored"])
-            self.assertEqual((root / "model" / "extracted" / "restored" / "nested" / "model.bin").read_bytes(), payload)
+            self.assertEqual(
+                (
+                    root / "model" / "extracted" / "restored" / "nested" / "model.bin"
+                ).read_bytes(),
+                payload,
+            )
 
     def test_group_parts_and_dockerfile_labels(self) -> None:
         parts = [
@@ -66,14 +78,20 @@ class DownloadLlmTests(unittest.TestCase):
             {"part_filename": "a-part0003.bin", "size_bytes": 2},
         ]
         groups = main.group_parts(parts, 10)
-        self.assertEqual([[part["part_filename"] for part in group] for group in groups], [
-            ["a-part0001.bin", "a-part0002.bin"],
-            ["a-part0003.bin"],
-        ])
+        self.assertEqual(
+            [[part["part_filename"] for part in group] for group in groups],
+            [
+                ["a-part0001.bin", "a-part0002.bin"],
+                ["a-part0003.bin"],
+            ],
+        )
         self.assertEqual(main.part_label(7), "part0007")
 
     def test_confirm_unpushed_yes_all_and_no_all(self) -> None:
-        with patch("builtins.input", return_value="ya"), patch("sys.stderr", io.StringIO()):
+        with (
+            patch("builtins.input", return_value="ya"),
+            patch("sys.stderr", io.StringIO()),
+        ):
             should_pull, decision = main.confirm_unpushed("repo/model:part0001", None)
         self.assertTrue(should_pull)
         self.assertEqual(decision, "yes_all")

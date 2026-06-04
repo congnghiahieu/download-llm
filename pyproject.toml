@@ -7,3 +7,19 @@ requires-python = ">=3.10"
 dependencies = [
     "huggingface-hub>=1.17.0",
 ]
+
+[dependency-groups]
+dev = [
+    "pyrefly>=0.61.0",
+    "ruff>=0.15.10",
+]
+
+
+[tool.ruff]
+exclude = ["node_modules/", ".agents/", ".venv/"]
+
+[tool.pyrefly]
+project-includes = [
+    "**/*.py*",
+    "**/*.ipynb",
+]

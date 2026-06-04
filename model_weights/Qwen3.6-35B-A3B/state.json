@@ -1,0 +1,1121 @@
+{
+  "model_name": "Qwen3.6-35B-A3B",
+  "docker_repo_name": "qwen3.6-35b-a3b",
+  "repo_id": "Qwen/Qwen3.6-35B-A3B",
+  "revision": "main",
+  "url": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B",
+  "max_part_size_bytes": 5000000000,
+  "max_part_size": "5.00GB",
+  "max_docker_image_size_bytes": 5000000000,
+  "max_docker_image_size": "5.00GB",
+  "raw": [
+    {
+      "filename": ".gitattributes",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/.gitattributes",
+      "size_bytes": 1570,
+      "size": "1.57KB",
+      "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930",
+      "deleted": true
+    },
+    {
+      "filename": "LICENSE",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/LICENSE",
+      "size_bytes": 11343,
+      "size": "11.34KB",
+      "sha256": "50cbab8a892c5f2993b8c7351a99182507472def3b1374558308605d99b86b32",
+      "deleted": true
+    },
+    {
+      "filename": "README.md",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/README.md",
+      "size_bytes": 64550,
+      "size": "64.55KB",
+      "sha256": "c4ddaa065649ff6352648f64747a16eda31726f3e34add94ce04abb461c77b75",
+      "deleted": true
+    },
+    {
+      "filename": "chat_template.jinja",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/chat_template.jinja",
+      "size_bytes": 7764,
+      "size": "7.76KB",
+      "sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259",
+      "deleted": true
+    },
+    {
+      "filename": "config.json",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/config.json",
+      "size_bytes": 3686,
+      "size": "3.69KB",
+      "sha256": "93a4693fa9d8392fbfccd4b3c9873f4bfdcb14fdede978b123d07d19675efe99",
+      "deleted": true
+    },
+    {
+      "filename": "configuration.json",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/configuration.json",
+      "size_bytes": 58,
+      "size": "58B",
+      "sha256": "c1b09db419119513247e9b8b912c4b9897106c9b20c6cada7e107d993c5435eb",
+      "deleted": true
+    },
+    {
+      "filename": "generation_config.json",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/generation_config.json",
+      "size_bytes": 202,
+      "size": "202B",
+      "sha256": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e",
+      "deleted": true
+    },
+    {
+      "filename": "merges.txt",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/merges.txt",
+      "size_bytes": 3353259,
+      "size": "3.35MB",
+      "sha256": "a9d356d7bdf1ef4949e3e748e95b8e10ad9d4e2e838eddc38a0a7b6b94d1db8d",
+      "deleted": true
+    },
+    {
+      "filename": "model-00001-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00001-of-00026.safetensors",
+      "size_bytes": 3996199712,
+      "size": "4.00GB",
+      "sha256": "adee7bcb930aed22e0677e58d4873b48dadb1ed8001cb5c6a0487286eadb3478",
+      "deleted": true
+    },
+    {
+      "filename": "model-00002-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00002-of-00026.safetensors",
+      "size_bytes": 1284907696,
+      "size": "1.28GB",
+      "sha256": "88f2dfd2b9e73e4b70be533dbf61bcfa3c9a0003758900fcbc9d9b96f5751d4b",
+      "deleted": true
+    },
+    {
+      "filename": "model-00003-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00003-of-00026.safetensors",
+      "size_bytes": 3357898360,
+      "size": "3.36GB",
+      "sha256": "8f7d72178d3f4431864978e5bcfa4c6cb1c204bc00590644d90bb19d6d522eeb",
+      "deleted": true
+    },
+    {
+      "filename": "model-00004-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00004-of-00026.safetensors",
+      "size_bytes": 3370808712,
+      "size": "3.37GB",
+      "sha256": "12d7db38689ba3c8af74b23ef8523eca41e0cd95db870583d0663a3ee8a6bd60",
+      "deleted": true
+    },
+    {
+      "filename": "model-00005-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00005-of-00026.safetensors",
+      "size_bytes": 3357898360,
+      "size": "3.36GB",
+      "sha256": "a836047305d0f7a7b50f0815d09d5c03ec03d59ec2c763fcdc4bf7e9936bf902",
+      "deleted": true
+    },
+    {
+      "filename": "model-00006-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00006-of-00026.safetensors",
+      "size_bytes": 3959424904,
+      "size": "3.96GB",
+      "sha256": "c9080d718e9c5f9e337443225aa417d4c24d00ae7995d76ee3f1cc296b557d15",
+      "deleted": true
+    },
+    {
+      "filename": "model-00007-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00007-of-00026.safetensors",
+      "size_bytes": 1096788232,
+      "size": "1.10GB",
+      "sha256": "e8c05e23131b1dd45a455ec38cfac7db14667358268623c3938d00cf3e959a68",
+      "deleted": true
+    },
+    {
+      "filename": "model-00008-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00008-of-00026.safetensors",
+      "size_bytes": 3946842008,
+      "size": "3.95GB",
+      "sha256": "4b6a6d495053089f4a80e7cbc82e848fba44e2c0c60122233d8fdff79fa7b296",
+      "deleted": true
+    },
+    {
+      "filename": "model-00009-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00009-of-00026.safetensors",
+      "size_bytes": 1096460848,
+      "size": "1.10GB",
+      "sha256": "a31a954bb72d1c714e751bf0aabf2ff533f5a509693ebf7dd22ad6e90be46f67",
+      "deleted": true
+    },
+    {
+      "filename": "model-00010-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00010-of-00026.safetensors",
+      "size_bytes": 3946841992,
+      "size": "3.95GB",
+      "sha256": "246560e66570fe746653b8443e245dc334c9b8b831ea43d2d9f1b7d98623994e",
+      "deleted": true
+    },
+    {
+      "filename": "model-00011-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00011-of-00026.safetensors",
+      "size_bytes": 1096460752,
+      "size": "1.10GB",
+      "sha256": "7180392817fe3ecb3a27a1da43b7ff22c1a94806bac49975f9f122c3126df675",
+      "deleted": true
+    },
+    {
+      "filename": "model-00012-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00012-of-00026.safetensors",
+      "size_bytes": 3409971080,
+      "size": "3.41GB",
+      "sha256": "043fb525f6625c2f2acb75e65a9959ee3fa7b6e3fdd2034b5cfe1859b01d3cfb",
+      "deleted": true
+    },
+    {
+      "filename": "model-00013-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00013-of-00026.safetensors",
+      "size_bytes": 1633331664,
+      "size": "1.63GB",
+      "sha256": "33a20fb20a21379bf43c84a43105f9c0cc35bd50d740b1c302dcbe4b700f5425",
+      "deleted": true
+    },
+    {
+      "filename": "model-00014-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00014-of-00026.safetensors",
+      "size_bytes": 3422553872,
+      "size": "3.42GB",
+      "sha256": "be823e33c5cb6120ad3769d081f34a2449dc2358041fca7c29d636c1ba19130d",
+      "deleted": true
+    },
+    {
+      "filename": "model-00015-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00015-of-00026.safetensors",
+      "size_bytes": 1633659224,
+      "size": "1.63GB",
+      "sha256": "a89d547c6f9d0b535ee5ea2f2478f163089539f3f0dd330cb23d278a19d76123",
+      "deleted": true
+    },
+    {
+      "filename": "model-00016-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00016-of-00026.safetensors",
+      "size_bytes": 3946842136,
+      "size": "3.95GB",
+      "sha256": "69fc3ae0316482288afdcdd0b9eb7d626703ae26f7567e89aa3fc8d1ffd4ff5b",
+      "deleted": true
+    },
+    {
+      "filename": "model-00017-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00017-of-00026.safetensors",
+      "size_bytes": 1096460608,
+      "size": "1.10GB",
+      "sha256": "e356e3943cf3852b76bb8992e674f3256013e27d54b78e8250514151cdc29637",
+      "deleted": true
+    },
+    {
+      "filename": "model-00018-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00018-of-00026.safetensors",
+      "size_bytes": 3946841992,
+      "size": "3.95GB",
+      "sha256": "9e5e63fd1cc7d6848330c1fa363dfcb661bbc2ac87e672d0e28b71c9cb7f3c7f",
+      "deleted": true
+    },
+    {
+      "filename": "model-00019-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00019-of-00026.safetensors",
+      "size_bytes": 1096460808,
+      "size": "1.10GB",
+      "sha256": "708644ad34f1de727bf484f396944d8ec628645d52c183e9a992e65671685e21",
+      "deleted": true
+    },
+    {
+      "filename": "model-00020-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00020-of-00026.safetensors",
+      "size_bytes": 3409971072,
+      "size": "3.41GB",
+      "sha256": "ca083a1d1aa64f8e8a785998f543a43374f13436dc85d396eee4e72c7a84e1ae",
+      "deleted": true
+    },
+    {
+      "filename": "model-00021-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00021-of-00026.safetensors",
+      "size_bytes": 1633331744,
+      "size": "1.63GB",
+      "sha256": "ada4ae48f3d48fe01b4c53f2f82bce25e798a9631fd33959c881156fef2ccbce",
+      "deleted": true
+    },
+    {
+      "filename": "model-00022-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00022-of-00026.safetensors",
+      "size_bytes": 3370808752,
+      "size": "3.37GB",
+      "sha256": "def207fb42d7db31efb512755557763c23233c6e4d4c433027cb5102a7bce2f7",
+      "deleted": true
+    },
+    {
+      "filename": "model-00023-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00023-of-00026.safetensors",
+      "size_bytes": 3357898392,
+      "size": "3.36GB",
+      "sha256": "864d52ca7768a36f514069222e8de8626264ae124097ba8fcce5b5da2c6e2ed7",
+      "deleted": true
+    },
+    {
+      "filename": "model-00024-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00024-of-00026.safetensors",
+      "size_bytes": 3370808752,
+      "size": "3.37GB",
+      "sha256": "391acd27420cdce5935ff18152423c70620d19dac3c39a5ef1a81d369f82d737",
+      "deleted": true
+    },
+    {
+      "filename": "model-00025-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00025-of-00026.safetensors",
+      "size_bytes": 3832888256,
+      "size": "3.83GB",
+      "sha256": "778e7f76602f05042b69ba7f3ec91f1fdffef390540b16074041c258fb81d154",
+      "deleted": true
+    },
+    {
+      "filename": "model-00026-of-00026.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model-00026-of-00026.safetensors",
+      "size_bytes": 2231416848,
+      "size": "2.23GB",
+      "sha256": "1a97404220077ed3d4182e10385b152004cab608377f50cec9f54a6b8d28b613",
+      "deleted": true
+    },
+    {
+      "filename": "model.safetensors.index.json",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/model.safetensors.index.json",
+      "size_bytes": 98383,
+      "size": "98.38KB",
+      "sha256": "41b9356101ebf8e7519e150dc811f80c4226e727301fbb032b890f006ed0be83",
+      "deleted": true
+    },
+    {
+      "filename": "preprocessor_config.json",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/preprocessor_config.json",
+      "size_bytes": 390,
+      "size": "390B",
+      "sha256": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+      "deleted": true
+    },
+    {
+      "filename": "tokenizer.json",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/tokenizer.json",
+      "size_bytes": 12807982,
+      "size": "12.81MB",
+      "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+      "deleted": true
+    },
+    {
+      "filename": "tokenizer_config.json",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/tokenizer_config.json",
+      "size_bytes": 16718,
+      "size": "16.72KB",
+      "sha256": "5186f0defcd7f232382c7f0aebcd2252d073bb921ab240e407b7ae8745d2b29b",
+      "deleted": true
+    },
+    {
+      "filename": "video_preprocessor_config.json",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/video_preprocessor_config.json",
+      "size_bytes": 385,
+      "size": "385B",
+      "sha256": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13",
+      "deleted": true
+    },
+    {
+      "filename": "vocab.json",
+      "path": "model_weights/Qwen3.6-35B-A3B/raw/vocab.json",
+      "size_bytes": 6722759,
+      "size": "6.72MB",
+      "sha256": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003",
+      "deleted": true
+    }
+  ],
+  "parts": [
+    {
+      "raw_filename": ".gitattributes",
+      "index": 1,
+      "part_filename": ".gitattributes-part0001",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/.gitattributes-part0001",
+      "size_bytes": 1570,
+      "size": "1.57KB",
+      "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "LICENSE",
+      "index": 1,
+      "part_filename": "LICENSE-part0001",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/LICENSE-part0001",
+      "size_bytes": 11343,
+      "size": "11.34KB",
+      "sha256": "50cbab8a892c5f2993b8c7351a99182507472def3b1374558308605d99b86b32",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "README.md",
+      "index": 1,
+      "part_filename": "README-part0001.md",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/README-part0001.md",
+      "size_bytes": 64550,
+      "size": "64.55KB",
+      "sha256": "c4ddaa065649ff6352648f64747a16eda31726f3e34add94ce04abb461c77b75",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "chat_template.jinja",
+      "index": 1,
+      "part_filename": "chat_template-part0001.jinja",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/chat_template-part0001.jinja",
+      "size_bytes": 7764,
+      "size": "7.76KB",
+      "sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "config.json",
+      "index": 1,
+      "part_filename": "config-part0001.json",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/config-part0001.json",
+      "size_bytes": 3686,
+      "size": "3.69KB",
+      "sha256": "93a4693fa9d8392fbfccd4b3c9873f4bfdcb14fdede978b123d07d19675efe99",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "configuration.json",
+      "index": 1,
+      "part_filename": "configuration-part0001.json",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/configuration-part0001.json",
+      "size_bytes": 58,
+      "size": "58B",
+      "sha256": "c1b09db419119513247e9b8b912c4b9897106c9b20c6cada7e107d993c5435eb",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "generation_config.json",
+      "index": 1,
+      "part_filename": "generation_config-part0001.json",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/generation_config-part0001.json",
+      "size_bytes": 202,
+      "size": "202B",
+      "sha256": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "merges.txt",
+      "index": 1,
+      "part_filename": "merges-part0001.txt",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/merges-part0001.txt",
+      "size_bytes": 3353259,
+      "size": "3.35MB",
+      "sha256": "a9d356d7bdf1ef4949e3e748e95b8e10ad9d4e2e838eddc38a0a7b6b94d1db8d",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00001-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00001-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00001-of-00026-part0001.safetensors",
+      "size_bytes": 3996199712,
+      "size": "4.00GB",
+      "sha256": "adee7bcb930aed22e0677e58d4873b48dadb1ed8001cb5c6a0487286eadb3478",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00002-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00002-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00002-of-00026-part0001.safetensors",
+      "size_bytes": 1284907696,
+      "size": "1.28GB",
+      "sha256": "88f2dfd2b9e73e4b70be533dbf61bcfa3c9a0003758900fcbc9d9b96f5751d4b",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00003-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00003-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00003-of-00026-part0001.safetensors",
+      "size_bytes": 3357898360,
+      "size": "3.36GB",
+      "sha256": "8f7d72178d3f4431864978e5bcfa4c6cb1c204bc00590644d90bb19d6d522eeb",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00004-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00004-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00004-of-00026-part0001.safetensors",
+      "size_bytes": 3370808712,
+      "size": "3.37GB",
+      "sha256": "12d7db38689ba3c8af74b23ef8523eca41e0cd95db870583d0663a3ee8a6bd60",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00005-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00005-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00005-of-00026-part0001.safetensors",
+      "size_bytes": 3357898360,
+      "size": "3.36GB",
+      "sha256": "a836047305d0f7a7b50f0815d09d5c03ec03d59ec2c763fcdc4bf7e9936bf902",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00006-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00006-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00006-of-00026-part0001.safetensors",
+      "size_bytes": 3959424904,
+      "size": "3.96GB",
+      "sha256": "c9080d718e9c5f9e337443225aa417d4c24d00ae7995d76ee3f1cc296b557d15",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00007-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00007-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00007-of-00026-part0001.safetensors",
+      "size_bytes": 1096788232,
+      "size": "1.10GB",
+      "sha256": "e8c05e23131b1dd45a455ec38cfac7db14667358268623c3938d00cf3e959a68",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00008-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00008-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00008-of-00026-part0001.safetensors",
+      "size_bytes": 3946842008,
+      "size": "3.95GB",
+      "sha256": "4b6a6d495053089f4a80e7cbc82e848fba44e2c0c60122233d8fdff79fa7b296",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00009-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00009-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00009-of-00026-part0001.safetensors",
+      "size_bytes": 1096460848,
+      "size": "1.10GB",
+      "sha256": "a31a954bb72d1c714e751bf0aabf2ff533f5a509693ebf7dd22ad6e90be46f67",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00010-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00010-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00010-of-00026-part0001.safetensors",
+      "size_bytes": 3946841992,
+      "size": "3.95GB",
+      "sha256": "246560e66570fe746653b8443e245dc334c9b8b831ea43d2d9f1b7d98623994e",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00011-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00011-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00011-of-00026-part0001.safetensors",
+      "size_bytes": 1096460752,
+      "size": "1.10GB",
+      "sha256": "7180392817fe3ecb3a27a1da43b7ff22c1a94806bac49975f9f122c3126df675",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00012-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00012-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00012-of-00026-part0001.safetensors",
+      "size_bytes": 3409971080,
+      "size": "3.41GB",
+      "sha256": "043fb525f6625c2f2acb75e65a9959ee3fa7b6e3fdd2034b5cfe1859b01d3cfb",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00013-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00013-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00013-of-00026-part0001.safetensors",
+      "size_bytes": 1633331664,
+      "size": "1.63GB",
+      "sha256": "33a20fb20a21379bf43c84a43105f9c0cc35bd50d740b1c302dcbe4b700f5425",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00014-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00014-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00014-of-00026-part0001.safetensors",
+      "size_bytes": 3422553872,
+      "size": "3.42GB",
+      "sha256": "be823e33c5cb6120ad3769d081f34a2449dc2358041fca7c29d636c1ba19130d",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00015-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00015-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00015-of-00026-part0001.safetensors",
+      "size_bytes": 1633659224,
+      "size": "1.63GB",
+      "sha256": "a89d547c6f9d0b535ee5ea2f2478f163089539f3f0dd330cb23d278a19d76123",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00016-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00016-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00016-of-00026-part0001.safetensors",
+      "size_bytes": 3946842136,
+      "size": "3.95GB",
+      "sha256": "69fc3ae0316482288afdcdd0b9eb7d626703ae26f7567e89aa3fc8d1ffd4ff5b",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00017-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00017-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00017-of-00026-part0001.safetensors",
+      "size_bytes": 1096460608,
+      "size": "1.10GB",
+      "sha256": "e356e3943cf3852b76bb8992e674f3256013e27d54b78e8250514151cdc29637",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00018-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00018-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00018-of-00026-part0001.safetensors",
+      "size_bytes": 3946841992,
+      "size": "3.95GB",
+      "sha256": "9e5e63fd1cc7d6848330c1fa363dfcb661bbc2ac87e672d0e28b71c9cb7f3c7f",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00019-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00019-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00019-of-00026-part0001.safetensors",
+      "size_bytes": 1096460808,
+      "size": "1.10GB",
+      "sha256": "708644ad34f1de727bf484f396944d8ec628645d52c183e9a992e65671685e21",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00020-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00020-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00020-of-00026-part0001.safetensors",
+      "size_bytes": 3409971072,
+      "size": "3.41GB",
+      "sha256": "ca083a1d1aa64f8e8a785998f543a43374f13436dc85d396eee4e72c7a84e1ae",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00021-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00021-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00021-of-00026-part0001.safetensors",
+      "size_bytes": 1633331744,
+      "size": "1.63GB",
+      "sha256": "ada4ae48f3d48fe01b4c53f2f82bce25e798a9631fd33959c881156fef2ccbce",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00022-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00022-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00022-of-00026-part0001.safetensors",
+      "size_bytes": 3370808752,
+      "size": "3.37GB",
+      "sha256": "def207fb42d7db31efb512755557763c23233c6e4d4c433027cb5102a7bce2f7",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00023-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00023-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00023-of-00026-part0001.safetensors",
+      "size_bytes": 3357898392,
+      "size": "3.36GB",
+      "sha256": "864d52ca7768a36f514069222e8de8626264ae124097ba8fcce5b5da2c6e2ed7",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00024-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00024-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00024-of-00026-part0001.safetensors",
+      "size_bytes": 3370808752,
+      "size": "3.37GB",
+      "sha256": "391acd27420cdce5935ff18152423c70620d19dac3c39a5ef1a81d369f82d737",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00025-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00025-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00025-of-00026-part0001.safetensors",
+      "size_bytes": 3832888256,
+      "size": "3.83GB",
+      "sha256": "778e7f76602f05042b69ba7f3ec91f1fdffef390540b16074041c258fb81d154",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00026-of-00026.safetensors",
+      "index": 1,
+      "part_filename": "model-00026-of-00026-part0001.safetensors",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model-00026-of-00026-part0001.safetensors",
+      "size_bytes": 2231416848,
+      "size": "2.23GB",
+      "sha256": "1a97404220077ed3d4182e10385b152004cab608377f50cec9f54a6b8d28b613",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model.safetensors.index.json",
+      "index": 1,
+      "part_filename": "model.safetensors.index-part0001.json",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/model.safetensors.index-part0001.json",
+      "size_bytes": 98383,
+      "size": "98.38KB",
+      "sha256": "41b9356101ebf8e7519e150dc811f80c4226e727301fbb032b890f006ed0be83",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "preprocessor_config.json",
+      "index": 1,
+      "part_filename": "preprocessor_config-part0001.json",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/preprocessor_config-part0001.json",
+      "size_bytes": 390,
+      "size": "390B",
+      "sha256": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "tokenizer.json",
+      "index": 1,
+      "part_filename": "tokenizer-part0001.json",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/tokenizer-part0001.json",
+      "size_bytes": 12807982,
+      "size": "12.81MB",
+      "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "tokenizer_config.json",
+      "index": 1,
+      "part_filename": "tokenizer_config-part0001.json",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/tokenizer_config-part0001.json",
+      "size_bytes": 16718,
+      "size": "16.72KB",
+      "sha256": "5186f0defcd7f232382c7f0aebcd2252d073bb921ab240e407b7ae8745d2b29b",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "video_preprocessor_config.json",
+      "index": 1,
+      "part_filename": "video_preprocessor_config-part0001.json",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/video_preprocessor_config-part0001.json",
+      "size_bytes": 385,
+      "size": "385B",
+      "sha256": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "vocab.json",
+      "index": 1,
+      "part_filename": "vocab-part0001.json",
+      "path": "model_weights/Qwen3.6-35B-A3B/parts/vocab-part0001.json",
+      "size_bytes": 6722759,
+      "size": "6.72MB",
+      "sha256": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    }
+  ],
+  "dockerfiles": [
+    {
+      "index": 1,
+      "label": "part0001",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0001",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0001",
+      "included_parts": [
+        ".gitattributes-part0001",
+        "LICENSE-part0001",
+        "README-part0001.md",
+        "chat_template-part0001.jinja",
+        "config-part0001.json",
+        "configuration-part0001.json",
+        "generation_config-part0001.json",
+        "merges-part0001.txt",
+        "model-00001-of-00026-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 2,
+      "label": "part0002",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0002",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0002",
+      "included_parts": [
+        "model-00002-of-00026-part0001.safetensors",
+        "model-00003-of-00026-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 3,
+      "label": "part0003",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0003",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0003",
+      "included_parts": ["model-00004-of-00026-part0001.safetensors"],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 4,
+      "label": "part0004",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0004",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0004",
+      "included_parts": ["model-00005-of-00026-part0001.safetensors"],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 5,
+      "label": "part0005",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0005",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0005",
+      "included_parts": ["model-00006-of-00026-part0001.safetensors"],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 6,
+      "label": "part0006",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0006",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0006",
+      "included_parts": ["model-00007-of-00026-part0001.safetensors"],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 7,
+      "label": "part0007",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0007",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0007",
+      "included_parts": ["model-00008-of-00026-part0001.safetensors"],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 8,
+      "label": "part0008",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0008",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0008",
+      "included_parts": ["model-00009-of-00026-part0001.safetensors"],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 9,
+      "label": "part0009",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0009",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0009",
+      "included_parts": ["model-00010-of-00026-part0001.safetensors"],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 10,
+      "label": "part0010",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0010",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0010",
+      "included_parts": [
+        "model-00011-of-00026-part0001.safetensors",
+        "model-00012-of-00026-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 11,
+      "label": "part0011",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0011",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0011",
+      "included_parts": ["model-00013-of-00026-part0001.safetensors"],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 12,
+      "label": "part0012",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0012",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0012",
+      "included_parts": ["model-00014-of-00026-part0001.safetensors"],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 13,
+      "label": "part0013",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0013",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0013",
+      "included_parts": ["model-00015-of-00026-part0001.safetensors"],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 14,
+      "label": "part0014",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0014",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0014",
+      "included_parts": ["model-00016-of-00026-part0001.safetensors"],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 15,
+      "label": "part0015",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0015",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0015",
+      "included_parts": ["model-00017-of-00026-part0001.safetensors"],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 16,
+      "label": "part0016",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0016",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0016",
+      "included_parts": ["model-00018-of-00026-part0001.safetensors"],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 17,
+      "label": "part0017",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0017",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0017",
+      "included_parts": [
+        "model-00019-of-00026-part0001.safetensors",
+        "model-00020-of-00026-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 18,
+      "label": "part0018",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0018",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0018",
+      "included_parts": ["model-00021-of-00026-part0001.safetensors"],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 19,
+      "label": "part0019",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0019",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0019",
+      "included_parts": ["model-00022-of-00026-part0001.safetensors"],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 20,
+      "label": "part0020",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0020",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0020",
+      "included_parts": ["model-00023-of-00026-part0001.safetensors"],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 21,
+      "label": "part0021",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0021",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0021",
+      "included_parts": ["model-00024-of-00026-part0001.safetensors"],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 22,
+      "label": "part0022",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0022",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0022",
+      "included_parts": ["model-00025-of-00026-part0001.safetensors"],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 23,
+      "label": "part0023",
+      "dockerfile": "model_weights/Qwen3.6-35B-A3B/dockerfiles/Dockerfile.part0023",
+      "tag": "hieucien/qwen3.6-35b-a3b:part0023",
+      "included_parts": [
+        "model-00026-of-00026-part0001.safetensors",
+        "model.safetensors.index-part0001.json",
+        "preprocessor_config-part0001.json",
+        "tokenizer-part0001.json",
+        "tokenizer_config-part0001.json",
+        "video_preprocessor_config-part0001.json",
+        "vocab-part0001.json"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    }
+  ],
+  "restore": []
+}

@@ -1,0 +1,8 @@
+FROM alpine:3.22.4
+COPY parts/model-00026-of-00026-part0001.safetensors /model_parts/model-00026-of-00026-part0001.safetensors
+COPY parts/model.safetensors.index-part0001.json /model_parts/model.safetensors.index-part0001.json
+COPY parts/preprocessor_config-part0001.json /model_parts/preprocessor_config-part0001.json
+COPY parts/tokenizer-part0001.json /model_parts/tokenizer-part0001.json
+COPY parts/tokenizer_config-part0001.json /model_parts/tokenizer_config-part0001.json
+COPY parts/video_preprocessor_config-part0001.json /model_parts/video_preprocessor_config-part0001.json
+COPY parts/vocab-part0001.json /model_parts/vocab-part0001.json

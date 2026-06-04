@@ -1,0 +1,5 @@
+FROM alpine:3.22.4
+
+ARG SRC_ZIP
+WORKDIR /src
+COPY ${SRC_ZIP} /src/${SRC_ZIP}

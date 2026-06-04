@@ -30,6 +30,42 @@ def remove_file(path: Path) -> bool:
     return False
 
 
+def path_matches(path: Path, size_bytes: int | None, sha256: str | None) -> bool:
+    if not path.exists() or not path.is_file():
+        return False
+    if size_bytes is not None and path.stat().st_size != size_bytes:
+        return False
+    if sha256 is not None and sha256_file(path) != sha256:
+        return False
+    return True
+
+
+def part_files_exist(parts: list[dict[str, Any]]) -> bool:
+    for part in parts:
+        if not path_matches(
+            Path(part["path"]), int(part["size_bytes"]), part.get("sha256")
+        ):
+            return False
+    return True
+
+
+def extracted_parts_exist(model_dir: Path, parts: list[dict[str, Any]]) -> bool:
+    for part in parts:
+        part_path = model_dir / EXTRACTED_DIRNAME / PARTS_DIRNAME / part["part_filename"]
+        if not path_matches(part_path, int(part["size_bytes"]), part.get("sha256")):
+            return False
+    return True
+
+
+def restored_file_valid(model_dir: Path, raw: dict[str, Any]) -> bool:
+    restored_path = model_dir / EXTRACTED_DIRNAME / RESTORED_DIRNAME / raw["filename"]
+    return path_matches(
+        restored_path,
+        int(raw["size_bytes"]) if "size_bytes" in raw else None,
+        raw.get("sha256"),
+    )
+
+
 def split_raw_file(
     raw_path: Path,
     raw_rel: Path,

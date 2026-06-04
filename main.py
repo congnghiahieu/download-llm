@@ -11,13 +11,22 @@ from src.constants import (
 )
 from src.docker import (
     confirm_unpushed,
+    docker_image_exists,
     dockerfile_text,
     ensure_dockerfiles,
     extract_image_parts,
     group_parts,
     run_docker,
 )
-from src.files import remove_file, restore_raw_file, sha256_file, split_raw_file
+from src.files import (
+    extracted_parts_exist,
+    part_files_exist,
+    remove_file,
+    restored_file_valid,
+    restore_raw_file,
+    sha256_file,
+    split_raw_file,
+)
 from src.huggingface import parse_huggingface_url
 from src.naming import (
     docker_pull_tag,
@@ -39,6 +48,7 @@ from src.state import (
     infer_single_model_name,
     load_state,
     make_initial_state,
+    normalize_state,
     resolve_model_name,
     save_state,
 )
@@ -53,10 +63,12 @@ __all__ = [
     "VALID_PHASES",
     "atomic_write_json",
     "confirm_unpushed",
+    "docker_image_exists",
     "docker_pull_tag",
     "docker_repo_name",
     "dockerfile_text",
     "ensure_dockerfiles",
+    "extracted_parts_exist",
     "extract_image_parts",
     "group_parts",
     "human_size",
@@ -65,9 +77,11 @@ __all__ = [
     "load_state",
     "main",
     "make_initial_state",
+    "normalize_state",
     "parse_args",
     "parse_huggingface_url",
     "parse_size",
+    "part_files_exist",
     "part_label",
     "phase_pull_dockerhub",
     "phase_pull_llm",
@@ -75,6 +89,7 @@ __all__ = [
     "phase_restore_llm",
     "remove_file",
     "resolve_model_name",
+    "restored_file_valid",
     "restore_raw_file",
     "run_docker",
     "safe_path_name",

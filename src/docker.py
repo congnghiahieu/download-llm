@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import os
+import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -25,6 +27,17 @@ from src.naming import docker_pull_tag, docker_repo_name, part_label
 def run_docker(args: list[str]) -> subprocess.CompletedProcess[str]:
     print("$", " ".join(["docker", *args]), flush=True)
     return subprocess.run(["docker", *args], check=True, text=True)
+
+
+def docker_image_exists(tag: str) -> bool:
+    result = subprocess.run(
+        ["docker", "image", "inspect", tag],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        text=True,
+        check=False,
+    )
+    return result.returncode == 0
 
 
 def group_parts(
@@ -70,28 +83,36 @@ def ensure_dockerfiles(
         return
     groups = group_parts(state.get("parts", []), max_image_size)
     dockerfiles_dir = model_dir / DOCKERFILES_DIRNAME
-    dockerfiles_dir.mkdir(parents=True, exist_ok=True)
     entries = []
     repo = state.get("docker_repo_name") or docker_repo_name(state["model_name"])
 
-    for index, group in enumerate(groups, start=1):
-        label = part_label(index)
-        dockerfile = dockerfiles_dir / f"Dockerfile.{label}"
-        dockerfile.write_text(dockerfile_text(group), encoding="utf-8")
-        entries.append(
-            {
-                "index": index,
-                "label": label,
-                "dockerfile": dockerfile.as_posix(),
-                "tag": f"{namespace}/{repo}:{label}",
-                "included_parts": [part["part_filename"] for part in group],
-                "built": False,
-                "pushed": False,
-                "pulled": False,
-                "removed": False,
-                "extracted": False,
-            }
-        )
+    model_dir.mkdir(parents=True, exist_ok=True)
+    tmp_dir = Path(tempfile.mkdtemp(prefix=f".{DOCKERFILES_DIRNAME}.", dir=model_dir))
+    try:
+        for index, group in enumerate(groups, start=1):
+            label = part_label(index)
+            dockerfile = tmp_dir / f"Dockerfile.{label}"
+            dockerfile.write_text(dockerfile_text(group), encoding="utf-8")
+            entries.append(
+                {
+                    "index": index,
+                    "label": label,
+                    "dockerfile": (dockerfiles_dir / f"Dockerfile.{label}").as_posix(),
+                    "tag": f"{namespace}/{repo}:{label}",
+                    "included_parts": [part["part_filename"] for part in group],
+                    "built": False,
+                    "pushed": False,
+                    "pulled": False,
+                    "removed": False,
+                    "extracted": False,
+                }
+            )
+        if dockerfiles_dir.exists():
+            shutil.rmtree(dockerfiles_dir)
+        os.replace(tmp_dir, dockerfiles_dir)
+    except Exception:
+        shutil.rmtree(tmp_dir, ignore_errors=True)
+        raise
     state["dockerfiles"] = entries
 
 
@@ -102,7 +123,7 @@ def confirm_unpushed(tag: str, decision: str | None) -> tuple[bool, str | None]:
         return False, decision
     while True:
         print(f"ERROR: {tag} has pushed=false in state.json", file=sys.stderr)
-        answer = input("Pull anyway? [y/n/ya/no]: ").strip().lower()
+        answer = input("Skip this unpushed image and continue? [y/n/ya/no]: ").strip().lower()
         if answer == CONFIRM_YES:
             return True, decision
         if answer == CONFIRM_NO:

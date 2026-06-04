@@ -32,7 +32,37 @@ def load_state(model_dir: Path) -> dict[str, Any]:
     if not state_path.exists():
         raise FileNotFoundError(f"Missing state file: {state_path}")
     with state_path.open("r", encoding="utf-8") as file:
-        return json.load(file)
+        return normalize_state(json.load(file))
+
+
+def normalize_state(state: dict[str, Any]) -> dict[str, Any]:
+    state.setdefault("raw", [])
+    state.setdefault("parts", [])
+    state.setdefault("dockerfiles", [])
+    state.setdefault("restore", [])
+
+    parts_by_raw: dict[str, list[dict[str, Any]]] = {}
+    for part in state["parts"]:
+        part.setdefault("deleted", False)
+        part.setdefault("extracted", False)
+        part.setdefault("restored", False)
+        parts_by_raw.setdefault(part.get("raw_filename", ""), []).append(part)
+
+    for raw in state["raw"]:
+        raw.setdefault("downloaded", "sha256" in raw and "size_bytes" in raw)
+        raw.setdefault("split", bool(parts_by_raw.get(raw.get("filename", ""))))
+        raw.setdefault("deleted", False)
+
+    for entry in state["dockerfiles"]:
+        entry.setdefault("built", False)
+        entry.setdefault("pushed", False)
+        entry.setdefault("pulled", False)
+        entry.setdefault("removed", False)
+        entry.setdefault("extracted", False)
+
+    for item in state["restore"]:
+        item.setdefault("restored", False)
+    return state
 
 
 def infer_single_model_name() -> str | None:

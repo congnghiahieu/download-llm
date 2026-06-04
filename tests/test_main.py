@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import io
+import argparse
 import tempfile
 import unittest
 from pathlib import Path
@@ -141,6 +142,305 @@ class DownloadLlmTests(unittest.TestCase):
             ),
             "2026-06-03_17-22-20",
         )
+
+    def test_pull_llm_resumes_downloaded_raw_and_skips_split_raw(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            model_dir = root / "ResumeModel"
+            raw_dir = model_dir / "raw"
+            raw_dir.mkdir(parents=True)
+            (raw_dir / "a.bin").write_bytes(b"abcdef")
+            state = main.make_initial_state(
+                "ResumeModel", "Org/ResumeModel", "main", "url", 4, 10
+            )
+            state["raw"] = [
+                {
+                    "filename": "a.bin",
+                    "path": (raw_dir / "a.bin").as_posix(),
+                    "downloaded": True,
+                    "split": False,
+                    "deleted": False,
+                },
+                {
+                    "filename": "b.bin",
+                    "path": (raw_dir / "b.bin").as_posix(),
+                    "downloaded": True,
+                    "split": True,
+                    "deleted": True,
+                    "size_bytes": 1,
+                    "size": "1B",
+                    "sha256": hashlib.sha256(b"x").hexdigest(),
+                },
+            ]
+            state["parts"] = [
+                {
+                    "raw_filename": "b.bin",
+                    "index": 1,
+                    "part_filename": "b-part0001.bin",
+                    "path": (model_dir / "parts" / "b-part0001.bin").as_posix(),
+                    "size_bytes": 1,
+                    "size": "1B",
+                    "sha256": hashlib.sha256(b"x").hexdigest(),
+                    "deleted": False,
+                    "extracted": False,
+                    "restored": False,
+                }
+            ]
+            main.save_state(model_dir, state)
+            args = argparse.Namespace(
+                huggingface_link="https://huggingface.co/Org/ResumeModel",
+                revision=None,
+                model_name="ResumeModel",
+                max_part_size_bytes=4,
+                max_docker_image_size_bytes=10,
+                keep_raw=False,
+            )
+
+            with (
+                patch("src.phases.BASE_DIR", root),
+                patch("src.phases.list_model_files", return_value=["a.bin", "b.bin"]),
+                patch("src.phases.download_model_file") as download,
+            ):
+                main.phase_pull_llm(args)
+
+            download.assert_not_called()
+            saved = main.load_state(model_dir)
+            raw_by_name = {item["filename"]: item for item in saved["raw"]}
+            self.assertTrue(raw_by_name["a.bin"]["split"])
+            self.assertTrue(raw_by_name["a.bin"]["deleted"])
+            self.assertTrue(raw_by_name["b.bin"]["split"])
+            self.assertEqual(
+                [part["raw_filename"] for part in saved["parts"]].count("b.bin"), 1
+            )
+
+    def test_push_docker_rebuilds_missing_built_image_and_marks_missing_part_deleted(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            model_dir = root / "PushModel"
+            state = main.make_initial_state("PushModel", "Org/PushModel", "main", "url", 4, 10)
+            state["parts"] = [
+                {
+                    "raw_filename": "a.bin",
+                    "index": 1,
+                    "part_filename": "a-part0001.bin",
+                    "path": (model_dir / "parts" / "a-part0001.bin").as_posix(),
+                    "size_bytes": 1,
+                    "size": "1B",
+                    "sha256": hashlib.sha256(b"x").hexdigest(),
+                    "deleted": False,
+                    "extracted": False,
+                    "restored": False,
+                }
+            ]
+            state["dockerfiles"] = [
+                {
+                    "index": 1,
+                    "label": "part0001",
+                    "dockerfile": (model_dir / "dockerfiles" / "Dockerfile.part0001").as_posix(),
+                    "tag": "ns/pushmodel:part0001",
+                    "included_parts": ["a-part0001.bin"],
+                    "built": True,
+                    "pushed": True,
+                    "pulled": False,
+                    "removed": False,
+                    "extracted": False,
+                }
+            ]
+            main.save_state(model_dir, state)
+            args = argparse.Namespace(
+                model_name="PushModel",
+                docker_namespace="ns",
+                max_docker_image_size_bytes=10,
+                keep_images=True,
+                keep_parts=False,
+            )
+            commands = []
+
+            with (
+                patch("src.phases.BASE_DIR", root),
+                patch("src.phases.docker_image_exists", return_value=False),
+                patch("src.phases.run_docker", side_effect=lambda args: commands.append(args)),
+            ):
+                main.phase_push_docker(args)
+
+            self.assertEqual(commands[0][0], "build")
+            self.assertNotIn(["push", "ns/pushmodel:part0001"], commands)
+            saved = main.load_state(model_dir)
+            self.assertTrue(saved["parts"][0]["deleted"])
+
+    def test_pull_dockerhub_skips_or_cancels_unpushed_and_repulls_missing_image(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            model_dir = root / "PullModel"
+            state = main.make_initial_state("PullModel", "Org/PullModel", "main", "url", 4, 10)
+            state["dockerfiles"] = [
+                {
+                    "tag": "ns/pullmodel:part0001",
+                    "included_parts": [],
+                    "pushed": False,
+                    "pulled": False,
+                },
+                {
+                    "tag": "ns/pullmodel:part0002",
+                    "included_parts": [],
+                    "pushed": True,
+                    "pulled": True,
+                },
+            ]
+            main.save_state(model_dir, state)
+            args = argparse.Namespace(model_name="PullModel", docker_pull_prefix=None)
+            commands = []
+
+            with (
+                patch("src.phases.BASE_DIR", root),
+                patch("src.phases.confirm_unpushed", return_value=(True, None)),
+                patch("src.phases.docker_image_exists", return_value=False),
+                patch("src.phases.run_docker", side_effect=lambda args: commands.append(args)),
+            ):
+                main.phase_pull_dockerhub(args)
+
+            self.assertEqual(commands, [["pull", "ns/pullmodel:part0002"]])
+
+            with (
+                patch("src.phases.BASE_DIR", root),
+                patch("src.phases.confirm_unpushed", return_value=(False, None)),
+            ):
+                with self.assertRaises(RuntimeError):
+                    main.phase_pull_dockerhub(args)
+
+    def test_restore_llm_repulls_reextracts_and_rerestores_invalid_output(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            model_dir = root / "RestoreModel"
+            payload = b"abcdef"
+            raw_sha = hashlib.sha256(payload).hexdigest()
+            part_sha = hashlib.sha256(payload).hexdigest()
+            part = {
+                "raw_filename": "a.bin",
+                "index": 1,
+                "part_filename": "a-part0001.bin",
+                "path": (model_dir / "parts" / "a-part0001.bin").as_posix(),
+                "size_bytes": len(payload),
+                "size": "6B",
+                "sha256": part_sha,
+                "deleted": True,
+                "extracted": True,
+                "restored": False,
+            }
+            extracted = model_dir / "extracted" / "parts" / "a-part0001.bin"
+            extracted.parent.mkdir(parents=True)
+            extracted.write_bytes(payload)
+            restored = model_dir / "extracted" / "restored" / "a.bin"
+            restored.parent.mkdir(parents=True)
+            restored.write_bytes(b"bad")
+            state = main.make_initial_state("RestoreModel", "Org/RestoreModel", "main", "url", 10, 10)
+            state["raw"] = [
+                {
+                    "filename": "a.bin",
+                    "path": (model_dir / "raw" / "a.bin").as_posix(),
+                    "size_bytes": len(payload),
+                    "size": "6B",
+                    "sha256": raw_sha,
+                    "downloaded": True,
+                    "split": True,
+                    "deleted": True,
+                }
+            ]
+            state["parts"] = [part]
+            state["dockerfiles"] = [
+                {
+                    "index": 1,
+                    "label": "part0001",
+                    "tag": "ns/restoremodel:part0001",
+                    "included_parts": ["a-part0001.bin"],
+                    "pushed": True,
+                    "pulled": True,
+                    "removed": False,
+                    "extracted": True,
+                }
+            ]
+            state["restore"] = [
+                {
+                    "raw_filename": "a.bin",
+                    "restored_path": restored.as_posix(),
+                    "size_bytes": 3,
+                    "size": "3B",
+                    "sha256": hashlib.sha256(b"bad").hexdigest(),
+                    "restored": True,
+                }
+            ]
+            main.save_state(model_dir, state)
+            args = argparse.Namespace(
+                model_name="RestoreModel",
+                docker_pull_prefix=None,
+                keep_images=True,
+                keep_extracted_parts=True,
+            )
+            commands = []
+
+            with (
+                patch("src.phases.BASE_DIR", root),
+                patch("src.phases.docker_image_exists", return_value=False),
+                patch("src.phases.run_docker", side_effect=lambda args: commands.append(args)),
+                patch("src.phases.extract_image_parts") as extract,
+            ):
+                main.phase_restore_llm(args)
+
+            self.assertEqual(commands, [["pull", "ns/restoremodel:part0001"]])
+            extract.assert_not_called()
+            self.assertEqual(restored.read_bytes(), payload)
+
+    def test_restore_llm_reextracts_when_extracted_part_missing(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            model_dir = root / "ExtractModel"
+            state = main.make_initial_state("ExtractModel", "Org/ExtractModel", "main", "url", 10, 10)
+            state["parts"] = [
+                {
+                    "raw_filename": "a.bin",
+                    "index": 1,
+                    "part_filename": "a-part0001.bin",
+                    "path": (model_dir / "parts" / "a-part0001.bin").as_posix(),
+                    "size_bytes": 1,
+                    "size": "1B",
+                    "sha256": hashlib.sha256(b"x").hexdigest(),
+                    "deleted": True,
+                    "extracted": True,
+                    "restored": False,
+                }
+            ]
+            state["dockerfiles"] = [
+                {
+                    "index": 1,
+                    "label": "part0001",
+                    "tag": "ns/extractmodel:part0001",
+                    "included_parts": ["a-part0001.bin"],
+                    "pushed": True,
+                    "pulled": True,
+                    "removed": False,
+                    "extracted": True,
+                }
+            ]
+            main.save_state(model_dir, state)
+            args = argparse.Namespace(
+                model_name="ExtractModel",
+                docker_pull_prefix=None,
+                keep_images=True,
+                keep_extracted_parts=True,
+            )
+
+            with (
+                patch("src.phases.BASE_DIR", root),
+                patch("src.phases.docker_image_exists", return_value=True),
+                patch("src.phases.extract_image_parts") as extract,
+            ):
+                main.phase_restore_llm(args)
+
+            extract.assert_called_once()
 
 
 if __name__ == "__main__":

@@ -21,6 +21,20 @@ BUFFER_SIZE = 8 * 1024 * 1024
 VALID_PHASES = ("pull_llm", "push_docker", "pull_dockerhub", "restore_llm")
 
 
+def join_docker_prefix(prefix: str | None, tag: str) -> str:
+    if not prefix:
+        return tag
+    normalized_prefix = prefix.rstrip("/")
+    if tag == normalized_prefix or tag.startswith(f"{normalized_prefix}/"):
+        return tag
+    return f"{normalized_prefix}/{tag}"
+
+
+def docker_pull_tag(entry: dict[str, Any], prefix: str | None = None) -> str:
+    tag = entry.get("pull_tag") or entry["tag"]
+    return join_docker_prefix(prefix, tag)
+
+
 def parse_size(value: str) -> int:
     match = re.fullmatch(
         r"\s*(\d+(?:\.\d+)?)\s*([kmgt]?i?b?)?\s*", value, re.IGNORECASE
@@ -437,17 +451,22 @@ def phase_pull_dockerhub(args: argparse.Namespace) -> None:
             if not should_pull:
                 continue
         if not entry.get("pulled"):
-            run_docker(["pull", entry["tag"]])
+            pull_tag = docker_pull_tag(entry, args.docker_pull_prefix)
+            run_docker(["pull", pull_tag])
+            entry["pull_tag"] = pull_tag
             entry["pulled"] = True
             entry["removed"] = False
             save_state(model_dir, state)
 
 
-def extract_image_parts(model_dir: Path, entry: dict[str, Any]) -> None:
+def extract_image_parts(
+    model_dir: Path, entry: dict[str, Any], docker_pull_prefix: str | None = None
+) -> None:
     container_name = f"download-llm-{entry['label']}-{os.getpid()}"
+    image_tag = docker_pull_tag(entry, docker_pull_prefix)
     created = False
     try:
-        run_docker(["create", "--name", container_name, entry["tag"]])
+        run_docker(["create", "--name", container_name, image_tag])
         created = True
         target_dir = model_dir / "extracted" / "parts"
         target_dir.mkdir(parents=True, exist_ok=True)
@@ -502,15 +521,18 @@ def phase_restore_llm(args: argparse.Namespace) -> None:
 
     for entry in state.get("dockerfiles", []):
         if not entry.get("pulled"):
-            run_docker(["pull", entry["tag"]])
+            pull_tag = docker_pull_tag(entry, args.docker_pull_prefix)
+            run_docker(["pull", pull_tag])
+            entry["pull_tag"] = pull_tag
             entry["pulled"] = True
             save_state(model_dir, state)
         if not entry.get("extracted"):
-            extract_image_parts(model_dir, entry)
+            extract_image_parts(model_dir, entry, args.docker_pull_prefix)
             entry["extracted"] = True
             save_state(model_dir, state)
         if not args.keep_images and not entry.get("removed"):
-            run_docker(["rmi", entry["tag"]])
+            pull_tag = docker_pull_tag(entry, args.docker_pull_prefix)
+            run_docker(["rmi", pull_tag])
             entry["removed"] = True
             save_state(model_dir, state)
 
@@ -552,6 +574,11 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--model-name")
     parser.add_argument("--revision")
     parser.add_argument("--docker-namespace", default="hieucien")
+    parser.add_argument(
+        "--docker-pull-prefix",
+        default=os.environ.get("DOCKER_PULL_PREFIX"),
+        help="Optional registry/path prefix for pull/create/rmi, for example docker.internal/proxy-cache",
+    )
     parser.add_argument("--max-part-size", default=DEFAULT_MAX_PART_SIZE)
     parser.add_argument(
         "--max-docker-image-size", default=DEFAULT_MAX_DOCKER_IMAGE_SIZE

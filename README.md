@@ -6,8 +6,14 @@ Download Hugging Face model files, split them into disk-friendly parts, push tho
 
 ```bash
 uv run python main.py --phases pull_llm,push_docker --huggingface-link https://huggingface.co/Qwen/Qwen3.6-27B
+
 uv run python main.py --phases pull_llm,push_docker --huggingface-link https://huggingface.co/Qwen/Qwen3.6-35B-A3B
+
 uv run python main.py --phases pull_llm,push_docker --huggingface-link https://huggingface.co/google/gemma-4-31B-it
+
+DOCKER_PULL_PREFIX=docker.internal/proxy-cache uv run python main.py --phases pull_dockerhub,restore_llm --model-name Qwen3.6-35B-A3B
+
+uv run python main.py --phases pull_dockerhub,restore_llm --model-name Qwen3.6-35B-A3B --docker-pull-prefix docker.internal/proxy-cache
 ```
 
 Common options:

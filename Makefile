@@ -1,5 +1,5 @@
 PYTHON ?= uv run python
-SRC_IMAGE_NAME ?= agent-mgmt-src
+SRC_IMAGE_NAME ?= download-llm-src
 SRC_IMAGE_REPOSITORY ?= hieucien/$(SRC_IMAGE_NAME)
 SRC_DOCKERFILE ?= docker/Dockerfile.src
 SRC_IMAGE ?=

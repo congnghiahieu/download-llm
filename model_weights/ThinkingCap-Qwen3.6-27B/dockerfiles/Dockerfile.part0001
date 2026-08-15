@@ -1,0 +1,17 @@
+FROM alpine:3.22.4
+COPY parts/.eval_results/gpqa-part0001.yaml /model_parts/.eval_results/gpqa-part0001.yaml
+COPY parts/.eval_results/gsm8k-part0001.yaml /model_parts/.eval_results/gsm8k-part0001.yaml
+COPY parts/.eval_results/mmlu-pro-part0001.yaml /model_parts/.eval_results/mmlu-pro-part0001.yaml
+COPY parts/.gitattributes-part0001 /model_parts/.gitattributes-part0001
+COPY parts/LICENSE-part0001 /model_parts/LICENSE-part0001
+COPY parts/README-part0001.md /model_parts/README-part0001.md
+COPY parts/bc_capybara-part0001.png /model_parts/bc_capybara-part0001.png
+COPY parts/bottlecap-logo-part0001.png /model_parts/bottlecap-logo-part0001.png
+COPY parts/budget_aggregate-part0001.png /model_parts/budget_aggregate-part0001.png
+COPY parts/cap_header-part0001.png /model_parts/cap_header-part0001.png
+COPY parts/chat_template-part0001.jinja /model_parts/chat_template-part0001.jinja
+COPY parts/config-part0001.json /model_parts/config-part0001.json
+COPY parts/configuration-part0001.json /model_parts/configuration-part0001.json
+COPY parts/generation_config-part0001.json /model_parts/generation_config-part0001.json
+COPY parts/merge_verify_report-part0001.json /model_parts/merge_verify_report-part0001.json
+COPY parts/merges-part0001.txt /model_parts/merges-part0001.txt

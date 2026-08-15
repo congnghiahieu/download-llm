@@ -1,0 +1,15 @@
+FROM alpine:3.22.4
+COPY parts/model-base-aux-part0001.safetensors /model_parts/model-base-aux-part0001.safetensors
+COPY parts/model.safetensors.index-part0001.json /model_parts/model.safetensors.index-part0001.json
+COPY parts/preprocessor_config-part0001.json /model_parts/preprocessor_config-part0001.json
+COPY parts/processor_config-part0001.json /model_parts/processor_config-part0001.json
+COPY parts/social-instagram-part0001.png /model_parts/social-instagram-part0001.png
+COPY parts/social-linkedin-part0001.png /model_parts/social-linkedin-part0001.png
+COPY parts/social-web-part0001.png /model_parts/social-web-part0001.png
+COPY parts/social-x-part0001.png /model_parts/social-x-part0001.png
+COPY parts/thinkingcap_6x-part0001.gif /model_parts/thinkingcap_6x-part0001.gif
+COPY parts/tokenizer-part0001.json /model_parts/tokenizer-part0001.json
+COPY parts/tokenizer_config-part0001.json /model_parts/tokenizer_config-part0001.json
+COPY parts/video_preprocessor_config-part0001.json /model_parts/video_preprocessor_config-part0001.json
+COPY parts/vocab-part0001.json /model_parts/vocab-part0001.json
+COPY parts/weight_check_report-part0001.json /model_parts/weight_check_report-part0001.json

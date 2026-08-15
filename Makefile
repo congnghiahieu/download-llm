@@ -17,17 +17,11 @@ pull-src:
 	@test -n "$(SRC_IMAGE)" || (echo "SRC_IMAGE is required, for example: make pull-src SRC_IMAGE=hieucien/$(SRC_IMAGE_NAME):2026-06-03_17-22-20" && exit 1)
 	@$(PYTHON) scripts/src_image.py --project-name $(SRC_IMAGE_NAME) pull --image $(SRC_IMAGE)
 
-sync:
-	@uv sync
-	@uv run pyrefly init
-
-lint:
-	@uv run ruff check --fix
-
 lint-unsafe:
 	@uv run ruff check --fix --unsafe-fixes
 
 format: lint
+	@uv run ruff check --fix
 	@uv run ruff format
 
 type-check:

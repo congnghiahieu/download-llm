@@ -1,0 +1,2318 @@
+{
+  "model_name": "DeepSeek-V4-Flash-0731",
+  "docker_repo_name": "deepseek-v4-flash-0731",
+  "repo_id": "deepseek-ai/DeepSeek-V4-Flash-0731",
+  "revision": "main",
+  "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731",
+  "max_part_size_bytes": 5000000000,
+  "max_part_size": "5.00GB",
+  "max_docker_image_size_bytes": 5000000000,
+  "max_docker_image_size": "5.00GB",
+  "raw": [
+    {
+      "filename": ".gitattributes",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/.gitattributes",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 1519,
+      "size": "1.52KB",
+      "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+    },
+    {
+      "filename": "LICENSE",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/LICENSE",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 1084,
+      "size": "1.08KB",
+      "sha256": "f2c6c602815669d292889e5be8c802f2ed950653b77999b1584e8e6aed25d040"
+    },
+    {
+      "filename": "README.md",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/README.md",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 7238,
+      "size": "7.24KB",
+      "sha256": "252acafdc9204d0dba3fde1b0a93d71cd1664a4ceadfe222b60117ed0ccc56ff"
+    },
+    {
+      "filename": "config.json",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/config.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 1888,
+      "size": "1.89KB",
+      "sha256": "6c8f3d2d3b48707541b88f32f22ef3f0f8a6b57d8523281e2b8d3cdb0ae9a023"
+    },
+    {
+      "filename": "encoding/README.md",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/encoding/README.md",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 9168,
+      "size": "9.17KB",
+      "sha256": "294ed6493ebfe5a487f172154d60c494899997fed8806fdd3352dd8e3c33f9de"
+    },
+    {
+      "filename": "encoding/encoding_dsv4.py",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/encoding/encoding_dsv4.py",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 29001,
+      "size": "29.00KB",
+      "sha256": "abc0d26120250dda0ae077dc64aa28836026e61e970854aaeb792445e6a0dde6"
+    },
+    {
+      "filename": "encoding/test_encoding_dsv4.py",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/encoding/test_encoding_dsv4.py",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3741,
+      "size": "3.74KB",
+      "sha256": "c2bc54c4c934f5c64096bd9c555efa7d1ddf179c1eff58f01ceb2dcd60adcf28"
+    },
+    {
+      "filename": "encoding/tests/test_input_1.json",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/encoding/tests/test_input_1.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 2748,
+      "size": "2.75KB",
+      "sha256": "10e0c074c977c3a80daab758af28219c6b1c2bd7f3f5cf2890c84b361cc32897"
+    },
+    {
+      "filename": "encoding/tests/test_input_2.json",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/encoding/tests/test_input_2.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 526,
+      "size": "526B",
+      "sha256": "c44ae0db20fafff38a6021e8068d7ed6e28605d76cafd20be80b03398509f447"
+    },
+    {
+      "filename": "encoding/tests/test_input_3.json",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/encoding/tests/test_input_3.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 4546,
+      "size": "4.55KB",
+      "sha256": "37bf8ef95e0411ea5f411be0b02fbafec7363438b6ccefddca0c52ec9aeaf69a"
+    },
+    {
+      "filename": "encoding/tests/test_input_4.json",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/encoding/tests/test_input_4.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 2730,
+      "size": "2.73KB",
+      "sha256": "c45bbd0a1b7a2f75033d8db4ba74ee5b7653bd01114045a52f79d3b387663465"
+    },
+    {
+      "filename": "encoding/tests/test_output_1.txt",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/encoding/tests/test_output_1.txt",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 2390,
+      "size": "2.39KB",
+      "sha256": "9b366d9d2eac842a6e890594aac0b58648e5623717202b33497afadf03e26540"
+    },
+    {
+      "filename": "encoding/tests/test_output_2.txt",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/encoding/tests/test_output_2.txt",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 342,
+      "size": "342B",
+      "sha256": "ca66b01a1ac3a204bb032c928fb607d4877171e998a50f7f89f39fa821b75665"
+    },
+    {
+      "filename": "encoding/tests/test_output_3.txt",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/encoding/tests/test_output_3.txt",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3313,
+      "size": "3.31KB",
+      "sha256": "b3b1cd8748b7b90d3c6be6da3f786f12e4d70be073bd445ea162dfad4dc01a64"
+    },
+    {
+      "filename": "encoding/tests/test_output_4.txt",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/encoding/tests/test_output_4.txt",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 2552,
+      "size": "2.55KB",
+      "sha256": "60e1643840ba9e4aeede450feb7b0498fa66ee24e4a939d48855ce04ec6fc375"
+    },
+    {
+      "filename": "generation_config.json",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/generation_config.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 170,
+      "size": "170B",
+      "sha256": "5fccff80f55a4d455bbe516bdd552edf3e9623df95e99fbf2a3c3389fdf91af0"
+    },
+    {
+      "filename": "inference/README.md",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/inference/README.md",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 951,
+      "size": "951B",
+      "sha256": "b9fe8027f91f2160b46582b61eaaf7b9873b3da36ee9f98bc76a900e7c1fed94"
+    },
+    {
+      "filename": "inference/config.json",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/inference/config.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 1162,
+      "size": "1.16KB",
+      "sha256": "c90861f3d10a9e4ef5954f8f1a34c529d480da1c5799f84660028f4e38e14e71"
+    },
+    {
+      "filename": "inference/convert.py",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/inference/convert.py",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 6639,
+      "size": "6.64KB",
+      "sha256": "6efe65ebc66b18c9f2656816608f941cacfe20da79c2dee19040ecbee8b42bfe"
+    },
+    {
+      "filename": "inference/generate.py",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/inference/generate.py",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5804,
+      "size": "5.80KB",
+      "sha256": "775fcfee2344e21a7b02c73161c517763e4348b84cf2eb266353e0857b9c8812"
+    },
+    {
+      "filename": "inference/kernel.py",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/inference/kernel.py",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 22198,
+      "size": "22.20KB",
+      "sha256": "59b325083d7103975cba025bd0d60ea343bb82d8fff53088afb7c04bd380c0c2"
+    },
+    {
+      "filename": "inference/model.py",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/inference/model.py",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 45118,
+      "size": "45.12KB",
+      "sha256": "c0c19e6c9fa439bac7fbb1c5bc1868232dfd5aa2f439a548d0e33dcc2a9edd3f"
+    },
+    {
+      "filename": "inference/requirements.txt",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/inference/requirements.txt",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 92,
+      "size": "92B",
+      "sha256": "857e0b8b58e41cabe16e55bf4ab7ff791677c53b25f0f3e104ef85227cd11eab"
+    },
+    {
+      "filename": "model-00001-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00001-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 1059061856,
+      "size": "1.06GB",
+      "sha256": "f3668ba4cccf1ca6a7eb84e888fb92c1cdc7204d472ba9db771e6fd3abf6b874"
+    },
+    {
+      "filename": "model-00002-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00002-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3566321192,
+      "size": "3.57GB",
+      "sha256": "77b26c939a0e25b3113c8d6bb04e1901a748bd4a7d2589e3bfdaabdf1e9bba14"
+    },
+    {
+      "filename": "model-00003-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00003-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3566321192,
+      "size": "3.57GB",
+      "sha256": "412abf4c906faadc221ef0cb50f90fe20bde8454a08ad4dc2364b6b79e7fda5c"
+    },
+    {
+      "filename": "model-00004-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00004-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3596229272,
+      "size": "3.60GB",
+      "sha256": "9610f56bc587fb0ff9a8b68a60299482ee8c433fe5b5587e4257aca98add4a2e"
+    },
+    {
+      "filename": "model-00005-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00005-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568768976,
+      "size": "3.57GB",
+      "sha256": "f87a5ac7b8becc31f9c3169afd3a6f33fb82b4af9e21022e3755a10bc28f0180"
+    },
+    {
+      "filename": "model-00006-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00006-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590024776,
+      "size": "3.59GB",
+      "sha256": "4a4f3764e3fc772b9fba67f0a44ef68e18f178b6f00faa80b75db549e51894cd"
+    },
+    {
+      "filename": "model-00007-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00007-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568768976,
+      "size": "3.57GB",
+      "sha256": "df81bb80e27a689e01fa579eebd6499f86e0b6105f7fea18961aa5eebbbee9bc"
+    },
+    {
+      "filename": "model-00008-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00008-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590024776,
+      "size": "3.59GB",
+      "sha256": "224968d2b27f8669365ec08657a768dfec40da0585f85f302a31495931f6a526"
+    },
+    {
+      "filename": "model-00009-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00009-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568768976,
+      "size": "3.57GB",
+      "sha256": "04d69ef1071fff8721c62968c200a5583122b59b015e9ef9b2978bfed271b2b7"
+    },
+    {
+      "filename": "model-00010-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00010-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590024776,
+      "size": "3.59GB",
+      "sha256": "627145f4ebeb1cc3f5bdd03416b8cb7370b3c96974853cbeb8e5516ad5713e49"
+    },
+    {
+      "filename": "model-00011-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00011-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568768976,
+      "size": "3.57GB",
+      "sha256": "e4b8e601dcbebe902e0102e7b098b670a121cb8b9564dd719fc41d782c8416e0"
+    },
+    {
+      "filename": "model-00012-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00012-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "64ed4e5f6126ba029c462c9d5fca0fc907c5f855b4ba01194d79560f6db16e42"
+    },
+    {
+      "filename": "model-00013-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00013-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "8dfe199d07c07ddd141c2c0136a2237f1161250a1a03ebe8deaabac93440da1d"
+    },
+    {
+      "filename": "model-00014-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00014-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "45db2f540f825f92453c50335e49aede58cca56bc578d1787c12a0fbca6593e5"
+    },
+    {
+      "filename": "model-00015-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00015-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "5810381a0f05b7381c002d299ed6ac19e42eba8070dd17e2703546944d84f292"
+    },
+    {
+      "filename": "model-00016-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00016-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "e0530b7024771b0ce2df9b40bcc2232578f3300178487ec216863b0b2835617b"
+    },
+    {
+      "filename": "model-00017-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00017-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "ed11130247118b185ade893c0109bad896dd394cb1e066ce4fce044176261d94"
+    },
+    {
+      "filename": "model-00018-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00018-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "e393fea96da2a3414ef089354fc32e1c8891954de40958c84d2c2ecf80365b25"
+    },
+    {
+      "filename": "model-00019-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00019-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "a74ca4d3e8e82ce20c458bb8b1900110b753793ad4c58d08f38995f719c616f7"
+    },
+    {
+      "filename": "model-00020-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00020-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "9f556769926e60309e8defe45ab59fc8b26ae460d30c190cd746a3d78c11e2c2"
+    },
+    {
+      "filename": "model-00021-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00021-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "1671cce7f90d781f796b5ca6bf32dd1aeb740abcb2735e41ffd28f62485ce005"
+    },
+    {
+      "filename": "model-00022-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00022-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "decd67a4bd97a75fa36861d2ad3067afeefa6a04a20da997fe6c19f171e70132"
+    },
+    {
+      "filename": "model-00023-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00023-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "c61a3e179cdbee19bfb8cbc4e111928ce2f1e1f0f4729d7c0cd5634354a4689d"
+    },
+    {
+      "filename": "model-00024-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00024-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "fc27aeb4233534f6f7781dcfe57127a3908ae10fc025c5d86dc0682057f8b2fe"
+    },
+    {
+      "filename": "model-00025-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00025-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "a66b6b8d5821b68f5b511e4f91e12025cd07d0fa6d0b71e722d825a2d6d878ca"
+    },
+    {
+      "filename": "model-00026-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00026-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "657b89314fbaf6eee4acce24b3baf7e5fd2c5986a96ad85b08d90539cde869fe"
+    },
+    {
+      "filename": "model-00027-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00027-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "fb01f21a0da0446b0bdf25a127ab19a6b06006acd8735f06a9ebfe34423fd7f5"
+    },
+    {
+      "filename": "model-00028-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00028-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "b2fd5cbbb639f16e673bc484e5cca16b52a58bf2ab4bd62592e0c5408712ad7c"
+    },
+    {
+      "filename": "model-00029-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00029-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "9ec2fdf900275daeac0980490c5c731cc7868b151ce1de5698f48418de4fa5f0"
+    },
+    {
+      "filename": "model-00030-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00030-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "9ed3c317bf967d32133ad3a068ee4c56aae9784bc8b7da694482437f37dc1782"
+    },
+    {
+      "filename": "model-00031-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00031-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "d5078c3fca3e6370043606ead7856e0b8fe67a9aab52c415769f29934c4d7f5d"
+    },
+    {
+      "filename": "model-00032-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00032-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "163653848f002718d3deaa6ce48885483fc1f2e12e50e44a47477c73ccd91393"
+    },
+    {
+      "filename": "model-00033-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00033-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "f2cffd43f2a5f491f4691f8694e6bc08239158e143ae7063dc04f0eb0259214a"
+    },
+    {
+      "filename": "model-00034-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00034-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "0f94945121474cfdb6a9ab175914d3811ffbf08e6cc54082e14e473c755d18d8"
+    },
+    {
+      "filename": "model-00035-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00035-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "9cb6a316989f7c7385e3ec2bd42ffe766ee126c70ef3466742849982ee1b0f0f"
+    },
+    {
+      "filename": "model-00036-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00036-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "7e6761421fe944c2143eb897b983085891b421c148c6c17fb5cd8eaa9bdaa497"
+    },
+    {
+      "filename": "model-00037-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00037-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "a59d662f1143596d56c452a1230b717ce43edf678207398c573a2503b0f72c91"
+    },
+    {
+      "filename": "model-00038-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00038-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "137fa617a74ba8e73fd76bb1010c7a85d791aaa150006cb66faa04a83e9e730f"
+    },
+    {
+      "filename": "model-00039-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00039-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "a29af1aa519d7ce726235ea2c2b38146d756290cda7a82d90c4d4438155b53e4"
+    },
+    {
+      "filename": "model-00040-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00040-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "8bc93d8a7d1987dc86b14e22b1d8f42ec31da92c56edd9f312daf43f33a6a206"
+    },
+    {
+      "filename": "model-00041-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00041-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "fd312e7fdd6cb5796df356a7f0314f124851dc149991e9fb02c5bed45cc4ba05"
+    },
+    {
+      "filename": "model-00042-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00042-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "4d19bf368083c9a183cb0849f316ec17b62f859ca824c0586e779657efb6e6a6"
+    },
+    {
+      "filename": "model-00043-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00043-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "b7103842ceb70848f9804f55c193d6a57f43174a587cba42b61b5c1bc4e1303d"
+    },
+    {
+      "filename": "model-00044-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00044-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "422d3889fa20c238b7f97464c14df0bcf3328f189c294f41a3a334421dc560c7"
+    },
+    {
+      "filename": "model-00045-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00045-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 1059332516,
+      "size": "1.06GB",
+      "sha256": "a5be6aed7b84fc87ec42b5d24ba0b0d67f253a3906fcd99c13f4f7be5958fc00"
+    },
+    {
+      "filename": "model-00046-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00046-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3610455184,
+      "size": "3.61GB",
+      "sha256": "5db924ca907e0d93acd975bd5079c3662717f9ac709f23d079bd8f816d29d9dd"
+    },
+    {
+      "filename": "model-00047-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00047-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3560111960,
+      "size": "3.56GB",
+      "sha256": "62816173f9f6e136b20b48e3b6f16613ac9ea02b5603f636928b253244a548bd"
+    },
+    {
+      "filename": "model-00048-of-00048.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model-00048-of-00048.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3692775244,
+      "size": "3.69GB",
+      "sha256": "cc43742bd24ae6bcdea343a91442f6f66aed2cfebcc6b235470204851ce2f8a9"
+    },
+    {
+      "filename": "model.safetensors.index.json",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/model.safetensors.index.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5602871,
+      "size": "5.60MB",
+      "sha256": "98efab455cf08dfbbbaaba6f570e1bf10bf927d2b4c3c453a59c2f6f0e3be92b"
+    },
+    {
+      "filename": "tokenizer.json",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/tokenizer.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 6367146,
+      "size": "6.37MB",
+      "sha256": "8f9f37ca37fdc4f5fd36d5cf4d3b0e8392edb4e894fd10cc0d70b4957c8633cf"
+    },
+    {
+      "filename": "tokenizer_config.json",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/DeepSeek-V4-Flash-0731/raw/tokenizer_config.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 801,
+      "size": "801B",
+      "sha256": "6ac8c8dc065ed118161d02dd532749ae3f52c243deac27872134fae2f50d8547"
+    }
+  ],
+  "parts": [
+    {
+      "raw_filename": ".gitattributes",
+      "index": 1,
+      "part_filename": ".gitattributes-part0001",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/.gitattributes-part0001",
+      "size_bytes": 1519,
+      "size": "1.52KB",
+      "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "LICENSE",
+      "index": 1,
+      "part_filename": "LICENSE-part0001",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/LICENSE-part0001",
+      "size_bytes": 1084,
+      "size": "1.08KB",
+      "sha256": "f2c6c602815669d292889e5be8c802f2ed950653b77999b1584e8e6aed25d040",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "README.md",
+      "index": 1,
+      "part_filename": "README-part0001.md",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/README-part0001.md",
+      "size_bytes": 7238,
+      "size": "7.24KB",
+      "sha256": "252acafdc9204d0dba3fde1b0a93d71cd1664a4ceadfe222b60117ed0ccc56ff",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "config.json",
+      "index": 1,
+      "part_filename": "config-part0001.json",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/config-part0001.json",
+      "size_bytes": 1888,
+      "size": "1.89KB",
+      "sha256": "6c8f3d2d3b48707541b88f32f22ef3f0f8a6b57d8523281e2b8d3cdb0ae9a023",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "encoding/README.md",
+      "index": 1,
+      "part_filename": "encoding/README-part0001.md",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/encoding/README-part0001.md",
+      "size_bytes": 9168,
+      "size": "9.17KB",
+      "sha256": "294ed6493ebfe5a487f172154d60c494899997fed8806fdd3352dd8e3c33f9de",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "encoding/encoding_dsv4.py",
+      "index": 1,
+      "part_filename": "encoding/encoding_dsv4-part0001.py",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/encoding/encoding_dsv4-part0001.py",
+      "size_bytes": 29001,
+      "size": "29.00KB",
+      "sha256": "abc0d26120250dda0ae077dc64aa28836026e61e970854aaeb792445e6a0dde6",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "encoding/test_encoding_dsv4.py",
+      "index": 1,
+      "part_filename": "encoding/test_encoding_dsv4-part0001.py",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/encoding/test_encoding_dsv4-part0001.py",
+      "size_bytes": 3741,
+      "size": "3.74KB",
+      "sha256": "c2bc54c4c934f5c64096bd9c555efa7d1ddf179c1eff58f01ceb2dcd60adcf28",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "encoding/tests/test_input_1.json",
+      "index": 1,
+      "part_filename": "encoding/tests/test_input_1-part0001.json",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/encoding/tests/test_input_1-part0001.json",
+      "size_bytes": 2748,
+      "size": "2.75KB",
+      "sha256": "10e0c074c977c3a80daab758af28219c6b1c2bd7f3f5cf2890c84b361cc32897",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "encoding/tests/test_input_2.json",
+      "index": 1,
+      "part_filename": "encoding/tests/test_input_2-part0001.json",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/encoding/tests/test_input_2-part0001.json",
+      "size_bytes": 526,
+      "size": "526B",
+      "sha256": "c44ae0db20fafff38a6021e8068d7ed6e28605d76cafd20be80b03398509f447",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "encoding/tests/test_input_3.json",
+      "index": 1,
+      "part_filename": "encoding/tests/test_input_3-part0001.json",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/encoding/tests/test_input_3-part0001.json",
+      "size_bytes": 4546,
+      "size": "4.55KB",
+      "sha256": "37bf8ef95e0411ea5f411be0b02fbafec7363438b6ccefddca0c52ec9aeaf69a",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "encoding/tests/test_input_4.json",
+      "index": 1,
+      "part_filename": "encoding/tests/test_input_4-part0001.json",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/encoding/tests/test_input_4-part0001.json",
+      "size_bytes": 2730,
+      "size": "2.73KB",
+      "sha256": "c45bbd0a1b7a2f75033d8db4ba74ee5b7653bd01114045a52f79d3b387663465",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "encoding/tests/test_output_1.txt",
+      "index": 1,
+      "part_filename": "encoding/tests/test_output_1-part0001.txt",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/encoding/tests/test_output_1-part0001.txt",
+      "size_bytes": 2390,
+      "size": "2.39KB",
+      "sha256": "9b366d9d2eac842a6e890594aac0b58648e5623717202b33497afadf03e26540",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "encoding/tests/test_output_2.txt",
+      "index": 1,
+      "part_filename": "encoding/tests/test_output_2-part0001.txt",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/encoding/tests/test_output_2-part0001.txt",
+      "size_bytes": 342,
+      "size": "342B",
+      "sha256": "ca66b01a1ac3a204bb032c928fb607d4877171e998a50f7f89f39fa821b75665",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "encoding/tests/test_output_3.txt",
+      "index": 1,
+      "part_filename": "encoding/tests/test_output_3-part0001.txt",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/encoding/tests/test_output_3-part0001.txt",
+      "size_bytes": 3313,
+      "size": "3.31KB",
+      "sha256": "b3b1cd8748b7b90d3c6be6da3f786f12e4d70be073bd445ea162dfad4dc01a64",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "encoding/tests/test_output_4.txt",
+      "index": 1,
+      "part_filename": "encoding/tests/test_output_4-part0001.txt",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/encoding/tests/test_output_4-part0001.txt",
+      "size_bytes": 2552,
+      "size": "2.55KB",
+      "sha256": "60e1643840ba9e4aeede450feb7b0498fa66ee24e4a939d48855ce04ec6fc375",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "generation_config.json",
+      "index": 1,
+      "part_filename": "generation_config-part0001.json",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/generation_config-part0001.json",
+      "size_bytes": 170,
+      "size": "170B",
+      "sha256": "5fccff80f55a4d455bbe516bdd552edf3e9623df95e99fbf2a3c3389fdf91af0",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "inference/README.md",
+      "index": 1,
+      "part_filename": "inference/README-part0001.md",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/inference/README-part0001.md",
+      "size_bytes": 951,
+      "size": "951B",
+      "sha256": "b9fe8027f91f2160b46582b61eaaf7b9873b3da36ee9f98bc76a900e7c1fed94",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "inference/config.json",
+      "index": 1,
+      "part_filename": "inference/config-part0001.json",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/inference/config-part0001.json",
+      "size_bytes": 1162,
+      "size": "1.16KB",
+      "sha256": "c90861f3d10a9e4ef5954f8f1a34c529d480da1c5799f84660028f4e38e14e71",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "inference/convert.py",
+      "index": 1,
+      "part_filename": "inference/convert-part0001.py",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/inference/convert-part0001.py",
+      "size_bytes": 6639,
+      "size": "6.64KB",
+      "sha256": "6efe65ebc66b18c9f2656816608f941cacfe20da79c2dee19040ecbee8b42bfe",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "inference/generate.py",
+      "index": 1,
+      "part_filename": "inference/generate-part0001.py",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/inference/generate-part0001.py",
+      "size_bytes": 5804,
+      "size": "5.80KB",
+      "sha256": "775fcfee2344e21a7b02c73161c517763e4348b84cf2eb266353e0857b9c8812",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "inference/kernel.py",
+      "index": 1,
+      "part_filename": "inference/kernel-part0001.py",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/inference/kernel-part0001.py",
+      "size_bytes": 22198,
+      "size": "22.20KB",
+      "sha256": "59b325083d7103975cba025bd0d60ea343bb82d8fff53088afb7c04bd380c0c2",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "inference/model.py",
+      "index": 1,
+      "part_filename": "inference/model-part0001.py",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/inference/model-part0001.py",
+      "size_bytes": 45118,
+      "size": "45.12KB",
+      "sha256": "c0c19e6c9fa439bac7fbb1c5bc1868232dfd5aa2f439a548d0e33dcc2a9edd3f",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "inference/requirements.txt",
+      "index": 1,
+      "part_filename": "inference/requirements-part0001.txt",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/inference/requirements-part0001.txt",
+      "size_bytes": 92,
+      "size": "92B",
+      "sha256": "857e0b8b58e41cabe16e55bf4ab7ff791677c53b25f0f3e104ef85227cd11eab",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00001-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00001-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00001-of-00048-part0001.safetensors",
+      "size_bytes": 1059061856,
+      "size": "1.06GB",
+      "sha256": "f3668ba4cccf1ca6a7eb84e888fb92c1cdc7204d472ba9db771e6fd3abf6b874",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00002-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00002-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00002-of-00048-part0001.safetensors",
+      "size_bytes": 3566321192,
+      "size": "3.57GB",
+      "sha256": "77b26c939a0e25b3113c8d6bb04e1901a748bd4a7d2589e3bfdaabdf1e9bba14",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00003-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00003-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00003-of-00048-part0001.safetensors",
+      "size_bytes": 3566321192,
+      "size": "3.57GB",
+      "sha256": "412abf4c906faadc221ef0cb50f90fe20bde8454a08ad4dc2364b6b79e7fda5c",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00004-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00004-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00004-of-00048-part0001.safetensors",
+      "size_bytes": 3596229272,
+      "size": "3.60GB",
+      "sha256": "9610f56bc587fb0ff9a8b68a60299482ee8c433fe5b5587e4257aca98add4a2e",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00005-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00005-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00005-of-00048-part0001.safetensors",
+      "size_bytes": 3568768976,
+      "size": "3.57GB",
+      "sha256": "f87a5ac7b8becc31f9c3169afd3a6f33fb82b4af9e21022e3755a10bc28f0180",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00006-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00006-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00006-of-00048-part0001.safetensors",
+      "size_bytes": 3590024776,
+      "size": "3.59GB",
+      "sha256": "4a4f3764e3fc772b9fba67f0a44ef68e18f178b6f00faa80b75db549e51894cd",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00007-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00007-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00007-of-00048-part0001.safetensors",
+      "size_bytes": 3568768976,
+      "size": "3.57GB",
+      "sha256": "df81bb80e27a689e01fa579eebd6499f86e0b6105f7fea18961aa5eebbbee9bc",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00008-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00008-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00008-of-00048-part0001.safetensors",
+      "size_bytes": 3590024776,
+      "size": "3.59GB",
+      "sha256": "224968d2b27f8669365ec08657a768dfec40da0585f85f302a31495931f6a526",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00009-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00009-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00009-of-00048-part0001.safetensors",
+      "size_bytes": 3568768976,
+      "size": "3.57GB",
+      "sha256": "04d69ef1071fff8721c62968c200a5583122b59b015e9ef9b2978bfed271b2b7",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00010-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00010-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00010-of-00048-part0001.safetensors",
+      "size_bytes": 3590024776,
+      "size": "3.59GB",
+      "sha256": "627145f4ebeb1cc3f5bdd03416b8cb7370b3c96974853cbeb8e5516ad5713e49",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00011-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00011-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00011-of-00048-part0001.safetensors",
+      "size_bytes": 3568768976,
+      "size": "3.57GB",
+      "sha256": "e4b8e601dcbebe902e0102e7b098b670a121cb8b9564dd719fc41d782c8416e0",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00012-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00012-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00012-of-00048-part0001.safetensors",
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "64ed4e5f6126ba029c462c9d5fca0fc907c5f855b4ba01194d79560f6db16e42",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00013-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00013-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00013-of-00048-part0001.safetensors",
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "8dfe199d07c07ddd141c2c0136a2237f1161250a1a03ebe8deaabac93440da1d",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00014-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00014-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00014-of-00048-part0001.safetensors",
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "45db2f540f825f92453c50335e49aede58cca56bc578d1787c12a0fbca6593e5",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00015-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00015-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00015-of-00048-part0001.safetensors",
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "5810381a0f05b7381c002d299ed6ac19e42eba8070dd17e2703546944d84f292",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00016-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00016-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00016-of-00048-part0001.safetensors",
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "e0530b7024771b0ce2df9b40bcc2232578f3300178487ec216863b0b2835617b",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00017-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00017-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00017-of-00048-part0001.safetensors",
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "ed11130247118b185ade893c0109bad896dd394cb1e066ce4fce044176261d94",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00018-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00018-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00018-of-00048-part0001.safetensors",
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "e393fea96da2a3414ef089354fc32e1c8891954de40958c84d2c2ecf80365b25",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00019-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00019-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00019-of-00048-part0001.safetensors",
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "a74ca4d3e8e82ce20c458bb8b1900110b753793ad4c58d08f38995f719c616f7",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00020-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00020-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00020-of-00048-part0001.safetensors",
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "9f556769926e60309e8defe45ab59fc8b26ae460d30c190cd746a3d78c11e2c2",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00021-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00021-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00021-of-00048-part0001.safetensors",
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "1671cce7f90d781f796b5ca6bf32dd1aeb740abcb2735e41ffd28f62485ce005",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00022-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00022-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00022-of-00048-part0001.safetensors",
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "decd67a4bd97a75fa36861d2ad3067afeefa6a04a20da997fe6c19f171e70132",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00023-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00023-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00023-of-00048-part0001.safetensors",
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "c61a3e179cdbee19bfb8cbc4e111928ce2f1e1f0f4729d7c0cd5634354a4689d",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00024-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00024-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00024-of-00048-part0001.safetensors",
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "fc27aeb4233534f6f7781dcfe57127a3908ae10fc025c5d86dc0682057f8b2fe",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00025-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00025-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00025-of-00048-part0001.safetensors",
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "a66b6b8d5821b68f5b511e4f91e12025cd07d0fa6d0b71e722d825a2d6d878ca",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00026-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00026-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00026-of-00048-part0001.safetensors",
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "657b89314fbaf6eee4acce24b3baf7e5fd2c5986a96ad85b08d90539cde869fe",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00027-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00027-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00027-of-00048-part0001.safetensors",
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "fb01f21a0da0446b0bdf25a127ab19a6b06006acd8735f06a9ebfe34423fd7f5",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00028-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00028-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00028-of-00048-part0001.safetensors",
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "b2fd5cbbb639f16e673bc484e5cca16b52a58bf2ab4bd62592e0c5408712ad7c",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00029-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00029-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00029-of-00048-part0001.safetensors",
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "9ec2fdf900275daeac0980490c5c731cc7868b151ce1de5698f48418de4fa5f0",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00030-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00030-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00030-of-00048-part0001.safetensors",
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "9ed3c317bf967d32133ad3a068ee4c56aae9784bc8b7da694482437f37dc1782",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00031-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00031-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00031-of-00048-part0001.safetensors",
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "d5078c3fca3e6370043606ead7856e0b8fe67a9aab52c415769f29934c4d7f5d",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00032-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00032-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00032-of-00048-part0001.safetensors",
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "163653848f002718d3deaa6ce48885483fc1f2e12e50e44a47477c73ccd91393",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00033-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00033-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00033-of-00048-part0001.safetensors",
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "f2cffd43f2a5f491f4691f8694e6bc08239158e143ae7063dc04f0eb0259214a",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00034-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00034-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00034-of-00048-part0001.safetensors",
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "0f94945121474cfdb6a9ab175914d3811ffbf08e6cc54082e14e473c755d18d8",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00035-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00035-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00035-of-00048-part0001.safetensors",
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "9cb6a316989f7c7385e3ec2bd42ffe766ee126c70ef3466742849982ee1b0f0f",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00036-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00036-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00036-of-00048-part0001.safetensors",
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "7e6761421fe944c2143eb897b983085891b421c148c6c17fb5cd8eaa9bdaa497",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00037-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00037-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00037-of-00048-part0001.safetensors",
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "a59d662f1143596d56c452a1230b717ce43edf678207398c573a2503b0f72c91",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00038-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00038-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00038-of-00048-part0001.safetensors",
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "137fa617a74ba8e73fd76bb1010c7a85d791aaa150006cb66faa04a83e9e730f",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00039-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00039-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00039-of-00048-part0001.safetensors",
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "a29af1aa519d7ce726235ea2c2b38146d756290cda7a82d90c4d4438155b53e4",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00040-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00040-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00040-of-00048-part0001.safetensors",
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "8bc93d8a7d1987dc86b14e22b1d8f42ec31da92c56edd9f312daf43f33a6a206",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00041-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00041-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00041-of-00048-part0001.safetensors",
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "fd312e7fdd6cb5796df356a7f0314f124851dc149991e9fb02c5bed45cc4ba05",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00042-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00042-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00042-of-00048-part0001.safetensors",
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "4d19bf368083c9a183cb0849f316ec17b62f859ca824c0586e779657efb6e6a6",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00043-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00043-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00043-of-00048-part0001.safetensors",
+      "size_bytes": 3568770544,
+      "size": "3.57GB",
+      "sha256": "b7103842ceb70848f9804f55c193d6a57f43174a587cba42b61b5c1bc4e1303d",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00044-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00044-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00044-of-00048-part0001.safetensors",
+      "size_bytes": 3590026352,
+      "size": "3.59GB",
+      "sha256": "422d3889fa20c238b7f97464c14df0bcf3328f189c294f41a3a334421dc560c7",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00045-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00045-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00045-of-00048-part0001.safetensors",
+      "size_bytes": 1059332516,
+      "size": "1.06GB",
+      "sha256": "a5be6aed7b84fc87ec42b5d24ba0b0d67f253a3906fcd99c13f4f7be5958fc00",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00046-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00046-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00046-of-00048-part0001.safetensors",
+      "size_bytes": 3610455184,
+      "size": "3.61GB",
+      "sha256": "5db924ca907e0d93acd975bd5079c3662717f9ac709f23d079bd8f816d29d9dd",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00047-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00047-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00047-of-00048-part0001.safetensors",
+      "size_bytes": 3560111960,
+      "size": "3.56GB",
+      "sha256": "62816173f9f6e136b20b48e3b6f16613ac9ea02b5603f636928b253244a548bd",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00048-of-00048.safetensors",
+      "index": 1,
+      "part_filename": "model-00048-of-00048-part0001.safetensors",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model-00048-of-00048-part0001.safetensors",
+      "size_bytes": 3692775244,
+      "size": "3.69GB",
+      "sha256": "cc43742bd24ae6bcdea343a91442f6f66aed2cfebcc6b235470204851ce2f8a9",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model.safetensors.index.json",
+      "index": 1,
+      "part_filename": "model.safetensors.index-part0001.json",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/model.safetensors.index-part0001.json",
+      "size_bytes": 5602871,
+      "size": "5.60MB",
+      "sha256": "98efab455cf08dfbbbaaba6f570e1bf10bf927d2b4c3c453a59c2f6f0e3be92b",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "tokenizer.json",
+      "index": 1,
+      "part_filename": "tokenizer-part0001.json",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/tokenizer-part0001.json",
+      "size_bytes": 6367146,
+      "size": "6.37MB",
+      "sha256": "8f9f37ca37fdc4f5fd36d5cf4d3b0e8392edb4e894fd10cc0d70b4957c8633cf",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "tokenizer_config.json",
+      "index": 1,
+      "part_filename": "tokenizer_config-part0001.json",
+      "path": "model_weights/DeepSeek-V4-Flash-0731/parts/tokenizer_config-part0001.json",
+      "size_bytes": 801,
+      "size": "801B",
+      "sha256": "6ac8c8dc065ed118161d02dd532749ae3f52c243deac27872134fae2f50d8547",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    }
+  ],
+  "dockerfiles": [
+    {
+      "index": 1,
+      "label": "part0001",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0001",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0001",
+      "included_parts": [
+        ".gitattributes-part0001",
+        "LICENSE-part0001",
+        "README-part0001.md",
+        "config-part0001.json",
+        "encoding/README-part0001.md",
+        "encoding/encoding_dsv4-part0001.py",
+        "encoding/test_encoding_dsv4-part0001.py",
+        "encoding/tests/test_input_1-part0001.json",
+        "encoding/tests/test_input_2-part0001.json",
+        "encoding/tests/test_input_3-part0001.json",
+        "encoding/tests/test_input_4-part0001.json",
+        "encoding/tests/test_output_1-part0001.txt",
+        "encoding/tests/test_output_2-part0001.txt",
+        "encoding/tests/test_output_3-part0001.txt",
+        "encoding/tests/test_output_4-part0001.txt",
+        "generation_config-part0001.json",
+        "inference/README-part0001.md",
+        "inference/config-part0001.json",
+        "inference/convert-part0001.py",
+        "inference/generate-part0001.py",
+        "inference/kernel-part0001.py",
+        "inference/model-part0001.py",
+        "inference/requirements-part0001.txt",
+        "model-00001-of-00048-part0001.safetensors",
+        "model-00002-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 2,
+      "label": "part0002",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0002",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0002",
+      "included_parts": [
+        "model-00003-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 3,
+      "label": "part0003",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0003",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0003",
+      "included_parts": [
+        "model-00004-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 4,
+      "label": "part0004",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0004",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0004",
+      "included_parts": [
+        "model-00005-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 5,
+      "label": "part0005",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0005",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0005",
+      "included_parts": [
+        "model-00006-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 6,
+      "label": "part0006",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0006",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0006",
+      "included_parts": [
+        "model-00007-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 7,
+      "label": "part0007",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0007",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0007",
+      "included_parts": [
+        "model-00008-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 8,
+      "label": "part0008",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0008",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0008",
+      "included_parts": [
+        "model-00009-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 9,
+      "label": "part0009",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0009",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0009",
+      "included_parts": [
+        "model-00010-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 10,
+      "label": "part0010",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0010",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0010",
+      "included_parts": [
+        "model-00011-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 11,
+      "label": "part0011",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0011",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0011",
+      "included_parts": [
+        "model-00012-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 12,
+      "label": "part0012",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0012",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0012",
+      "included_parts": [
+        "model-00013-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 13,
+      "label": "part0013",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0013",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0013",
+      "included_parts": [
+        "model-00014-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 14,
+      "label": "part0014",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0014",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0014",
+      "included_parts": [
+        "model-00015-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 15,
+      "label": "part0015",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0015",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0015",
+      "included_parts": [
+        "model-00016-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 16,
+      "label": "part0016",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0016",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0016",
+      "included_parts": [
+        "model-00017-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 17,
+      "label": "part0017",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0017",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0017",
+      "included_parts": [
+        "model-00018-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 18,
+      "label": "part0018",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0018",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0018",
+      "included_parts": [
+        "model-00019-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 19,
+      "label": "part0019",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0019",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0019",
+      "included_parts": [
+        "model-00020-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 20,
+      "label": "part0020",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0020",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0020",
+      "included_parts": [
+        "model-00021-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 21,
+      "label": "part0021",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0021",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0021",
+      "included_parts": [
+        "model-00022-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 22,
+      "label": "part0022",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0022",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0022",
+      "included_parts": [
+        "model-00023-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 23,
+      "label": "part0023",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0023",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0023",
+      "included_parts": [
+        "model-00024-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 24,
+      "label": "part0024",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0024",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0024",
+      "included_parts": [
+        "model-00025-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 25,
+      "label": "part0025",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0025",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0025",
+      "included_parts": [
+        "model-00026-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 26,
+      "label": "part0026",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0026",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0026",
+      "included_parts": [
+        "model-00027-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 27,
+      "label": "part0027",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0027",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0027",
+      "included_parts": [
+        "model-00028-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 28,
+      "label": "part0028",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0028",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0028",
+      "included_parts": [
+        "model-00029-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 29,
+      "label": "part0029",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0029",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0029",
+      "included_parts": [
+        "model-00030-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 30,
+      "label": "part0030",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0030",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0030",
+      "included_parts": [
+        "model-00031-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 31,
+      "label": "part0031",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0031",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0031",
+      "included_parts": [
+        "model-00032-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 32,
+      "label": "part0032",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0032",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0032",
+      "included_parts": [
+        "model-00033-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 33,
+      "label": "part0033",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0033",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0033",
+      "included_parts": [
+        "model-00034-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 34,
+      "label": "part0034",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0034",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0034",
+      "included_parts": [
+        "model-00035-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 35,
+      "label": "part0035",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0035",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0035",
+      "included_parts": [
+        "model-00036-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 36,
+      "label": "part0036",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0036",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0036",
+      "included_parts": [
+        "model-00037-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 37,
+      "label": "part0037",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0037",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0037",
+      "included_parts": [
+        "model-00038-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 38,
+      "label": "part0038",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0038",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0038",
+      "included_parts": [
+        "model-00039-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 39,
+      "label": "part0039",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0039",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0039",
+      "included_parts": [
+        "model-00040-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 40,
+      "label": "part0040",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0040",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0040",
+      "included_parts": [
+        "model-00041-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 41,
+      "label": "part0041",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0041",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0041",
+      "included_parts": [
+        "model-00042-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 42,
+      "label": "part0042",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0042",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0042",
+      "included_parts": [
+        "model-00043-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 43,
+      "label": "part0043",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0043",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0043",
+      "included_parts": [
+        "model-00044-of-00048-part0001.safetensors",
+        "model-00045-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 44,
+      "label": "part0044",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0044",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0044",
+      "included_parts": [
+        "model-00046-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 45,
+      "label": "part0045",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0045",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0045",
+      "included_parts": [
+        "model-00047-of-00048-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 46,
+      "label": "part0046",
+      "dockerfile": "model_weights/DeepSeek-V4-Flash-0731/dockerfiles/Dockerfile.part0046",
+      "tag": "hieucien/deepseek-v4-flash-0731:part0046",
+      "included_parts": [
+        "model-00048-of-00048-part0001.safetensors",
+        "model.safetensors.index-part0001.json",
+        "tokenizer-part0001.json",
+        "tokenizer_config-part0001.json"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    }
+  ],
+  "restore": []
+}

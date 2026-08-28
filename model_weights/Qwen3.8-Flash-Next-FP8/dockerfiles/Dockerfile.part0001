@@ -1,0 +1,11 @@
+FROM alpine:3.22.4
+COPY parts/.gitattributes-part0001 /model_parts/.gitattributes-part0001
+COPY parts/LICENSE-part0001 /model_parts/LICENSE-part0001
+COPY parts/README-part0001.md /model_parts/README-part0001.md
+COPY parts/chat_template-part0001.jinja /model_parts/chat_template-part0001.jinja
+COPY parts/config-part0001.json /model_parts/config-part0001.json
+COPY parts/generation_config-part0001.json /model_parts/generation_config-part0001.json
+COPY parts/merges-part0001.txt /model_parts/merges-part0001.txt
+COPY parts/model-00001-of-00131-part0001.safetensors /model_parts/model-00001-of-00131-part0001.safetensors
+COPY parts/model-00002-of-00131-part0001.safetensors /model_parts/model-00002-of-00131-part0001.safetensors
+COPY parts/model-00003-of-00131-part0001.safetensors /model_parts/model-00003-of-00131-part0001.safetensors

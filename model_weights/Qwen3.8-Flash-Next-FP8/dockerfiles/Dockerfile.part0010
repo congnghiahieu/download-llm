@@ -1,0 +1,4 @@
+FROM alpine:3.22.4
+COPY parts/model-00028-of-00131-part0001.safetensors /model_parts/model-00028-of-00131-part0001.safetensors
+COPY parts/model-00029-of-00131-part0001.safetensors /model_parts/model-00029-of-00131-part0001.safetensors
+COPY parts/model-00030-of-00131-part0001.safetensors /model_parts/model-00030-of-00131-part0001.safetensors

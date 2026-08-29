@@ -1,0 +1,4066 @@
+{
+  "model_name": "GLM-5.3-Flash",
+  "docker_repo_name": "glm-5.3-flash",
+  "repo_id": "zai-org/GLM-5.3-Flash",
+  "revision": "main",
+  "url": "https://huggingface.co/zai-org/GLM-5.3-Flash",
+  "max_part_size_bytes": 5000000000,
+  "max_part_size": "5.00GB",
+  "max_docker_image_size_bytes": 5000000000,
+  "max_docker_image_size": "5.00GB",
+  "raw": [
+    {
+      "filename": ".gitattributes",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/.gitattributes",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 1570,
+      "size": "1.57KB",
+      "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930"
+    },
+    {
+      "filename": "LICENSE",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/LICENSE",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 1070,
+      "size": "1.07KB",
+      "sha256": "30b85b6b9659f2e78aa259f8faf5d920a68dee7c9ced3fa6dba1f19f2bc4fca1"
+    },
+    {
+      "filename": "README.md",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/README.md",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 8024,
+      "size": "8.02KB",
+      "sha256": "d7a0ebdf5396c70729e2fb5b694eb413f5a09ed83eaa5adf2fe6dd023beb44dd"
+    },
+    {
+      "filename": "chat_template.jinja",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/chat_template.jinja",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 10644,
+      "size": "10.64KB",
+      "sha256": "34d5ee66b12fa6446cdae131c352b8f68cd85369e0e6fda115583805fada3891"
+    },
+    {
+      "filename": "config.json",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/config.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 69416,
+      "size": "69.42KB",
+      "sha256": "bb8f01c42cb92a52ca72e65afb4d5bd8d11aef083cd210e8de25dfb904f23e9f"
+    },
+    {
+      "filename": "generation_config.json",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/generation_config.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 194,
+      "size": "194B",
+      "sha256": "230c30609ecbbb9e6583bedde8e7bdda0c6eb8fe5fad0eaeb3d1b293d751cb4f"
+    },
+    {
+      "filename": "model-00001-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00001-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5365306704,
+      "size": "5.37GB",
+      "sha256": "9ff3c9397e75fc8883f24d8474960f53e993b0c0e4a8a4687e81a1cbec39965b"
+    },
+    {
+      "filename": "model-00002-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00002-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5320647824,
+      "size": "5.32GB",
+      "sha256": "328225cabdc9b1595bc8bd0062cdc99fb23872eb5bbf7ec5db62f2be8abeaeeb"
+    },
+    {
+      "filename": "model-00003-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00003-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5363467432,
+      "size": "5.36GB",
+      "sha256": "e0fc42c270a8f8a2c1a38c91b06c28ca0646721f8d4768fa09ed97faca918300"
+    },
+    {
+      "filename": "model-00004-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00004-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342296,
+      "size": "5.36GB",
+      "sha256": "ea66d9139b41d1fa83d5da3d29ee66bc4bd594faa143bceaf7e014f584903d24"
+    },
+    {
+      "filename": "model-00005-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00005-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5363915920,
+      "size": "5.36GB",
+      "sha256": "d1da1e65d621a46aacb41edb38b6a8efd085fa4cd8b1d8e37dc1452e9814d46f"
+    },
+    {
+      "filename": "model-00006-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00006-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5361809384,
+      "size": "5.36GB",
+      "sha256": "1653c5e3d9af10b57eea0bf5d853ca07090a1210e157bdd22ebc926cf1800021"
+    },
+    {
+      "filename": "model-00007-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00007-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342528,
+      "size": "5.36GB",
+      "sha256": "82396e0f55ab6768568fe1292d37c295045363c27676067dcf92d9249af10216"
+    },
+    {
+      "filename": "model-00008-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00008-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342304,
+      "size": "5.36GB",
+      "sha256": "91f5cb329f6d3c0648e9ed9e6018f0331e64e33424d6b7aaab2ca100aa820193"
+    },
+    {
+      "filename": "model-00009-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00009-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364169856,
+      "size": "5.36GB",
+      "sha256": "69cbb58b336f43eb8d2201adce20b8741b128b6450105e0cab7b2fffec8be9c4"
+    },
+    {
+      "filename": "model-00010-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00010-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5361982080,
+      "size": "5.36GB",
+      "sha256": "db5ea14fed53c98c60c43d3326907c93386809690ee5b20c1d0e7052e798d54d"
+    },
+    {
+      "filename": "model-00011-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00011-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5363915912,
+      "size": "5.36GB",
+      "sha256": "408046268e305f528c6e60211d7fb9c4c5200b8a156751562fc34d15363189c5"
+    },
+    {
+      "filename": "model-00012-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00012-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342288,
+      "size": "5.36GB",
+      "sha256": "dc61a5684e5fae401ee1efb9be6f8f0673f27f48a02f9455caa7a448970bd3c4"
+    },
+    {
+      "filename": "model-00013-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00013-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5361809408,
+      "size": "5.36GB",
+      "sha256": "bfecdc0fd8d936dacc740b660a609e779d6bb71d39a2daaa4bef886544a8aa97"
+    },
+    {
+      "filename": "model-00014-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00014-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342504,
+      "size": "5.36GB",
+      "sha256": "bab323a2bb1774e63a8bbf19fc1dd1fa1c34e43d6c024133379c86cdbdfaf141"
+    },
+    {
+      "filename": "model-00015-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00015-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342304,
+      "size": "5.36GB",
+      "sha256": "e18e404b26f86a6f29c1db13ca51003ee2b031500f6e275af7019069e2b94bcd"
+    },
+    {
+      "filename": "model-00016-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00016-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5361809176,
+      "size": "5.36GB",
+      "sha256": "6cc97434dfac843692ccc3baf4a140d01a4e8dac88001bb0a656205eadf37828"
+    },
+    {
+      "filename": "model-00017-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00017-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364084560,
+      "size": "5.36GB",
+      "sha256": "530a4034da64dc4a94aae6ef2bafd40d4b498b324f6143a1fc60d548c356e407"
+    },
+    {
+      "filename": "model-00018-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00018-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342304,
+      "size": "5.36GB",
+      "sha256": "035ee33c3279b45b6eb8894ec224d0edbf5a69f914b92879d85ababf8fc60a83"
+    },
+    {
+      "filename": "model-00019-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00019-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342272,
+      "size": "5.36GB",
+      "sha256": "28b540f19710314c95ad625cf9377cdea3b650d52f9c34e4dbf35e27976745d7"
+    },
+    {
+      "filename": "model-00020-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00020-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5361809528,
+      "size": "5.36GB",
+      "sha256": "67a86a8bedaa6d4672f75444fa353fb3435d2a1e3b9083f78d3421926d7ac3f2"
+    },
+    {
+      "filename": "model-00021-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00021-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342376,
+      "size": "5.36GB",
+      "sha256": "48c8bbefadcf3d28ca6b27309959cc72e62db128e3e34cc74b6b0e25728e4128"
+    },
+    {
+      "filename": "model-00022-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00022-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5363915936,
+      "size": "5.36GB",
+      "sha256": "3b0232707a753fa3d753772ef066998614bcd8ae6234d3648f0dee924ad8fcb6"
+    },
+    {
+      "filename": "model-00023-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00023-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5361809264,
+      "size": "5.36GB",
+      "sha256": "1ea8f1bbc7e134c55b6ff91e52ff83acd3e72a199f6c762507872ab5dad7dded"
+    },
+    {
+      "filename": "model-00024-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00024-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342640,
+      "size": "5.36GB",
+      "sha256": "4cda3a7dcfbfcebb73163f6b45e5b7886276ac3cfec1236045d070bea58afba0"
+    },
+    {
+      "filename": "model-00025-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00025-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342304,
+      "size": "5.36GB",
+      "sha256": "7527b7182a3fd498507886d27088c237a3022bc1dbafdbbf9c16a00ca448aac2"
+    },
+    {
+      "filename": "model-00026-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00026-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342272,
+      "size": "5.36GB",
+      "sha256": "29aa015bbd8d0d1bea6c14d7c4e8f1a1cf7f17713981fb94ec10764090c68d6b"
+    },
+    {
+      "filename": "model-00027-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00027-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5361809560,
+      "size": "5.36GB",
+      "sha256": "fdafd6e7064525704e815090dd550f0928bc169e99df9b164e7c76a9b4e420d8"
+    },
+    {
+      "filename": "model-00028-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00028-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5363915976,
+      "size": "5.36GB",
+      "sha256": "07089bdfe63c5807475f0a1fd379e31679ec9fdecd862d6374793fbdaca12a8b"
+    },
+    {
+      "filename": "model-00029-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00029-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342304,
+      "size": "5.36GB",
+      "sha256": "4013ec692173700340046059100aed025d8789f4446e3d959857e608d37f139b"
+    },
+    {
+      "filename": "model-00030-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00030-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5361809296,
+      "size": "5.36GB",
+      "sha256": "a28adbc99919ee9941a37f5de23771f22746331e7254c0822646edb9a151eb73"
+    },
+    {
+      "filename": "model-00031-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00031-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364341544,
+      "size": "5.36GB",
+      "sha256": "e2f31cb37dcf8ca7000e82990f3af061a847f1086f79f207c7223fa090f04502"
+    },
+    {
+      "filename": "model-00032-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00032-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5363915232,
+      "size": "5.36GB",
+      "sha256": "f33b53853ea5576b5aabd259bd9d933e6dbbaf65c511a8cdb328caab4349d8a9"
+    },
+    {
+      "filename": "model-00033-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00033-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342272,
+      "size": "5.36GB",
+      "sha256": "a090ee4e5aeeb06b67d46a052b2103864c5f242a3f146f92b7fea06f929772f6"
+    },
+    {
+      "filename": "model-00034-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00034-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5361809552,
+      "size": "5.36GB",
+      "sha256": "451bb0368e52f65c765507aa7bec1b28575c33fd828d377b18b34f165e23f3f8"
+    },
+    {
+      "filename": "model-00035-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00035-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5363915984,
+      "size": "5.36GB",
+      "sha256": "bc98812806e93ca6340e44724e8a7de6ee48b5567727f21c75ba6bb47c6275aa"
+    },
+    {
+      "filename": "model-00036-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00036-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342304,
+      "size": "5.36GB",
+      "sha256": "19803f6807229cc40d95afa89110226249f64c3a5cff7d355a58382249f90100"
+    },
+    {
+      "filename": "model-00037-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00037-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5361809288,
+      "size": "5.36GB",
+      "sha256": "0e7c51bd69d86a51d23ed25095589e42e1fa804974bae4a17c819f805a366901"
+    },
+    {
+      "filename": "model-00038-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00038-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342624,
+      "size": "5.36GB",
+      "sha256": "e903f70ca5e94734fcc9ff036531ae9c2abefb5f5105749659bba372d59ba125"
+    },
+    {
+      "filename": "model-00039-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00039-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342296,
+      "size": "5.36GB",
+      "sha256": "eacebc6414c33d9cad3c9c3d784b218437b8a7b0cc73529341361c4ae8de09df"
+    },
+    {
+      "filename": "model-00040-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00040-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5363915912,
+      "size": "5.36GB",
+      "sha256": "6f7c05711e1d0bafcd1e7894876a2cf961d4b370243bca17625d2b1a0892ceb6"
+    },
+    {
+      "filename": "model-00041-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00041-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5361809552,
+      "size": "5.36GB",
+      "sha256": "9ddfde38b0f0f2062350faecd733762f7abf4b4e6123dcdb7141135c60ad47a4"
+    },
+    {
+      "filename": "model-00042-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00042-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342368,
+      "size": "5.36GB",
+      "sha256": "2b70ffbe9d8272770a164f950811d5675f18c98d9f35e49a43a897e342ff4c98"
+    },
+    {
+      "filename": "model-00043-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00043-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342296,
+      "size": "5.36GB",
+      "sha256": "f5fede3a75553705c73f26d1cca6c784bc1a9bbb0735403d1d4885cfdd139760"
+    },
+    {
+      "filename": "model-00044-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00044-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5361809312,
+      "size": "5.36GB",
+      "sha256": "ed57a93696b5d999962fba19c3866a66f11ae54989e5af5f377d50043791a1db"
+    },
+    {
+      "filename": "model-00045-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00045-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342600,
+      "size": "5.36GB",
+      "sha256": "7f280939f4c8a5e0f78b78a3e9a9052b13910fb0016b294b9b3e294e9c34b054"
+    },
+    {
+      "filename": "model-00046-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00046-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5363915368,
+      "size": "5.36GB",
+      "sha256": "9e748de0fd06f845a5d70f623ee720f55c1ce1954ef8a33331738d9e244493dc"
+    },
+    {
+      "filename": "model-00047-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00047-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364341072,
+      "size": "5.36GB",
+      "sha256": "ddf0691ca8aa43ecdcc6cc988946d43c82ad9a673bcb3b933223bf5b33be0ae1"
+    },
+    {
+      "filename": "model-00048-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00048-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5361809576,
+      "size": "5.36GB",
+      "sha256": "85c51200985471ba83707cfa0841af3452d9f9f71496276d827f8df15f991cab"
+    },
+    {
+      "filename": "model-00049-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00049-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342344,
+      "size": "5.36GB",
+      "sha256": "14ba26c9f6b0b859e114b65bd381f2bbcf5990f30fbbf371b51ef3f89839c173"
+    },
+    {
+      "filename": "model-00050-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00050-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342312,
+      "size": "5.36GB",
+      "sha256": "7a00d5221b4131ba09f62c68af1fc8e9d53366a48a65e87ccdbd36ed5a7e2cb5"
+    },
+    {
+      "filename": "model-00051-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00051-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5361809336,
+      "size": "5.36GB",
+      "sha256": "b3423a93d9d44f51ad231ae576a60cbdc2acd86364f6419e82a52878e40d7948"
+    },
+    {
+      "filename": "model-00052-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00052-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342576,
+      "size": "5.36GB",
+      "sha256": "9162deb48ee6c35d372214757ba96327994082e5976f86168a7886cc112c23fc"
+    },
+    {
+      "filename": "model-00053-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00053-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5363915936,
+      "size": "5.36GB",
+      "sha256": "2f5ecc0c3f969b8a4ba446a547062ca812a768397903f9d64074ae77c53fb22e"
+    },
+    {
+      "filename": "model-00054-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00054-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364342272,
+      "size": "5.36GB",
+      "sha256": "1ae7351f071a6a99e4b7eff39eb598e1ab02c086a7863c37c9f69e3dcde5b3d1"
+    },
+    {
+      "filename": "model-00055-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00055-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5361808304,
+      "size": "5.36GB",
+      "sha256": "8d64c91ff600a93311c15cde18b62b9b3de239727295ad6bc4b5f6d6654cef8e"
+    },
+    {
+      "filename": "model-00056-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00056-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364341080,
+      "size": "5.36GB",
+      "sha256": "748dda91c9b697e596ebd7ef56244450c9f17c7de2b463d9de1d28b2572f3f51"
+    },
+    {
+      "filename": "model-00057-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00057-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364341048,
+      "size": "5.36GB",
+      "sha256": "e128c2da3d3e9d100662504703d545ada43783bb4c6f2870bd3a17169b0b8141"
+    },
+    {
+      "filename": "model-00058-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00058-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5361808088,
+      "size": "5.36GB",
+      "sha256": "ac4e58d160014ace15f7cb973b78a0e825cbfc0002c20fcc634c4d1cf85ca56a"
+    },
+    {
+      "filename": "model-00059-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00059-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5363914912,
+      "size": "5.36GB",
+      "sha256": "bc1731273adc088e2e7aa8b766a14efcbf2521790fe3f8416d3f11672e70c62f"
+    },
+    {
+      "filename": "model-00060-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00060-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5364341064,
+      "size": "5.36GB",
+      "sha256": "2cf6465538f8b8395adb0e812f2a4541ecfcf7cd9cccd4dba92e9f29c84fce39"
+    },
+    {
+      "filename": "model-00061-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00061-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 5303993768,
+      "size": "5.30GB",
+      "sha256": "4c29e5654cabbd19f4733f601aac9d4fadaafde6f8d03994eb173cba208cecec"
+    },
+    {
+      "filename": "model-00062-of-00062.safetensors",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model-00062-of-00062.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 1261584968,
+      "size": "1.26GB",
+      "sha256": "d3087816db95f962a3a74c057b8398e1492458ecd99608f706a400f112a825c6"
+    },
+    {
+      "filename": "model.safetensors.index.json",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/model.safetensors.index.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 8406613,
+      "size": "8.41MB",
+      "sha256": "3c3f40366a53c3fd7974b4eab7881a365a98c2a4329150befebab99fe7c18b05"
+    },
+    {
+      "filename": "processor_config.json",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/processor_config.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 909,
+      "size": "909B",
+      "sha256": "aae38374c94b08cc9b0547c6e64f05b951bd9735cea571c6988f5ed552bed3ed"
+    },
+    {
+      "filename": "tokenizer.json",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/tokenizer.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 20217442,
+      "size": "20.22MB",
+      "sha256": "19e773648cb4e65de8660ea6365e10acca112d42a854923df93db4a6f333a82d"
+    },
+    {
+      "filename": "tokenizer_config.json",
+      "path": "/home/hieucn/workspace/download-llm/model_weights/GLM-5.3-Flash/raw/tokenizer_config.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 761,
+      "size": "761B",
+      "sha256": "98b1271574f41abf89427ae2dda030d94dc9478f0edc5a8bd240db213c6fd5fc"
+    }
+  ],
+  "parts": [
+    {
+      "raw_filename": ".gitattributes",
+      "index": 1,
+      "part_filename": ".gitattributes-part0001",
+      "path": "model_weights/GLM-5.3-Flash/parts/.gitattributes-part0001",
+      "size_bytes": 1570,
+      "size": "1.57KB",
+      "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "LICENSE",
+      "index": 1,
+      "part_filename": "LICENSE-part0001",
+      "path": "model_weights/GLM-5.3-Flash/parts/LICENSE-part0001",
+      "size_bytes": 1070,
+      "size": "1.07KB",
+      "sha256": "30b85b6b9659f2e78aa259f8faf5d920a68dee7c9ced3fa6dba1f19f2bc4fca1",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "README.md",
+      "index": 1,
+      "part_filename": "README-part0001.md",
+      "path": "model_weights/GLM-5.3-Flash/parts/README-part0001.md",
+      "size_bytes": 8024,
+      "size": "8.02KB",
+      "sha256": "d7a0ebdf5396c70729e2fb5b694eb413f5a09ed83eaa5adf2fe6dd023beb44dd",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "chat_template.jinja",
+      "index": 1,
+      "part_filename": "chat_template-part0001.jinja",
+      "path": "model_weights/GLM-5.3-Flash/parts/chat_template-part0001.jinja",
+      "size_bytes": 10644,
+      "size": "10.64KB",
+      "sha256": "34d5ee66b12fa6446cdae131c352b8f68cd85369e0e6fda115583805fada3891",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "config.json",
+      "index": 1,
+      "part_filename": "config-part0001.json",
+      "path": "model_weights/GLM-5.3-Flash/parts/config-part0001.json",
+      "size_bytes": 69416,
+      "size": "69.42KB",
+      "sha256": "bb8f01c42cb92a52ca72e65afb4d5bd8d11aef083cd210e8de25dfb904f23e9f",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "generation_config.json",
+      "index": 1,
+      "part_filename": "generation_config-part0001.json",
+      "path": "model_weights/GLM-5.3-Flash/parts/generation_config-part0001.json",
+      "size_bytes": 194,
+      "size": "194B",
+      "sha256": "230c30609ecbbb9e6583bedde8e7bdda0c6eb8fe5fad0eaeb3d1b293d751cb4f",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00001-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00001-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00001-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "6bb851fc1530d105230cdb7afea125cddd06dfc2621235fa99e6452b2a1850ba",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00001-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00001-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00001-of-00062-part0002.safetensors",
+      "size_bytes": 365306704,
+      "size": "365.31MB",
+      "sha256": "d9ebda740357502cc3a49c4ff028692664c0a75256f551da5620838a719db354",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00002-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00002-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00002-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "841c6be75d84cd624a34498e92c0addf085db5056d307479fb7f97f43c5fea27",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00002-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00002-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00002-of-00062-part0002.safetensors",
+      "size_bytes": 320647824,
+      "size": "320.65MB",
+      "sha256": "1914795b7d60c24a8c235334fe0b569eea5b58b725679f9d4e78e3433a4dfda2",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00003-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00003-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00003-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "745309f9fef024f68b9c7f3f51d2f20c5bec1875f8029aaeee3b18765341988a",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00003-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00003-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00003-of-00062-part0002.safetensors",
+      "size_bytes": 363467432,
+      "size": "363.47MB",
+      "sha256": "70b8d6c12f625e06d417725eb3a36c9e70e2af8df7e97ab41d42dfc1759258e3",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00004-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00004-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00004-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "f84ac431d25025648172884716e7aeedb25d5700b46b4b463addf9a2ec6ff9be",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00004-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00004-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00004-of-00062-part0002.safetensors",
+      "size_bytes": 364342296,
+      "size": "364.34MB",
+      "sha256": "0e3126dc816aa2ad984d8542378cbf980513aad9d84d1cdb340679790fe70f83",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00005-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00005-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00005-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "7dce01c4d273b8af3a32f12eec4e685383b52abc1e9ec020c0ae3e9256fd6558",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00005-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00005-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00005-of-00062-part0002.safetensors",
+      "size_bytes": 363915920,
+      "size": "363.92MB",
+      "sha256": "1f6aea7d8f683eeea7677db8ffb053f6c466f94147e85492b6ced335edc52b0d",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00006-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00006-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00006-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "4c687523fb52569b45c0e54529cc4be9d7cfef108afc2203ca43e0f2e1eb638f",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00006-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00006-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00006-of-00062-part0002.safetensors",
+      "size_bytes": 361809384,
+      "size": "361.81MB",
+      "sha256": "cfe4736c19d541e1e4e05f6a43ea254dff3447e29b672680fc822c18d46e0ade",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00007-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00007-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00007-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "bc8cd44a5e016c0584007f461ac3642c74560ae91feb632c8450f41bdc194e7f",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00007-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00007-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00007-of-00062-part0002.safetensors",
+      "size_bytes": 364342528,
+      "size": "364.34MB",
+      "sha256": "760856237e3d1e527a86cb006c4544a7061cef043f08738eb5bca9c590ded8f3",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00008-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00008-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00008-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "fe3396ff8005e3fe543ff30b15479c16d473caf3434855fdd74d37da2315761b",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00008-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00008-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00008-of-00062-part0002.safetensors",
+      "size_bytes": 364342304,
+      "size": "364.34MB",
+      "sha256": "d8098eb8a98ef21d3c7cd74f9d9ad4271a5f42e27b022494c9b7e59c6e28addd",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00009-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00009-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00009-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "866c56a423b3810f0488509e4f8e4fede28358737777712da888e13d27fa06a0",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00009-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00009-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00009-of-00062-part0002.safetensors",
+      "size_bytes": 364169856,
+      "size": "364.17MB",
+      "sha256": "3fb429928a363e453d5ef0fb81835f731178f67cc063ae9a9d9309ea4c6217bd",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00010-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00010-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00010-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "73ce8d357a1b5c170f6618ec14d71f1e781a02f84e1d9d80f8b3f92c399c761a",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00010-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00010-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00010-of-00062-part0002.safetensors",
+      "size_bytes": 361982080,
+      "size": "361.98MB",
+      "sha256": "6d290b66431f3a2a320a9ad4c3bb08b71ff339516ddfb775be8a36b0bb5fc187",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00011-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00011-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00011-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "d5ce0a1cb3ca0446345ecfcb3cb458203f5078dbd314e3e0c8baa93120612bb1",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00011-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00011-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00011-of-00062-part0002.safetensors",
+      "size_bytes": 363915912,
+      "size": "363.92MB",
+      "sha256": "c9aeaf3b3766be318ed8863708acc61f9e0a82efd6a0958b6738ae0d7e9da3e9",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00012-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00012-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00012-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "e88e657ed83a4a0e792f601df3319869df9ef46a233128526a9cec0f6c000c0f",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00012-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00012-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00012-of-00062-part0002.safetensors",
+      "size_bytes": 364342288,
+      "size": "364.34MB",
+      "sha256": "25d17881718b311ce2fb073c3d58a641ae66629eb65889aaba14acc799bb0615",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00013-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00013-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00013-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "7c7c2febd8f91d4e6304e6cf9e0b97a6de64514b589dd8276e87bd6c54ebf5e0",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00013-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00013-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00013-of-00062-part0002.safetensors",
+      "size_bytes": 361809408,
+      "size": "361.81MB",
+      "sha256": "353e78b8c7c8ac25697682771578c0640eca070ec431666a5fdf73485a65d745",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00014-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00014-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00014-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "0688400e4a8f3cf785a8a0b16c075a055d7ddb2da68a0f87fd3ed63e329d9dcc",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00014-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00014-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00014-of-00062-part0002.safetensors",
+      "size_bytes": 364342504,
+      "size": "364.34MB",
+      "sha256": "f36ab93ebb329685db83f2357c89acf734ec0e940608252b0d41f5a8f3eb5b3a",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00015-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00015-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00015-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "2cf5d181a0d37504db06ecf93e5cb488de2753c518b49320a2e5cc57f8402af9",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00015-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00015-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00015-of-00062-part0002.safetensors",
+      "size_bytes": 364342304,
+      "size": "364.34MB",
+      "sha256": "6201ca553a50e9eec891e052c319cb6938b26bd699c8f8e35dd577aa40d7a050",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00016-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00016-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00016-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "3a5beb1c0a0e182d57e5df572fc9f28614095be79b93f0bddbfab613f6c6f3f4",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00016-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00016-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00016-of-00062-part0002.safetensors",
+      "size_bytes": 361809176,
+      "size": "361.81MB",
+      "sha256": "ca35f1fe783bdf137a360bbe75d951b3385adada78b22136735ed8f51faf143e",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00017-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00017-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00017-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "3db95ec6a5c70ed9bffeb28264bd2999f52a55281419870c2a8672ce770b555f",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00017-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00017-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00017-of-00062-part0002.safetensors",
+      "size_bytes": 364084560,
+      "size": "364.08MB",
+      "sha256": "bcbbf69a375b6f9bc7fda8d98c5128296fc7a62e5f6a2c0c98c55f64882f23af",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00018-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00018-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00018-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "74cf57802b59b06e299a424ce03a3083c34c1603853e7bcd45db99db1f420a38",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00018-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00018-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00018-of-00062-part0002.safetensors",
+      "size_bytes": 364342304,
+      "size": "364.34MB",
+      "sha256": "10bf0dd7e758394bc916276f3d88f248d8fa06259e53789b44c5ad342ac82ff9",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00019-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00019-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00019-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "778aa75ebaff417e7cd60e73d259e043486e25ae2270f82da6efa1a7fd2316dc",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00019-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00019-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00019-of-00062-part0002.safetensors",
+      "size_bytes": 364342272,
+      "size": "364.34MB",
+      "sha256": "c95cca592503cafada2061f1c341d9b56221a6618eaf04b13354704329ab55e4",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00020-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00020-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00020-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "a9a547075246e0499b8294eb9d6a29fdd3c576b6ea5a489d2319a180d23f4af0",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00020-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00020-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00020-of-00062-part0002.safetensors",
+      "size_bytes": 361809528,
+      "size": "361.81MB",
+      "sha256": "46ca25dba691dc294f4f099939fe62f8d928f7f4e44a3e80d8c7e026ede461c2",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00021-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00021-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00021-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "902299cbab2ef15a4da2ec76578309ad40eca6dd6f2ecd50dffd3781f99ad8a9",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00021-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00021-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00021-of-00062-part0002.safetensors",
+      "size_bytes": 364342376,
+      "size": "364.34MB",
+      "sha256": "804c7267b65e7ffd8a2095e5693b1137e5b36693b0391dfc4c3566510e9af5d9",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00022-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00022-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00022-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "c81bfb37b360aceda16d51e6b981cdfba7aaff58ee30dd722530e9193c07de3e",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00022-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00022-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00022-of-00062-part0002.safetensors",
+      "size_bytes": 363915936,
+      "size": "363.92MB",
+      "sha256": "038acdd964e56393884f1f149d7ac03c4fc72ed3c6cee48ba411f2aa34cc7d69",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00023-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00023-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00023-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "00cc19eb370a4fa9cf1c7b6c28ace4a0f408be821f5a8fc3183e6a603f6d4efe",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00023-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00023-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00023-of-00062-part0002.safetensors",
+      "size_bytes": 361809264,
+      "size": "361.81MB",
+      "sha256": "f3e61c2b2ef67c3590b9c9ec89f2918808cfb5a577789f95a3f0464908b44d79",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00024-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00024-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00024-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "c4c163abaccf484b00a44a7eef0fb3a27b9b5bc58dd47a964439c0a249843375",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00024-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00024-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00024-of-00062-part0002.safetensors",
+      "size_bytes": 364342640,
+      "size": "364.34MB",
+      "sha256": "37ba25f32ead418bc7189066f32dbeeab4692fb27fd7036311e9ff2949fa6c1c",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00025-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00025-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00025-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "da3673a675c9a60ddd0d0ec66787765d812af9bad745cba9007e59dd458180fe",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00025-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00025-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00025-of-00062-part0002.safetensors",
+      "size_bytes": 364342304,
+      "size": "364.34MB",
+      "sha256": "099c28a2c02153a1004847e0753c4a30880d776037e34ae59194be38ac35cd88",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00026-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00026-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00026-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "a6f1807b881bcbe60f7dfa45542b5dde97ea427e42cc0d943c24c27f2adadfe8",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00026-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00026-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00026-of-00062-part0002.safetensors",
+      "size_bytes": 364342272,
+      "size": "364.34MB",
+      "sha256": "24a4104e354b0697126bcf2f6119debeee5a66503fc1843e048eee1d5a0f90d6",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00027-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00027-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00027-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "95081e52fd0d508af482da2c488733f7f02c86672334234b5d16171a26731dc0",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00027-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00027-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00027-of-00062-part0002.safetensors",
+      "size_bytes": 361809560,
+      "size": "361.81MB",
+      "sha256": "e43c464c6289ab4064fb2cab6c9fa43a47411ac08dfdc65426d95bb24c3e010e",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00028-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00028-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00028-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "2c9a9d863c39ffb1d6a0bd5803c7d0e18990ebd9d07b8975afe907bb53ccbbab",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00028-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00028-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00028-of-00062-part0002.safetensors",
+      "size_bytes": 363915976,
+      "size": "363.92MB",
+      "sha256": "e2d413ddde0c548ceec164254a593ed53ac302d492d86b27d8b6cf6cd7860d6a",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00029-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00029-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00029-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "4029f72647f8f66bd29e69a09bfe6b015bc76a6bb6ed35e25424f4b4e4d7804b",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00029-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00029-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00029-of-00062-part0002.safetensors",
+      "size_bytes": 364342304,
+      "size": "364.34MB",
+      "sha256": "e8cca0a823664a99da5d769cf4ce18edd6c2d70c5a280db06d3d9c02782c4344",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00030-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00030-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00030-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "0e617c8af1571a8a4890074dbe63d3a35e7cf7f294eaea12bdb9c0de51d204ac",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00030-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00030-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00030-of-00062-part0002.safetensors",
+      "size_bytes": 361809296,
+      "size": "361.81MB",
+      "sha256": "5caee183668731c592bf5e750c1bd74f45ee8582e28184e2f0bc43d5d1ed2ea3",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00031-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00031-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00031-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "bb0b159aca0963df9f79004d799be02a20bffd634c2cb5c85a9272c91886a376",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00031-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00031-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00031-of-00062-part0002.safetensors",
+      "size_bytes": 364341544,
+      "size": "364.34MB",
+      "sha256": "554db6bf88df01264b84363e90c0fa555bd87ebfcf1e065d63b509f77ee3f476",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00032-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00032-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00032-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "189216ea46a1c5fa647ae2e073c9c83430b18bc804fb230f5bdec7f1b3337bde",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00032-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00032-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00032-of-00062-part0002.safetensors",
+      "size_bytes": 363915232,
+      "size": "363.92MB",
+      "sha256": "700af5bfeaef262bf3085961cb0a04ef479c0643d8baec96ba1a5b0eeefba65f",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00033-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00033-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00033-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "97f9c33221eaf15bd497900e218a22f387d472b99671ffa59eb735c0a30ff22b",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00033-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00033-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00033-of-00062-part0002.safetensors",
+      "size_bytes": 364342272,
+      "size": "364.34MB",
+      "sha256": "23d588001edee259a375bb5378185d06de06b5a1416ddbc73b8350c4134a69ae",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00034-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00034-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00034-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "8c4c3a3f02416b8ea2bab2b6a9cb56ebfe8a4538bf7440da34335a16dffdeca1",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00034-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00034-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00034-of-00062-part0002.safetensors",
+      "size_bytes": 361809552,
+      "size": "361.81MB",
+      "sha256": "550866d55867f0b5aa06c8c0e26b3bda11705dd1c5f05083bff641a4520a0cd9",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00035-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00035-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00035-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "5406dc7ef00d102962ca9ebfdac4140e55609336d3e56792947eb5c6dd919d49",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00035-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00035-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00035-of-00062-part0002.safetensors",
+      "size_bytes": 363915984,
+      "size": "363.92MB",
+      "sha256": "42601f94e449733cc9922c7b8d0bc28bd4e6bd8aab63aa0fc49720f77bd148b3",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00036-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00036-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00036-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "9c8140029d6264779faf55a88c517ca0b1c9a34653627436678db39dce05ad92",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00036-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00036-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00036-of-00062-part0002.safetensors",
+      "size_bytes": 364342304,
+      "size": "364.34MB",
+      "sha256": "0014be0abd724d1de89e2f196242e9c14cacd6447a8337fb0d1733f1df6e9134",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00037-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00037-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00037-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "5aacd3afaa9e65165a72c5383deab44da59066680a216aa6b7f5cfc524e21bb2",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00037-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00037-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00037-of-00062-part0002.safetensors",
+      "size_bytes": 361809288,
+      "size": "361.81MB",
+      "sha256": "ddbe0adb39db1ad79038028b83f1636ffb1cd29a95f569ed022a55d4f16aa3d9",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00038-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00038-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00038-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "f270ebe5060104898005524f88ff957cfde099dbdce6a03da5f90956b51d171b",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00038-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00038-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00038-of-00062-part0002.safetensors",
+      "size_bytes": 364342624,
+      "size": "364.34MB",
+      "sha256": "1b8467f02885b262b1d2b1455f999e65ae7ad4ea29377b7512703e3f02c2573f",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00039-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00039-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00039-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "40b4547c9bd6311f6601c01b4159ccad635773d872bbfa4ca077384a7b235b61",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00039-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00039-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00039-of-00062-part0002.safetensors",
+      "size_bytes": 364342296,
+      "size": "364.34MB",
+      "sha256": "45d1407b70898bdd766be1db730dd8f8de2024defee9852ca8e1671f32834b92",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00040-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00040-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00040-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "01136762bb15eea22d192ccbb22601ff14500ee466f8efda59313ffcf94a6676",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00040-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00040-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00040-of-00062-part0002.safetensors",
+      "size_bytes": 363915912,
+      "size": "363.92MB",
+      "sha256": "ef4f31665f83cf4405b1022cbf54f5ecd7e293c8c946dc1a0d003314d4b59450",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00041-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00041-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00041-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "08dc60aeb9e214704305263883f148dff124951449f0e6e34ed50fca6626ebba",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00041-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00041-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00041-of-00062-part0002.safetensors",
+      "size_bytes": 361809552,
+      "size": "361.81MB",
+      "sha256": "908b1a635bc87c203124c3d440a28714c451cef5d69b6bf272c9b0a991e82dc6",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00042-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00042-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00042-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "c3e67a2e161c5260f19ece9dfff7430feae15bded6b6afd30bb9adcf8844c377",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00042-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00042-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00042-of-00062-part0002.safetensors",
+      "size_bytes": 364342368,
+      "size": "364.34MB",
+      "sha256": "067de165c7ba2c8ebe009dff1c0a638d119577c2b1ed0396bea9e6b49f11aee2",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00043-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00043-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00043-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "b99de2567826f33690b2b41e21291dc612559ae41b1ee94bf362737be6435729",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00043-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00043-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00043-of-00062-part0002.safetensors",
+      "size_bytes": 364342296,
+      "size": "364.34MB",
+      "sha256": "97648551af2be3f3d4f096bf66ede56e4a612b92ac3698dedcf68a26932f1fbb",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00044-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00044-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00044-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "9b8b91a1ac88b23fd144abf37dc48feedb6d80cbd38db0ef2a281ed2c2e677e4",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00044-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00044-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00044-of-00062-part0002.safetensors",
+      "size_bytes": 361809312,
+      "size": "361.81MB",
+      "sha256": "a9d140bfccf6e3ecaa47cda3c2ee5e808574d085c9324ed99b75cd5f36337218",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00045-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00045-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00045-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "aa2066cdfc2eb1f9fbe8ff3513dfb454684fe6f4b1b46d481f1ac4afa8e378df",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00045-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00045-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00045-of-00062-part0002.safetensors",
+      "size_bytes": 364342600,
+      "size": "364.34MB",
+      "sha256": "45b925b4fb29c6625983bc8b8fbe8a9f1c1e2fc70d036c04bc8658feb379ee17",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00046-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00046-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00046-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "73d2b8fe60f1862d161ecdc740d1906f83b1d79fa43cc1e38678f8d1b20af999",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00046-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00046-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00046-of-00062-part0002.safetensors",
+      "size_bytes": 363915368,
+      "size": "363.92MB",
+      "sha256": "826a7f1fa43f74baada3f5e984f109b42ae5485d4dee9dbd9f61e8f9bc28ec67",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00047-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00047-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00047-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "b1f165304f001ead45bd608f3997728e871f8e2f665d06ca1b8bcfa15047e080",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00047-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00047-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00047-of-00062-part0002.safetensors",
+      "size_bytes": 364341072,
+      "size": "364.34MB",
+      "sha256": "8eb4c2a6be1f63be3b7816f99da7b99db80319c2676e2714b466d260907871a4",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00048-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00048-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00048-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "2befe1c701f9eb80ac93c8ec0d9be2667769c91bca0360b807909273174c243f",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00048-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00048-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00048-of-00062-part0002.safetensors",
+      "size_bytes": 361809576,
+      "size": "361.81MB",
+      "sha256": "ac4d1dd9d4a70ddd13b8d87e5cde54ec060b8e2395fb4fd26f8b1f468bf09422",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00049-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00049-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00049-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "e3f9b44a1f37d719e2b9daf5e727ce031bcb9e1a9f92320f4afe869fcdd07dd3",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00049-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00049-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00049-of-00062-part0002.safetensors",
+      "size_bytes": 364342344,
+      "size": "364.34MB",
+      "sha256": "7626160a23889f891a3edd9746d779313fa4a6a19e11cccb57cbdfa6a8918ad4",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00050-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00050-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00050-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "1ed341ec37f9a3809c1306620dac0899999ff9cbf6f86aa3c7cadb1ad6f04ab3",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00050-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00050-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00050-of-00062-part0002.safetensors",
+      "size_bytes": 364342312,
+      "size": "364.34MB",
+      "sha256": "e95bd3e809f19e8eb95c255634487c075c5a535d8ebac3068100fa36518fa43b",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00051-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00051-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00051-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "ad135d60272f78ee49f2c21db5d23be0f62c5b39f0e15a13aa92af0799088a7e",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00051-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00051-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00051-of-00062-part0002.safetensors",
+      "size_bytes": 361809336,
+      "size": "361.81MB",
+      "sha256": "e860d42dfe46c6c6e7f28aee47a108c03d567c062a5aaba5ed1484d32af2e25c",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00052-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00052-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00052-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "caa73c29e8e28bb49673b28926da7fadda73b49f1cd0e3e7aed181d235392a03",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00052-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00052-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00052-of-00062-part0002.safetensors",
+      "size_bytes": 364342576,
+      "size": "364.34MB",
+      "sha256": "16db1bcd2456ab98e4e388b9282cc2dab2821ec96b2cc2df3903576dcde9caa3",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00053-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00053-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00053-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "76a7b02804c3e34dae72851aee0526903900f67ecc652caf5dbe12a060e8b64f",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00053-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00053-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00053-of-00062-part0002.safetensors",
+      "size_bytes": 363915936,
+      "size": "363.92MB",
+      "sha256": "5cf293897ce06361114ec83a0ce0f6b60d046fe2d01bf94b38c63ceaf4d69709",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00054-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00054-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00054-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "2d7844722408b97eb0def3110ace9f5b5e45077b7d03ef73ca5dbec8237f7d86",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00054-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00054-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00054-of-00062-part0002.safetensors",
+      "size_bytes": 364342272,
+      "size": "364.34MB",
+      "sha256": "d8411a2397c60dffad3221ffd073c7dcbcc34f75c26fdc2124ca6b8b72c2d921",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00055-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00055-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00055-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "4d611c3c965302d3840fbc8dab8fd154747b51139ad163ec11ddff8f4bd6d0b1",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00055-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00055-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00055-of-00062-part0002.safetensors",
+      "size_bytes": 361808304,
+      "size": "361.81MB",
+      "sha256": "b30eef41f4ea20f6fa4d26e54ecb8b12403aebfc3c2d20b1d87cbfe337d6f20e",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00056-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00056-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00056-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "25a558185f490ef43678612388eac10ec349a46d3027def5b6df0e1ac0ebe7d8",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00056-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00056-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00056-of-00062-part0002.safetensors",
+      "size_bytes": 364341080,
+      "size": "364.34MB",
+      "sha256": "7dd73d7c6db694138e1b68a6fb7fc9261796374e3ecfe1927da4ec6b8e1d3e53",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00057-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00057-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00057-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "3f597bf7a0fea828ce256fe1267ba80b09464dc7f05a6f7205b4d6a6ef88c786",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00057-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00057-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00057-of-00062-part0002.safetensors",
+      "size_bytes": 364341048,
+      "size": "364.34MB",
+      "sha256": "6700212a6796eaa180b58b4f9f0142743eab925c323127665ece1be7d0061cb4",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00058-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00058-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00058-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "12b6a22d9015b12d0ad3cc9a006a359192b717b9d2eaf71b28d9389ca3213605",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00058-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00058-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00058-of-00062-part0002.safetensors",
+      "size_bytes": 361808088,
+      "size": "361.81MB",
+      "sha256": "903ea7bc43001d6c21a96b35be62a5aede28e9a42447b4d436c6bcd06cc11a3b",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00059-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00059-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00059-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "a9dc1b3f8e88356c231d2e49e520649cb6232cf28c22b32d1d31bb31b4f1cda7",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00059-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00059-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00059-of-00062-part0002.safetensors",
+      "size_bytes": 363914912,
+      "size": "363.91MB",
+      "sha256": "27ee32f426ff1df494b673d1cea29c7b6be191f991349815dfbed8a2d4340aae",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00060-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00060-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00060-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "984bc0461f3f34837f2f33fe531373982d4f5038ff19723d591c274fffce5beb",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00060-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00060-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00060-of-00062-part0002.safetensors",
+      "size_bytes": 364341064,
+      "size": "364.34MB",
+      "sha256": "9588b441c199bb3138e0c848232a8f0c9c80fa8204c98ae2355d19f8604e92cd",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00061-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00061-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00061-of-00062-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "d8a2400ad0864ce3fd555d331b3fbe74eb6ddb958e33ba76517f6e0004014674",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00061-of-00062.safetensors",
+      "index": 2,
+      "part_filename": "model-00061-of-00062-part0002.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00061-of-00062-part0002.safetensors",
+      "size_bytes": 303993768,
+      "size": "303.99MB",
+      "sha256": "bee015ad9a884eb7ee0e05edf049733a85b3fe44d82e6f4df80caf2388ee1e68",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00062-of-00062.safetensors",
+      "index": 1,
+      "part_filename": "model-00062-of-00062-part0001.safetensors",
+      "path": "model_weights/GLM-5.3-Flash/parts/model-00062-of-00062-part0001.safetensors",
+      "size_bytes": 1261584968,
+      "size": "1.26GB",
+      "sha256": "d3087816db95f962a3a74c057b8398e1492458ecd99608f706a400f112a825c6",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model.safetensors.index.json",
+      "index": 1,
+      "part_filename": "model.safetensors.index-part0001.json",
+      "path": "model_weights/GLM-5.3-Flash/parts/model.safetensors.index-part0001.json",
+      "size_bytes": 8406613,
+      "size": "8.41MB",
+      "sha256": "3c3f40366a53c3fd7974b4eab7881a365a98c2a4329150befebab99fe7c18b05",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "processor_config.json",
+      "index": 1,
+      "part_filename": "processor_config-part0001.json",
+      "path": "model_weights/GLM-5.3-Flash/parts/processor_config-part0001.json",
+      "size_bytes": 909,
+      "size": "909B",
+      "sha256": "aae38374c94b08cc9b0547c6e64f05b951bd9735cea571c6988f5ed552bed3ed",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "tokenizer.json",
+      "index": 1,
+      "part_filename": "tokenizer-part0001.json",
+      "path": "model_weights/GLM-5.3-Flash/parts/tokenizer-part0001.json",
+      "size_bytes": 20217442,
+      "size": "20.22MB",
+      "sha256": "19e773648cb4e65de8660ea6365e10acca112d42a854923df93db4a6f333a82d",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "tokenizer_config.json",
+      "index": 1,
+      "part_filename": "tokenizer_config-part0001.json",
+      "path": "model_weights/GLM-5.3-Flash/parts/tokenizer_config-part0001.json",
+      "size_bytes": 761,
+      "size": "761B",
+      "sha256": "98b1271574f41abf89427ae2dda030d94dc9478f0edc5a8bd240db213c6fd5fc",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    }
+  ],
+  "dockerfiles": [
+    {
+      "index": 1,
+      "label": "part0001",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0001",
+      "tag": "hieucien/glm-5.3-flash:part0001",
+      "included_parts": [
+        ".gitattributes-part0001",
+        "LICENSE-part0001",
+        "README-part0001.md",
+        "chat_template-part0001.jinja",
+        "config-part0001.json",
+        "generation_config-part0001.json"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 2,
+      "label": "part0002",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0002",
+      "tag": "hieucien/glm-5.3-flash:part0002",
+      "included_parts": [
+        "model-00001-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 3,
+      "label": "part0003",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0003",
+      "tag": "hieucien/glm-5.3-flash:part0003",
+      "included_parts": [
+        "model-00001-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 4,
+      "label": "part0004",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0004",
+      "tag": "hieucien/glm-5.3-flash:part0004",
+      "included_parts": [
+        "model-00002-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 5,
+      "label": "part0005",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0005",
+      "tag": "hieucien/glm-5.3-flash:part0005",
+      "included_parts": [
+        "model-00002-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 6,
+      "label": "part0006",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0006",
+      "tag": "hieucien/glm-5.3-flash:part0006",
+      "included_parts": [
+        "model-00003-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 7,
+      "label": "part0007",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0007",
+      "tag": "hieucien/glm-5.3-flash:part0007",
+      "included_parts": [
+        "model-00003-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 8,
+      "label": "part0008",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0008",
+      "tag": "hieucien/glm-5.3-flash:part0008",
+      "included_parts": [
+        "model-00004-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 9,
+      "label": "part0009",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0009",
+      "tag": "hieucien/glm-5.3-flash:part0009",
+      "included_parts": [
+        "model-00004-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 10,
+      "label": "part0010",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0010",
+      "tag": "hieucien/glm-5.3-flash:part0010",
+      "included_parts": [
+        "model-00005-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 11,
+      "label": "part0011",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0011",
+      "tag": "hieucien/glm-5.3-flash:part0011",
+      "included_parts": [
+        "model-00005-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 12,
+      "label": "part0012",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0012",
+      "tag": "hieucien/glm-5.3-flash:part0012",
+      "included_parts": [
+        "model-00006-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 13,
+      "label": "part0013",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0013",
+      "tag": "hieucien/glm-5.3-flash:part0013",
+      "included_parts": [
+        "model-00006-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 14,
+      "label": "part0014",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0014",
+      "tag": "hieucien/glm-5.3-flash:part0014",
+      "included_parts": [
+        "model-00007-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 15,
+      "label": "part0015",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0015",
+      "tag": "hieucien/glm-5.3-flash:part0015",
+      "included_parts": [
+        "model-00007-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 16,
+      "label": "part0016",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0016",
+      "tag": "hieucien/glm-5.3-flash:part0016",
+      "included_parts": [
+        "model-00008-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 17,
+      "label": "part0017",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0017",
+      "tag": "hieucien/glm-5.3-flash:part0017",
+      "included_parts": [
+        "model-00008-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 18,
+      "label": "part0018",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0018",
+      "tag": "hieucien/glm-5.3-flash:part0018",
+      "included_parts": [
+        "model-00009-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 19,
+      "label": "part0019",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0019",
+      "tag": "hieucien/glm-5.3-flash:part0019",
+      "included_parts": [
+        "model-00009-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 20,
+      "label": "part0020",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0020",
+      "tag": "hieucien/glm-5.3-flash:part0020",
+      "included_parts": [
+        "model-00010-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 21,
+      "label": "part0021",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0021",
+      "tag": "hieucien/glm-5.3-flash:part0021",
+      "included_parts": [
+        "model-00010-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 22,
+      "label": "part0022",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0022",
+      "tag": "hieucien/glm-5.3-flash:part0022",
+      "included_parts": [
+        "model-00011-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 23,
+      "label": "part0023",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0023",
+      "tag": "hieucien/glm-5.3-flash:part0023",
+      "included_parts": [
+        "model-00011-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 24,
+      "label": "part0024",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0024",
+      "tag": "hieucien/glm-5.3-flash:part0024",
+      "included_parts": [
+        "model-00012-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 25,
+      "label": "part0025",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0025",
+      "tag": "hieucien/glm-5.3-flash:part0025",
+      "included_parts": [
+        "model-00012-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 26,
+      "label": "part0026",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0026",
+      "tag": "hieucien/glm-5.3-flash:part0026",
+      "included_parts": [
+        "model-00013-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 27,
+      "label": "part0027",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0027",
+      "tag": "hieucien/glm-5.3-flash:part0027",
+      "included_parts": [
+        "model-00013-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 28,
+      "label": "part0028",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0028",
+      "tag": "hieucien/glm-5.3-flash:part0028",
+      "included_parts": [
+        "model-00014-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 29,
+      "label": "part0029",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0029",
+      "tag": "hieucien/glm-5.3-flash:part0029",
+      "included_parts": [
+        "model-00014-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 30,
+      "label": "part0030",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0030",
+      "tag": "hieucien/glm-5.3-flash:part0030",
+      "included_parts": [
+        "model-00015-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 31,
+      "label": "part0031",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0031",
+      "tag": "hieucien/glm-5.3-flash:part0031",
+      "included_parts": [
+        "model-00015-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 32,
+      "label": "part0032",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0032",
+      "tag": "hieucien/glm-5.3-flash:part0032",
+      "included_parts": [
+        "model-00016-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 33,
+      "label": "part0033",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0033",
+      "tag": "hieucien/glm-5.3-flash:part0033",
+      "included_parts": [
+        "model-00016-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 34,
+      "label": "part0034",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0034",
+      "tag": "hieucien/glm-5.3-flash:part0034",
+      "included_parts": [
+        "model-00017-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 35,
+      "label": "part0035",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0035",
+      "tag": "hieucien/glm-5.3-flash:part0035",
+      "included_parts": [
+        "model-00017-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 36,
+      "label": "part0036",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0036",
+      "tag": "hieucien/glm-5.3-flash:part0036",
+      "included_parts": [
+        "model-00018-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 37,
+      "label": "part0037",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0037",
+      "tag": "hieucien/glm-5.3-flash:part0037",
+      "included_parts": [
+        "model-00018-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 38,
+      "label": "part0038",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0038",
+      "tag": "hieucien/glm-5.3-flash:part0038",
+      "included_parts": [
+        "model-00019-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 39,
+      "label": "part0039",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0039",
+      "tag": "hieucien/glm-5.3-flash:part0039",
+      "included_parts": [
+        "model-00019-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 40,
+      "label": "part0040",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0040",
+      "tag": "hieucien/glm-5.3-flash:part0040",
+      "included_parts": [
+        "model-00020-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 41,
+      "label": "part0041",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0041",
+      "tag": "hieucien/glm-5.3-flash:part0041",
+      "included_parts": [
+        "model-00020-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 42,
+      "label": "part0042",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0042",
+      "tag": "hieucien/glm-5.3-flash:part0042",
+      "included_parts": [
+        "model-00021-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 43,
+      "label": "part0043",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0043",
+      "tag": "hieucien/glm-5.3-flash:part0043",
+      "included_parts": [
+        "model-00021-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 44,
+      "label": "part0044",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0044",
+      "tag": "hieucien/glm-5.3-flash:part0044",
+      "included_parts": [
+        "model-00022-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 45,
+      "label": "part0045",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0045",
+      "tag": "hieucien/glm-5.3-flash:part0045",
+      "included_parts": [
+        "model-00022-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 46,
+      "label": "part0046",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0046",
+      "tag": "hieucien/glm-5.3-flash:part0046",
+      "included_parts": [
+        "model-00023-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 47,
+      "label": "part0047",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0047",
+      "tag": "hieucien/glm-5.3-flash:part0047",
+      "included_parts": [
+        "model-00023-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 48,
+      "label": "part0048",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0048",
+      "tag": "hieucien/glm-5.3-flash:part0048",
+      "included_parts": [
+        "model-00024-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 49,
+      "label": "part0049",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0049",
+      "tag": "hieucien/glm-5.3-flash:part0049",
+      "included_parts": [
+        "model-00024-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 50,
+      "label": "part0050",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0050",
+      "tag": "hieucien/glm-5.3-flash:part0050",
+      "included_parts": [
+        "model-00025-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 51,
+      "label": "part0051",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0051",
+      "tag": "hieucien/glm-5.3-flash:part0051",
+      "included_parts": [
+        "model-00025-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 52,
+      "label": "part0052",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0052",
+      "tag": "hieucien/glm-5.3-flash:part0052",
+      "included_parts": [
+        "model-00026-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 53,
+      "label": "part0053",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0053",
+      "tag": "hieucien/glm-5.3-flash:part0053",
+      "included_parts": [
+        "model-00026-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 54,
+      "label": "part0054",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0054",
+      "tag": "hieucien/glm-5.3-flash:part0054",
+      "included_parts": [
+        "model-00027-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 55,
+      "label": "part0055",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0055",
+      "tag": "hieucien/glm-5.3-flash:part0055",
+      "included_parts": [
+        "model-00027-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 56,
+      "label": "part0056",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0056",
+      "tag": "hieucien/glm-5.3-flash:part0056",
+      "included_parts": [
+        "model-00028-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 57,
+      "label": "part0057",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0057",
+      "tag": "hieucien/glm-5.3-flash:part0057",
+      "included_parts": [
+        "model-00028-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 58,
+      "label": "part0058",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0058",
+      "tag": "hieucien/glm-5.3-flash:part0058",
+      "included_parts": [
+        "model-00029-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 59,
+      "label": "part0059",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0059",
+      "tag": "hieucien/glm-5.3-flash:part0059",
+      "included_parts": [
+        "model-00029-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 60,
+      "label": "part0060",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0060",
+      "tag": "hieucien/glm-5.3-flash:part0060",
+      "included_parts": [
+        "model-00030-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 61,
+      "label": "part0061",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0061",
+      "tag": "hieucien/glm-5.3-flash:part0061",
+      "included_parts": [
+        "model-00030-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 62,
+      "label": "part0062",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0062",
+      "tag": "hieucien/glm-5.3-flash:part0062",
+      "included_parts": [
+        "model-00031-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 63,
+      "label": "part0063",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0063",
+      "tag": "hieucien/glm-5.3-flash:part0063",
+      "included_parts": [
+        "model-00031-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 64,
+      "label": "part0064",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0064",
+      "tag": "hieucien/glm-5.3-flash:part0064",
+      "included_parts": [
+        "model-00032-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 65,
+      "label": "part0065",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0065",
+      "tag": "hieucien/glm-5.3-flash:part0065",
+      "included_parts": [
+        "model-00032-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 66,
+      "label": "part0066",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0066",
+      "tag": "hieucien/glm-5.3-flash:part0066",
+      "included_parts": [
+        "model-00033-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 67,
+      "label": "part0067",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0067",
+      "tag": "hieucien/glm-5.3-flash:part0067",
+      "included_parts": [
+        "model-00033-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 68,
+      "label": "part0068",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0068",
+      "tag": "hieucien/glm-5.3-flash:part0068",
+      "included_parts": [
+        "model-00034-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 69,
+      "label": "part0069",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0069",
+      "tag": "hieucien/glm-5.3-flash:part0069",
+      "included_parts": [
+        "model-00034-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 70,
+      "label": "part0070",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0070",
+      "tag": "hieucien/glm-5.3-flash:part0070",
+      "included_parts": [
+        "model-00035-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 71,
+      "label": "part0071",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0071",
+      "tag": "hieucien/glm-5.3-flash:part0071",
+      "included_parts": [
+        "model-00035-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 72,
+      "label": "part0072",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0072",
+      "tag": "hieucien/glm-5.3-flash:part0072",
+      "included_parts": [
+        "model-00036-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 73,
+      "label": "part0073",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0073",
+      "tag": "hieucien/glm-5.3-flash:part0073",
+      "included_parts": [
+        "model-00036-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 74,
+      "label": "part0074",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0074",
+      "tag": "hieucien/glm-5.3-flash:part0074",
+      "included_parts": [
+        "model-00037-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 75,
+      "label": "part0075",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0075",
+      "tag": "hieucien/glm-5.3-flash:part0075",
+      "included_parts": [
+        "model-00037-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 76,
+      "label": "part0076",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0076",
+      "tag": "hieucien/glm-5.3-flash:part0076",
+      "included_parts": [
+        "model-00038-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 77,
+      "label": "part0077",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0077",
+      "tag": "hieucien/glm-5.3-flash:part0077",
+      "included_parts": [
+        "model-00038-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 78,
+      "label": "part0078",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0078",
+      "tag": "hieucien/glm-5.3-flash:part0078",
+      "included_parts": [
+        "model-00039-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 79,
+      "label": "part0079",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0079",
+      "tag": "hieucien/glm-5.3-flash:part0079",
+      "included_parts": [
+        "model-00039-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 80,
+      "label": "part0080",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0080",
+      "tag": "hieucien/glm-5.3-flash:part0080",
+      "included_parts": [
+        "model-00040-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 81,
+      "label": "part0081",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0081",
+      "tag": "hieucien/glm-5.3-flash:part0081",
+      "included_parts": [
+        "model-00040-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 82,
+      "label": "part0082",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0082",
+      "tag": "hieucien/glm-5.3-flash:part0082",
+      "included_parts": [
+        "model-00041-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 83,
+      "label": "part0083",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0083",
+      "tag": "hieucien/glm-5.3-flash:part0083",
+      "included_parts": [
+        "model-00041-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 84,
+      "label": "part0084",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0084",
+      "tag": "hieucien/glm-5.3-flash:part0084",
+      "included_parts": [
+        "model-00042-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 85,
+      "label": "part0085",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0085",
+      "tag": "hieucien/glm-5.3-flash:part0085",
+      "included_parts": [
+        "model-00042-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 86,
+      "label": "part0086",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0086",
+      "tag": "hieucien/glm-5.3-flash:part0086",
+      "included_parts": [
+        "model-00043-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 87,
+      "label": "part0087",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0087",
+      "tag": "hieucien/glm-5.3-flash:part0087",
+      "included_parts": [
+        "model-00043-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 88,
+      "label": "part0088",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0088",
+      "tag": "hieucien/glm-5.3-flash:part0088",
+      "included_parts": [
+        "model-00044-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 89,
+      "label": "part0089",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0089",
+      "tag": "hieucien/glm-5.3-flash:part0089",
+      "included_parts": [
+        "model-00044-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 90,
+      "label": "part0090",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0090",
+      "tag": "hieucien/glm-5.3-flash:part0090",
+      "included_parts": [
+        "model-00045-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 91,
+      "label": "part0091",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0091",
+      "tag": "hieucien/glm-5.3-flash:part0091",
+      "included_parts": [
+        "model-00045-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 92,
+      "label": "part0092",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0092",
+      "tag": "hieucien/glm-5.3-flash:part0092",
+      "included_parts": [
+        "model-00046-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 93,
+      "label": "part0093",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0093",
+      "tag": "hieucien/glm-5.3-flash:part0093",
+      "included_parts": [
+        "model-00046-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 94,
+      "label": "part0094",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0094",
+      "tag": "hieucien/glm-5.3-flash:part0094",
+      "included_parts": [
+        "model-00047-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 95,
+      "label": "part0095",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0095",
+      "tag": "hieucien/glm-5.3-flash:part0095",
+      "included_parts": [
+        "model-00047-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 96,
+      "label": "part0096",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0096",
+      "tag": "hieucien/glm-5.3-flash:part0096",
+      "included_parts": [
+        "model-00048-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 97,
+      "label": "part0097",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0097",
+      "tag": "hieucien/glm-5.3-flash:part0097",
+      "included_parts": [
+        "model-00048-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 98,
+      "label": "part0098",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0098",
+      "tag": "hieucien/glm-5.3-flash:part0098",
+      "included_parts": [
+        "model-00049-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 99,
+      "label": "part0099",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0099",
+      "tag": "hieucien/glm-5.3-flash:part0099",
+      "included_parts": [
+        "model-00049-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 100,
+      "label": "part0100",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0100",
+      "tag": "hieucien/glm-5.3-flash:part0100",
+      "included_parts": [
+        "model-00050-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 101,
+      "label": "part0101",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0101",
+      "tag": "hieucien/glm-5.3-flash:part0101",
+      "included_parts": [
+        "model-00050-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 102,
+      "label": "part0102",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0102",
+      "tag": "hieucien/glm-5.3-flash:part0102",
+      "included_parts": [
+        "model-00051-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 103,
+      "label": "part0103",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0103",
+      "tag": "hieucien/glm-5.3-flash:part0103",
+      "included_parts": [
+        "model-00051-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 104,
+      "label": "part0104",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0104",
+      "tag": "hieucien/glm-5.3-flash:part0104",
+      "included_parts": [
+        "model-00052-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 105,
+      "label": "part0105",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0105",
+      "tag": "hieucien/glm-5.3-flash:part0105",
+      "included_parts": [
+        "model-00052-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 106,
+      "label": "part0106",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0106",
+      "tag": "hieucien/glm-5.3-flash:part0106",
+      "included_parts": [
+        "model-00053-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 107,
+      "label": "part0107",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0107",
+      "tag": "hieucien/glm-5.3-flash:part0107",
+      "included_parts": [
+        "model-00053-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 108,
+      "label": "part0108",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0108",
+      "tag": "hieucien/glm-5.3-flash:part0108",
+      "included_parts": [
+        "model-00054-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 109,
+      "label": "part0109",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0109",
+      "tag": "hieucien/glm-5.3-flash:part0109",
+      "included_parts": [
+        "model-00054-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 110,
+      "label": "part0110",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0110",
+      "tag": "hieucien/glm-5.3-flash:part0110",
+      "included_parts": [
+        "model-00055-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 111,
+      "label": "part0111",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0111",
+      "tag": "hieucien/glm-5.3-flash:part0111",
+      "included_parts": [
+        "model-00055-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 112,
+      "label": "part0112",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0112",
+      "tag": "hieucien/glm-5.3-flash:part0112",
+      "included_parts": [
+        "model-00056-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 113,
+      "label": "part0113",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0113",
+      "tag": "hieucien/glm-5.3-flash:part0113",
+      "included_parts": [
+        "model-00056-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 114,
+      "label": "part0114",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0114",
+      "tag": "hieucien/glm-5.3-flash:part0114",
+      "included_parts": [
+        "model-00057-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 115,
+      "label": "part0115",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0115",
+      "tag": "hieucien/glm-5.3-flash:part0115",
+      "included_parts": [
+        "model-00057-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 116,
+      "label": "part0116",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0116",
+      "tag": "hieucien/glm-5.3-flash:part0116",
+      "included_parts": [
+        "model-00058-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 117,
+      "label": "part0117",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0117",
+      "tag": "hieucien/glm-5.3-flash:part0117",
+      "included_parts": [
+        "model-00058-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 118,
+      "label": "part0118",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0118",
+      "tag": "hieucien/glm-5.3-flash:part0118",
+      "included_parts": [
+        "model-00059-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 119,
+      "label": "part0119",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0119",
+      "tag": "hieucien/glm-5.3-flash:part0119",
+      "included_parts": [
+        "model-00059-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 120,
+      "label": "part0120",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0120",
+      "tag": "hieucien/glm-5.3-flash:part0120",
+      "included_parts": [
+        "model-00060-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 121,
+      "label": "part0121",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0121",
+      "tag": "hieucien/glm-5.3-flash:part0121",
+      "included_parts": [
+        "model-00060-of-00062-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 122,
+      "label": "part0122",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0122",
+      "tag": "hieucien/glm-5.3-flash:part0122",
+      "included_parts": [
+        "model-00061-of-00062-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 123,
+      "label": "part0123",
+      "dockerfile": "model_weights/GLM-5.3-Flash/dockerfiles/Dockerfile.part0123",
+      "tag": "hieucien/glm-5.3-flash:part0123",
+      "included_parts": [
+        "model-00061-of-00062-part0002.safetensors",
+        "model-00062-of-00062-part0001.safetensors",
+        "model.safetensors.index-part0001.json",
+        "processor_config-part0001.json",
+        "tokenizer-part0001.json",
+        "tokenizer_config-part0001.json"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    }
+  ],
+  "restore": []
+}

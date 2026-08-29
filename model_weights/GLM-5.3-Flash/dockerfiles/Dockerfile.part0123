@@ -1,0 +1,7 @@
+FROM alpine:3.22.4
+COPY parts/model-00061-of-00062-part0002.safetensors /model_parts/model-00061-of-00062-part0002.safetensors
+COPY parts/model-00062-of-00062-part0001.safetensors /model_parts/model-00062-of-00062-part0001.safetensors
+COPY parts/model.safetensors.index-part0001.json /model_parts/model.safetensors.index-part0001.json
+COPY parts/processor_config-part0001.json /model_parts/processor_config-part0001.json
+COPY parts/tokenizer-part0001.json /model_parts/tokenizer-part0001.json
+COPY parts/tokenizer_config-part0001.json /model_parts/tokenizer_config-part0001.json

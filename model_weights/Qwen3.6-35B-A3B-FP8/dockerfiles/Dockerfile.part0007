@@ -1,0 +1,6 @@
+FROM alpine:3.22.4
+COPY parts/layers-36-part0001.safetensors /model_parts/layers-36-part0001.safetensors
+COPY parts/layers-37-part0001.safetensors /model_parts/layers-37-part0001.safetensors
+COPY parts/layers-38-part0001.safetensors /model_parts/layers-38-part0001.safetensors
+COPY parts/layers-39-part0001.safetensors /model_parts/layers-39-part0001.safetensors
+COPY parts/layers-4-part0001.safetensors /model_parts/layers-4-part0001.safetensors

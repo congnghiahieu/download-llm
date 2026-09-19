@@ -1,0 +1,21 @@
+FROM alpine:3.22.4
+COPY parts/.gitattributes-part0001 /model_parts/.gitattributes-part0001
+COPY parts/LICENSE-part0001 /model_parts/LICENSE-part0001
+COPY parts/README-part0001.md /model_parts/README-part0001.md
+COPY parts/chat_template-part0001.jinja /model_parts/chat_template-part0001.jinja
+COPY parts/config-part0001.json /model_parts/config-part0001.json
+COPY parts/configuration-part0001.json /model_parts/configuration-part0001.json
+COPY parts/generation_config-part0001.json /model_parts/generation_config-part0001.json
+COPY parts/layers-0-part0001.safetensors /model_parts/layers-0-part0001.safetensors
+COPY parts/layers-1-part0001.safetensors /model_parts/layers-1-part0001.safetensors
+COPY parts/layers-10-part0001.safetensors /model_parts/layers-10-part0001.safetensors
+COPY parts/layers-11-part0001.safetensors /model_parts/layers-11-part0001.safetensors
+COPY parts/layers-12-part0001.safetensors /model_parts/layers-12-part0001.safetensors
+COPY parts/layers-13-part0001.safetensors /model_parts/layers-13-part0001.safetensors
+COPY parts/layers-14-part0001.safetensors /model_parts/layers-14-part0001.safetensors
+COPY parts/layers-15-part0001.safetensors /model_parts/layers-15-part0001.safetensors
+COPY parts/layers-16-part0001.safetensors /model_parts/layers-16-part0001.safetensors
+COPY parts/layers-17-part0001.safetensors /model_parts/layers-17-part0001.safetensors
+COPY parts/layers-18-part0001.safetensors /model_parts/layers-18-part0001.safetensors
+COPY parts/layers-19-part0001.safetensors /model_parts/layers-19-part0001.safetensors
+COPY parts/layers-2-part0001.safetensors /model_parts/layers-2-part0001.safetensors

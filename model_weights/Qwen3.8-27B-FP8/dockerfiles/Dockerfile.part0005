@@ -1,0 +1,15 @@
+FROM alpine:3.22.4
+COPY parts/layers-56-part0001.safetensors /model_parts/layers-56-part0001.safetensors
+COPY parts/layers-57-part0001.safetensors /model_parts/layers-57-part0001.safetensors
+COPY parts/layers-58-part0001.safetensors /model_parts/layers-58-part0001.safetensors
+COPY parts/layers-59-part0001.safetensors /model_parts/layers-59-part0001.safetensors
+COPY parts/layers-6-part0001.safetensors /model_parts/layers-6-part0001.safetensors
+COPY parts/layers-60-part0001.safetensors /model_parts/layers-60-part0001.safetensors
+COPY parts/layers-61-part0001.safetensors /model_parts/layers-61-part0001.safetensors
+COPY parts/layers-62-part0001.safetensors /model_parts/layers-62-part0001.safetensors
+COPY parts/layers-63-part0001.safetensors /model_parts/layers-63-part0001.safetensors
+COPY parts/layers-7-part0001.safetensors /model_parts/layers-7-part0001.safetensors
+COPY parts/layers-8-part0001.safetensors /model_parts/layers-8-part0001.safetensors
+COPY parts/layers-9-part0001.safetensors /model_parts/layers-9-part0001.safetensors
+COPY parts/merges-part0001.txt /model_parts/merges-part0001.txt
+COPY parts/model.safetensors.index-part0001.json /model_parts/model.safetensors.index-part0001.json

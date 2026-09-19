@@ -1,0 +1,656 @@
+{
+  "model_name": "ThinkingCap-Qwen3.6-27B-FP8",
+  "docker_repo_name": "thinkingcap-qwen3.6-27b-fp8",
+  "repo_id": "bottlecapai/ThinkingCap-Qwen3.6-27B-FP8",
+  "revision": "main",
+  "url": "https://huggingface.co/bottlecapai/ThinkingCap-Qwen3.6-27B-FP8",
+  "max_part_size_bytes": 5000000000,
+  "max_part_size": "5.00GB",
+  "max_docker_image_size_bytes": 5000000000,
+  "max_docker_image_size": "5.00GB",
+  "raw": [
+    {
+      "filename": ".gitattributes",
+      "path": "raw/.gitattributes",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 1728,
+      "size": "1.73KB",
+      "sha256": "435da5d1154fc03ec8cb6b1191b3713720731dc7cc56cf211407d51b89f5e326"
+    },
+    {
+      "filename": "LICENSE",
+      "path": "raw/LICENSE",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 11343,
+      "size": "11.34KB",
+      "sha256": "50cbab8a892c5f2993b8c7351a99182507472def3b1374558308605d99b86b32"
+    },
+    {
+      "filename": "README.md",
+      "path": "raw/README.md",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 6487,
+      "size": "6.49KB",
+      "sha256": "844ceb2c6e4956b61533c49a7da53dd7fca118dd5b13bc3df6b20592ee722856"
+    },
+    {
+      "filename": "cap_header.png",
+      "path": "raw/cap_header.png",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 1058979,
+      "size": "1.06MB",
+      "sha256": "82841e4c6cc4299fafb4eef8a7175e787924f9d7de3273d0c5eaa225059ea2a1"
+    },
+    {
+      "filename": "chat_template.jinja",
+      "path": "raw/chat_template.jinja",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 7764,
+      "size": "7.76KB",
+      "sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259"
+    },
+    {
+      "filename": "config.json",
+      "path": "raw/config.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 38455,
+      "size": "38.45KB",
+      "sha256": "e8eb76f4d50e4531959af5db3c1587f0d51dfbc7e6215bba208d5d42b8717a33"
+    },
+    {
+      "filename": "configuration.json",
+      "path": "raw/configuration.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 51,
+      "size": "51B",
+      "sha256": "2d4464e2ead06bc9bc718c781309ad1e7baded626d66e8dcdc8b469ba185faf0"
+    },
+    {
+      "filename": "generation_config.json",
+      "path": "raw/generation_config.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 213,
+      "size": "213B",
+      "sha256": "5264f0a3e636da545410862c0076c51e2efbb3ebe18a1d129d738d7c68f7c6a6"
+    },
+    {
+      "filename": "merges.txt",
+      "path": "raw/merges.txt",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 3353259,
+      "size": "3.35MB",
+      "sha256": "a9d356d7bdf1ef4949e3e748e95b8e10ad9d4e2e838eddc38a0a7b6b94d1db8d"
+    },
+    {
+      "filename": "model-00001-of-00004.safetensors",
+      "path": "raw/model-00001-of-00004.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 9952040400,
+      "size": "9.95GB",
+      "sha256": "80a23f73d2c23087383fc9cbee66dc1454727e1c6a857f36c366291b1aebc483"
+    },
+    {
+      "filename": "model-00002-of-00004.safetensors",
+      "path": "raw/model-00002-of-00004.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 9989867352,
+      "size": "9.99GB",
+      "sha256": "c94d59d4a3f8430a37ae67c01fcc4b7415464be06cc909aeb26007872c8d3071"
+    },
+    {
+      "filename": "model-00003-of-00004.safetensors",
+      "path": "raw/model-00003-of-00004.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 9994101440,
+      "size": "9.99GB",
+      "sha256": "240567c118e53699ff3f9009bb50aab90cefe03b1991b60e348fde572ffaa0c1"
+    },
+    {
+      "filename": "model-00004-of-00004.safetensors",
+      "path": "raw/model-00004-of-00004.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 1303057216,
+      "size": "1.30GB",
+      "sha256": "6a2089b0ea9bfa6d82b23b81c47dd80b6fc5ef0b9f177e17ad88d205dd6daa94"
+    },
+    {
+      "filename": "model.safetensors.index.json",
+      "path": "raw/model.safetensors.index.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 155382,
+      "size": "155.38KB",
+      "sha256": "dbf3e72d73cf80b783d26687aeb0c5f0ed3bb41c21fa3ee9813afa4af67afa3e"
+    },
+    {
+      "filename": "preprocessor_config.json",
+      "path": "raw/preprocessor_config.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 390,
+      "size": "390B",
+      "sha256": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516"
+    },
+    {
+      "filename": "processor_config.json",
+      "path": "raw/processor_config.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 1191,
+      "size": "1.19KB",
+      "sha256": "d89ef49ce9cd37fbf510158e13c1ef063d9286411c1ec9049932dbe0487143b1"
+    },
+    {
+      "filename": "thinkingcap_6x.gif",
+      "path": "raw/thinkingcap_6x.gif",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 6692586,
+      "size": "6.69MB",
+      "sha256": "347285925ef7b6a8daf2cc3dcf129008ee5c55068b205785f9eb5e20d19920cd"
+    },
+    {
+      "filename": "tokenizer.json",
+      "path": "raw/tokenizer.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 19989325,
+      "size": "19.99MB",
+      "sha256": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523"
+    },
+    {
+      "filename": "tokenizer_config.json",
+      "path": "raw/tokenizer_config.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 1123,
+      "size": "1.12KB",
+      "sha256": "bee8eba30f0eb4af73c0fe2cd06d0f89b657d7819941c438157ec42f7c80ea87"
+    },
+    {
+      "filename": "video_preprocessor_config.json",
+      "path": "raw/video_preprocessor_config.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 385,
+      "size": "385B",
+      "sha256": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13"
+    },
+    {
+      "filename": "vocab.json",
+      "path": "raw/vocab.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 6722759,
+      "size": "6.72MB",
+      "sha256": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003"
+    }
+  ],
+  "parts": [
+    {
+      "raw_filename": ".gitattributes",
+      "index": 1,
+      "part_filename": ".gitattributes-part0001",
+      "path": "parts/.gitattributes-part0001",
+      "size_bytes": 1728,
+      "size": "1.73KB",
+      "sha256": "435da5d1154fc03ec8cb6b1191b3713720731dc7cc56cf211407d51b89f5e326",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "LICENSE",
+      "index": 1,
+      "part_filename": "LICENSE-part0001",
+      "path": "parts/LICENSE-part0001",
+      "size_bytes": 11343,
+      "size": "11.34KB",
+      "sha256": "50cbab8a892c5f2993b8c7351a99182507472def3b1374558308605d99b86b32",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "README.md",
+      "index": 1,
+      "part_filename": "README-part0001.md",
+      "path": "parts/README-part0001.md",
+      "size_bytes": 6487,
+      "size": "6.49KB",
+      "sha256": "844ceb2c6e4956b61533c49a7da53dd7fca118dd5b13bc3df6b20592ee722856",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "cap_header.png",
+      "index": 1,
+      "part_filename": "cap_header-part0001.png",
+      "path": "parts/cap_header-part0001.png",
+      "size_bytes": 1058979,
+      "size": "1.06MB",
+      "sha256": "82841e4c6cc4299fafb4eef8a7175e787924f9d7de3273d0c5eaa225059ea2a1",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "chat_template.jinja",
+      "index": 1,
+      "part_filename": "chat_template-part0001.jinja",
+      "path": "parts/chat_template-part0001.jinja",
+      "size_bytes": 7764,
+      "size": "7.76KB",
+      "sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "config.json",
+      "index": 1,
+      "part_filename": "config-part0001.json",
+      "path": "parts/config-part0001.json",
+      "size_bytes": 38455,
+      "size": "38.45KB",
+      "sha256": "e8eb76f4d50e4531959af5db3c1587f0d51dfbc7e6215bba208d5d42b8717a33",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "configuration.json",
+      "index": 1,
+      "part_filename": "configuration-part0001.json",
+      "path": "parts/configuration-part0001.json",
+      "size_bytes": 51,
+      "size": "51B",
+      "sha256": "2d4464e2ead06bc9bc718c781309ad1e7baded626d66e8dcdc8b469ba185faf0",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "generation_config.json",
+      "index": 1,
+      "part_filename": "generation_config-part0001.json",
+      "path": "parts/generation_config-part0001.json",
+      "size_bytes": 213,
+      "size": "213B",
+      "sha256": "5264f0a3e636da545410862c0076c51e2efbb3ebe18a1d129d738d7c68f7c6a6",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "merges.txt",
+      "index": 1,
+      "part_filename": "merges-part0001.txt",
+      "path": "parts/merges-part0001.txt",
+      "size_bytes": 3353259,
+      "size": "3.35MB",
+      "sha256": "a9d356d7bdf1ef4949e3e748e95b8e10ad9d4e2e838eddc38a0a7b6b94d1db8d",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00001-of-00004.safetensors",
+      "index": 1,
+      "part_filename": "model-00001-of-00004-part0001.safetensors",
+      "path": "parts/model-00001-of-00004-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "1b3967292b0985c9fcfae810b2f68d8eb2972165f1172718133869799976d524",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00001-of-00004.safetensors",
+      "index": 2,
+      "part_filename": "model-00001-of-00004-part0002.safetensors",
+      "path": "parts/model-00001-of-00004-part0002.safetensors",
+      "size_bytes": 4952040400,
+      "size": "4.95GB",
+      "sha256": "1e9f6b388d7d6d3379d55444ba1b37858667e46af081c315e30008f3231784db",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00002-of-00004.safetensors",
+      "index": 1,
+      "part_filename": "model-00002-of-00004-part0001.safetensors",
+      "path": "parts/model-00002-of-00004-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "076a73df83d1548bda4068c3ba41350beeb7b8c345626fac095799011e60f6ea",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00002-of-00004.safetensors",
+      "index": 2,
+      "part_filename": "model-00002-of-00004-part0002.safetensors",
+      "path": "parts/model-00002-of-00004-part0002.safetensors",
+      "size_bytes": 4989867352,
+      "size": "4.99GB",
+      "sha256": "1ac811a049a8beaecd7272d8b065485379f9dc785cd8332e622af30cb07b765f",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00003-of-00004.safetensors",
+      "index": 1,
+      "part_filename": "model-00003-of-00004-part0001.safetensors",
+      "path": "parts/model-00003-of-00004-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "11a13bd1394297fe086a99259596ce441bfdc2f7ca56e1cbd0706eb49ac56dd8",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00003-of-00004.safetensors",
+      "index": 2,
+      "part_filename": "model-00003-of-00004-part0002.safetensors",
+      "path": "parts/model-00003-of-00004-part0002.safetensors",
+      "size_bytes": 4994101440,
+      "size": "4.99GB",
+      "sha256": "667c7efb27f7712fdb4ea6438d13dc6bd5743f3f39756427fd472e909f9afdbf",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00004-of-00004.safetensors",
+      "index": 1,
+      "part_filename": "model-00004-of-00004-part0001.safetensors",
+      "path": "parts/model-00004-of-00004-part0001.safetensors",
+      "size_bytes": 1303057216,
+      "size": "1.30GB",
+      "sha256": "6a2089b0ea9bfa6d82b23b81c47dd80b6fc5ef0b9f177e17ad88d205dd6daa94",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model.safetensors.index.json",
+      "index": 1,
+      "part_filename": "model.safetensors.index-part0001.json",
+      "path": "parts/model.safetensors.index-part0001.json",
+      "size_bytes": 155382,
+      "size": "155.38KB",
+      "sha256": "dbf3e72d73cf80b783d26687aeb0c5f0ed3bb41c21fa3ee9813afa4af67afa3e",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "preprocessor_config.json",
+      "index": 1,
+      "part_filename": "preprocessor_config-part0001.json",
+      "path": "parts/preprocessor_config-part0001.json",
+      "size_bytes": 390,
+      "size": "390B",
+      "sha256": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "processor_config.json",
+      "index": 1,
+      "part_filename": "processor_config-part0001.json",
+      "path": "parts/processor_config-part0001.json",
+      "size_bytes": 1191,
+      "size": "1.19KB",
+      "sha256": "d89ef49ce9cd37fbf510158e13c1ef063d9286411c1ec9049932dbe0487143b1",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "thinkingcap_6x.gif",
+      "index": 1,
+      "part_filename": "thinkingcap_6x-part0001.gif",
+      "path": "parts/thinkingcap_6x-part0001.gif",
+      "size_bytes": 6692586,
+      "size": "6.69MB",
+      "sha256": "347285925ef7b6a8daf2cc3dcf129008ee5c55068b205785f9eb5e20d19920cd",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "tokenizer.json",
+      "index": 1,
+      "part_filename": "tokenizer-part0001.json",
+      "path": "parts/tokenizer-part0001.json",
+      "size_bytes": 19989325,
+      "size": "19.99MB",
+      "sha256": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "tokenizer_config.json",
+      "index": 1,
+      "part_filename": "tokenizer_config-part0001.json",
+      "path": "parts/tokenizer_config-part0001.json",
+      "size_bytes": 1123,
+      "size": "1.12KB",
+      "sha256": "bee8eba30f0eb4af73c0fe2cd06d0f89b657d7819941c438157ec42f7c80ea87",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "video_preprocessor_config.json",
+      "index": 1,
+      "part_filename": "video_preprocessor_config-part0001.json",
+      "path": "parts/video_preprocessor_config-part0001.json",
+      "size_bytes": 385,
+      "size": "385B",
+      "sha256": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "vocab.json",
+      "index": 1,
+      "part_filename": "vocab-part0001.json",
+      "path": "parts/vocab-part0001.json",
+      "size_bytes": 6722759,
+      "size": "6.72MB",
+      "sha256": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    }
+  ],
+  "dockerfiles": [
+    {
+      "index": 1,
+      "label": "part0001",
+      "dockerfile": "dockerfiles/Dockerfile.part0001",
+      "tag": "hieucien/thinkingcap-qwen3.6-27b-fp8:part0001",
+      "included_parts": [
+        ".gitattributes-part0001",
+        "LICENSE-part0001",
+        "README-part0001.md",
+        "cap_header-part0001.png",
+        "chat_template-part0001.jinja",
+        "config-part0001.json",
+        "configuration-part0001.json",
+        "generation_config-part0001.json",
+        "merges-part0001.txt"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 2,
+      "label": "part0002",
+      "dockerfile": "dockerfiles/Dockerfile.part0002",
+      "tag": "hieucien/thinkingcap-qwen3.6-27b-fp8:part0002",
+      "included_parts": [
+        "model-00001-of-00004-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false
+    },
+    {
+      "index": 3,
+      "label": "part0003",
+      "dockerfile": "dockerfiles/Dockerfile.part0003",
+      "tag": "hieucien/thinkingcap-qwen3.6-27b-fp8:part0003",
+      "included_parts": [
+        "model-00001-of-00004-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 4077288882,
+      "size": "4.08GB"
+    },
+    {
+      "index": 4,
+      "label": "part0004",
+      "dockerfile": "dockerfiles/Dockerfile.part0004",
+      "tag": "hieucien/thinkingcap-qwen3.6-27b-fp8:part0004",
+      "included_parts": [
+        "model-00002-of-00004-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 4119469888,
+      "size": "4.12GB"
+    },
+    {
+      "index": 5,
+      "label": "part0005",
+      "dockerfile": "dockerfiles/Dockerfile.part0005",
+      "tag": "hieucien/thinkingcap-qwen3.6-27b-fp8:part0005",
+      "included_parts": [
+        "model-00002-of-00004-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 4119515059,
+      "size": "4.12GB"
+    },
+    {
+      "index": 6,
+      "label": "part0006",
+      "dockerfile": "dockerfiles/Dockerfile.part0006",
+      "tag": "hieucien/thinkingcap-qwen3.6-27b-fp8:part0006",
+      "included_parts": [
+        "model-00003-of-00004-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 4112272858,
+      "size": "4.11GB"
+    },
+    {
+      "index": 7,
+      "label": "part0007",
+      "dockerfile": "dockerfiles/Dockerfile.part0007",
+      "tag": "hieucien/thinkingcap-qwen3.6-27b-fp8:part0007",
+      "included_parts": [
+        "model-00003-of-00004-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 4127828602,
+      "size": "4.13GB"
+    },
+    {
+      "index": 8,
+      "label": "part0008",
+      "dockerfile": "dockerfiles/Dockerfile.part0008",
+      "tag": "hieucien/thinkingcap-qwen3.6-27b-fp8:part0008",
+      "included_parts": [
+        "model-00004-of-00004-part0001.safetensors",
+        "model.safetensors.index-part0001.json",
+        "preprocessor_config-part0001.json",
+        "processor_config-part0001.json",
+        "thinkingcap_6x-part0001.gif",
+        "tokenizer-part0001.json",
+        "tokenizer_config-part0001.json",
+        "video_preprocessor_config-part0001.json",
+        "vocab-part0001.json"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 1036614687,
+      "size": "1.04GB"
+    }
+  ],
+  "restore": []
+}

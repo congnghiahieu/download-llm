@@ -1,7 +1,3 @@
 {
-    "python.pyrefly.diagnosticMode": "openFilesOnly",
-    "python.pyrefly.typeCheckingMode": "default",
-    "python.pyrefly.configPath": "pyproject.toml",
-    "python.defaultInterpreterPath": "./.venv/bin/python",
-    "python.useEnvironmentsExtension": false,
+	"python.defaultInterpreterPath": "./.venv/bin/python"
 }

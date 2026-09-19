@@ -5,10 +5,11 @@ import os
 import shutil
 import subprocess
 import zipfile
+from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Protocol, Sequence
+from typing import Protocol
 
 DEFAULT_PROJECT_NAME = "agent-mgmt-src"
 DEFAULT_IMAGE_REPOSITORY = "hieucien/agent-mgmt-src"
@@ -100,8 +101,7 @@ def list_gitignored_paths(repo_root: Path, paths: Sequence[Path]) -> set[Path]:
         input=payload,
         check=False,
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
     )
     if completed.returncode not in (0, 1):
         raise subprocess.CalledProcessError(

@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-BASE_DIR = Path("model_weights")
+BASE_DIR = Path(__file__).resolve().parent.parent / "model_weights"
+MODEL_WEIGHTS_DIR_ENV = "MODEL_WEIGHTS_DIR"
 DEFAULT_MAX_PART_SIZE = "5GB"
 DEFAULT_MAX_DOCKER_IMAGE_SIZE = "5GB"
 BUFFER_SIZE = 8 * 1024 * 1024

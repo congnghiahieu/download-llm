@@ -1,4 +1,6 @@
-PYTHON ?= uv run python
+# Detect the best Python: in-repo .venv first, then uv without sync, then system python3.
+# Override explicitly when needed, for example: make push-src PYTHON="uv run python".
+PYTHON ?= $(shell if [ -x .venv/bin/python ]; then echo .venv/bin/python; elif command -v uv >/dev/null 2>&1; then echo "uv run --no-sync python"; else echo python3; fi)
 SRC_IMAGE_NAME ?= download-llm-src
 SRC_IMAGE_REPOSITORY ?= hieucien/$(SRC_IMAGE_NAME)
 SRC_DOCKERFILE ?= docker/Dockerfile.src
@@ -20,7 +22,7 @@ pull-src:
 lint-unsafe:
 	@uv run ruff check --fix --unsafe-fixes
 
-format: lint
+format:
 	@uv run ruff check --fix
 	@uv run ruff format
 

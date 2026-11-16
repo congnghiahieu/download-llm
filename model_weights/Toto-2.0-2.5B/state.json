@@ -1,0 +1,237 @@
+{
+  "model_name": "Toto-2.0-2.5B",
+  "docker_repo_name": "toto-2.0-2.5b",
+  "repo_id": "Datadog/Toto-2.0-2.5B",
+  "revision": "main",
+  "url": "https://huggingface.co/Datadog/Toto-2.0-2.5B",
+  "max_part_size_bytes": 5000000000,
+  "max_part_size": "5.00GB",
+  "max_docker_image_size_bytes": 5000000000,
+  "max_docker_image_size": "5.00GB",
+  "raw": [
+    {
+      "filename": ".gitattributes",
+      "path": "raw/.gitattributes",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 1694,
+      "size": "1.69KB",
+      "sha256": "1c72416cba1f781be5b296506a2afbc14782700fd634db34300ed74d6c0b475d"
+    },
+    {
+      "filename": "README.md",
+      "path": "raw/README.md",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 7188,
+      "size": "7.19KB",
+      "sha256": "5cd75f3d08d1574c085ee31a2886855d82247f76cb3bd0b8015750a7fc1d316d"
+    },
+    {
+      "filename": "assets/architecture.png",
+      "path": "raw/assets/architecture.png",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 436711,
+      "size": "436.71KB",
+      "sha256": "973196289f6036b880ec7fdb00fe0b1078215232bf58f0bdd6a27eeebfca46ef"
+    },
+    {
+      "filename": "assets/pareto.png",
+      "path": "raw/assets/pareto.png",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 302199,
+      "size": "302.20KB",
+      "sha256": "756a059027357cf224effc92995755b2c50ca8396b68918135ef0e5226798294"
+    },
+    {
+      "filename": "config.json",
+      "path": "raw/config.json",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 598,
+      "size": "598B",
+      "sha256": "172904c65bb5af77a95e1a81cdd9214f4c9d983651d6dceef1375d3d09f47a36"
+    },
+    {
+      "filename": "figures/architecture.png",
+      "path": "raw/figures/architecture.png",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 396113,
+      "size": "396.11KB",
+      "sha256": "d17a304f234cc65a426a83c6a8ea9c6e03c3e7f5230860146834063999ced76d"
+    },
+    {
+      "filename": "model.safetensors",
+      "path": "raw/model.safetensors",
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size_bytes": 9817176960,
+      "size": "9.82GB",
+      "sha256": "dc08942b20751ac906167194d4ca4aa06b4367e80aabe5f1d5153b30b874bdb9"
+    }
+  ],
+  "parts": [
+    {
+      "raw_filename": ".gitattributes",
+      "index": 1,
+      "part_filename": ".gitattributes-part0001",
+      "path": "parts/.gitattributes-part0001",
+      "size_bytes": 1694,
+      "size": "1.69KB",
+      "sha256": "1c72416cba1f781be5b296506a2afbc14782700fd634db34300ed74d6c0b475d",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "README.md",
+      "index": 1,
+      "part_filename": "README-part0001.md",
+      "path": "parts/README-part0001.md",
+      "size_bytes": 7188,
+      "size": "7.19KB",
+      "sha256": "5cd75f3d08d1574c085ee31a2886855d82247f76cb3bd0b8015750a7fc1d316d",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "assets/architecture.png",
+      "index": 1,
+      "part_filename": "assets/architecture-part0001.png",
+      "path": "parts/assets/architecture-part0001.png",
+      "size_bytes": 436711,
+      "size": "436.71KB",
+      "sha256": "973196289f6036b880ec7fdb00fe0b1078215232bf58f0bdd6a27eeebfca46ef",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "assets/pareto.png",
+      "index": 1,
+      "part_filename": "assets/pareto-part0001.png",
+      "path": "parts/assets/pareto-part0001.png",
+      "size_bytes": 302199,
+      "size": "302.20KB",
+      "sha256": "756a059027357cf224effc92995755b2c50ca8396b68918135ef0e5226798294",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "config.json",
+      "index": 1,
+      "part_filename": "config-part0001.json",
+      "path": "parts/config-part0001.json",
+      "size_bytes": 598,
+      "size": "598B",
+      "sha256": "172904c65bb5af77a95e1a81cdd9214f4c9d983651d6dceef1375d3d09f47a36",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "figures/architecture.png",
+      "index": 1,
+      "part_filename": "figures/architecture-part0001.png",
+      "path": "parts/figures/architecture-part0001.png",
+      "size_bytes": 396113,
+      "size": "396.11KB",
+      "sha256": "d17a304f234cc65a426a83c6a8ea9c6e03c3e7f5230860146834063999ced76d",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model.safetensors",
+      "index": 1,
+      "part_filename": "model-part0001.safetensors",
+      "path": "parts/model-part0001.safetensors",
+      "size_bytes": 5000000000,
+      "size": "5.00GB",
+      "sha256": "0cea6dab25c43ff346078b2ca47109552ca1f2897d33ea69efadf92d8edfd910",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model.safetensors",
+      "index": 2,
+      "part_filename": "model-part0002.safetensors",
+      "path": "parts/model-part0002.safetensors",
+      "size_bytes": 4817176960,
+      "size": "4.82GB",
+      "sha256": "680bf76c6c443a617084b9c9691c384cdda15b2e5dcd2a5a98c18316b67a535e",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    }
+  ],
+  "dockerfiles": [
+    {
+      "index": 1,
+      "label": "part0001",
+      "dockerfile": "dockerfiles/Dockerfile.part0001",
+      "tag": "hieucien/toto-2.0-2.5b:part0001",
+      "included_parts": [
+        ".gitattributes-part0001",
+        "README-part0001.md",
+        "assets/architecture-part0001.png",
+        "assets/pareto-part0001.png",
+        "config-part0001.json",
+        "figures/architecture-part0001.png"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 4909190,
+      "size": "4.91MB"
+    },
+    {
+      "index": 2,
+      "label": "part0002",
+      "dockerfile": "dockerfiles/Dockerfile.part0002",
+      "tag": "hieucien/toto-2.0-2.5b:part0002",
+      "included_parts": [
+        "model-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 4638145314,
+      "size": "4.64GB"
+    },
+    {
+      "index": 3,
+      "label": "part0003",
+      "dockerfile": "dockerfiles/Dockerfile.part0003",
+      "tag": "hieucien/toto-2.0-2.5b:part0003",
+      "included_parts": [
+        "model-part0002.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 4467014763,
+      "size": "4.47GB"
+    }
+  ],
+  "restore": []
+}

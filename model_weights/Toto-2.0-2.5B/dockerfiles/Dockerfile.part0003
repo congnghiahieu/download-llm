@@ -1,0 +1,2 @@
+FROM alpine:3.22.4
+COPY parts/model-part0002.safetensors /model_parts/model-part0002.safetensors

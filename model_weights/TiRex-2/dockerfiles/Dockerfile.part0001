@@ -1,0 +1,11 @@
+FROM alpine:3.22.4
+COPY parts/.gitattributes-part0001 /model_parts/.gitattributes-part0001
+COPY parts/LICENSE-part0001 /model_parts/LICENSE-part0001
+COPY parts/NOTICE-part0001 /model_parts/NOTICE-part0001
+COPY parts/README-part0001.md /model_parts/README-part0001.md
+COPY parts/config-part0001.json /model_parts/config-part0001.json
+COPY parts/model-config-part0001.yaml /model_parts/model-config-part0001.yaml
+COPY parts/model-part0001.ckpt /model_parts/model-part0001.ckpt
+COPY parts/model-part0001.onnx /model_parts/model-part0001.onnx
+COPY parts/model-part0001.safetensors /model_parts/model-part0001.safetensors
+COPY parts/tirex-part0001.svg /model_parts/tirex-part0001.svg

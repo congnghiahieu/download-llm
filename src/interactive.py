@@ -158,6 +158,8 @@ def run_interactive() -> int:
         weights_dir = prompt_weights_dir(console)
         base_dir = Path(weights_dir)
         phases = prompt_phases(console)
+        if phases == ["transfer"]:
+            return prompt_transfer(console, weights_dir)
         if phases is None:
             output = prompt_output_format(console)
             return run_list_models(
@@ -242,3 +244,34 @@ def run_interactive() -> int:
     except (KeyboardInterrupt, EOFError):
         console.print("\nAborted by user.")
         return 1
+
+
+def prompt_transfer(console: Console, weights_dir: str) -> int:
+    from src.cli import execute, parse_args
+
+    models = prompt_model_names(console, False, Path(weights_dir))
+    host = Prompt.ask("SSH host (username@hostname or config alias)").strip()
+    destination = Prompt.ask("Absolute destination path on server").strip()
+    options = []
+    while True:
+        option = Prompt.ask("SSH option (Key=Value, empty to finish)", default="").strip()
+        if not option:
+            break
+        options.extend(["--ssh-option", option])
+    workers = prompt_execution_mode(console, len(models))
+    policy = Prompt.ask("Existing destination policy", choices=["ask", "merge"], default="ask")
+    dry_run = Confirm.ask("Dry run only?", default=False)
+    argv = ["--transfer-models", "--model-weights-dir", weights_dir,
+            "--ssh-host", host, "--destination-path", destination,
+            "--existing-destination", policy, *options]
+    for name in models:
+        argv.extend(["--model-name", name])
+    if workers is not None:
+        argv.extend(["--max-workers", str(workers)])
+    if dry_run:
+        argv.append("--dry-run")
+    args = parse_args(argv)
+    console.print(f"Transfer {', '.join(models)} to {host}:{destination}/<model>/")
+    if not Confirm.ask("Start now?", default=True):
+        return 0
+    return execute(args)

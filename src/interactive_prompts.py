@@ -39,8 +39,11 @@ def prompt_phases(console: Console) -> list[str] | None:
     table.add_row("2", FLOW_RESTORE, "Pull from Docker Hub and restore files")
     table.add_row("3", "custom", "Enter phases manually, single phase allowed")
     table.add_row("4", "list", "Show models with phase status and sizes")
+    table.add_row("5", "transfer", "Transfer restored models over SSH")
     console.print(table)
-    choice = Prompt.ask("Choose workflow", choices=["1", "2", "3", "4"], default="1")
+    choice = Prompt.ask("Choose workflow", choices=["1", "2", "3", "4", "5"], default="1")
+    if choice == "5":
+        return ["transfer"]
     if choice == "1":
         return [PHASE_PULL_LLM, PHASE_PUSH_DOCKER]
     if choice == "2":

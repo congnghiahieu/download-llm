@@ -125,12 +125,31 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--keep-parts", action="store_true")
     parser.add_argument("--keep-images", action="store_true")
     parser.add_argument("--keep-extracted-parts", action="store_true")
+    parser.add_argument("--transfer-models", action="store_true",
+                        help="Transfer restored model payloads over SSH, independently of phases.")
+    parser.add_argument("--ssh-host", help="SSH config alias or username@hostname.")
+    parser.add_argument("--ssh-option", action="append", default=[],
+                        help="Repeatable OpenSSH option, e.g. Port=2222 or ProxyJump=bastion.")
+    parser.add_argument("--destination-path", help="Absolute destination root; model folders are added beneath it.")
+    parser.add_argument("--existing-destination", choices=("ask", "merge"),
+                        help="Non-empty model folders: ask (default) or explicitly allow merge.")
+    parser.add_argument("--dry-run", action="store_true", help="Preview transfer without remote payload writes.")
     args = parser.parse_args(argv)
+
+    if args.transfer_models:
+        if args.phases or args.list_models:
+            parser.error("--transfer-models cannot be combined with --phases or --list-models")
+        if not args.ssh_host or not args.destination_path:
+            parser.error("--transfer-models requires --ssh-host and --destination-path")
+    elif (args.ssh_host or args.ssh_option or args.destination_path
+          or args.existing_destination or args.dry_run):
+        parser.error("SSH, destination and dry-run options require --transfer-models")
+    args.existing_destination = args.existing_destination or "ask"
 
     if args.list_models and args.phases:
         parser.error("--list-models cannot be combined with --phases")
-    if not args.list_models and not args.phases:
-        parser.error("--phases is required unless --list-models is set")
+    if not args.list_models and not args.phases and not args.transfer_models:
+        parser.error("--phases is required unless --list-models or --transfer-models is set")
     if args.output is not None and not args.list_models:
         parser.error("--output requires --list-models")
     if args.output is None:
@@ -169,6 +188,10 @@ def execute(args: argparse.Namespace) -> int:
 
     if getattr(args, "list_models", False):
         return run_list_models(args)
+    if getattr(args, "transfer_models", False):
+        from src.transfer import run_transfer
+
+        return run_transfer(args)
     validate_execution_prereqs(args)
     base_dir = effective_base_dir(args)
     if PHASE_PULL_LLM in args.phases:

@@ -10,6 +10,34 @@ Download Hugging Face model files, split them into disk-friendly parts, push tho
 
 ## Common usage
 
+### Transfer restored models over SSH
+
+Use the standalone transfer workflow, or select workflow 5 in interactive mode.
+
+```bash
+python3 main.py --transfer-models \
+  --model-name Toto-2.0-1B,Toto-2.0-2.5B \
+  --ssh-host destination-alias \
+  --destination-path /home/vht/model_weights
+```
+
+1. Copies the contents of `<weights-dir>/<model>/extracted/restored/` directly into `<destination-path>/<model>/`, including hidden files and empty directories, without source state, parts or Docker metadata.
+2. Uses existing model aliases and `--model-weights-dir` / `MODEL_WEIGHTS_DIR`; every selected model must have restore status `done` and valid manifest file sizes before any transfer starts.
+3. Defaults to parallel execution, with one worker per model; use `--max-workers N` to limit concurrency or `--max-workers 1` for sequential execution in input order.
+4. Requires OpenSSH locally and an SSH server remotely; prefers rsync on both ends, falling back to SCP only when rsync is missing on either end.
+5. SCP fallback requires `scp` on both ends, uses the legacy protocol for compatibility with Ubuntu 22.04 and newer clients, and copies files again without rsync-style resume or unchanged-file skipping.
+6. OpenSSH handles config aliases, agent, keys, password, MFA and host-key verification through the terminal; the script reuses a private master connection and closes it on completion.
+7. Repeat `--ssh-option Port=2222`, `--ssh-option IdentityFile=/path/to/key` or `--ssh-option ProxyJump=bastion` for additional SSH settings; connection multiplexing and session-control options are managed by the script.
+8. Destination paths must be absolute (no `~`); spaces and shell metacharacters are quoted safely, and absent model directories are created during real transfers.
+9. Checks each destination model folder before starting workers; if non-empty, offers a new destination root (recommended), merge, or cancel, and rechecks a new root for the entire batch.
+10. `--existing-destination ask` is the default; without a terminal a conflict fails safely, unless `--existing-destination merge` explicitly permits overwriting matching files while retaining extras.
+11. `--dry-run` makes no remote payload writes: rsync previews differences for existing folders; new folders are reported as an all-files copy, and SCP only reports the transfer plan, not a diff.
+12. Preserves permissions and timestamps where allowed, but not owner/group; symlinks in restored payloads and symlink model destination folders are rejected to avoid backend-dependent behavior.
+13. Reports per-model results and returns nonzero if any model fails, while continuing other models; transfer does not modify `state.json` or add a fifth phase.
+14. Do not modify source or destination folders concurrently with a transfer; preflight checks do not lock remote directories, and interrupted/failed transfers may leave partial data.
+
+### Download and restore
+
 Run interactive mode with no arguments and follow the prompts.
 
 ```bash

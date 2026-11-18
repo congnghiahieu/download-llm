@@ -31,9 +31,8 @@ This file guides coding agents working in this repository.
 3. Make every runtime dependency optional with a plain text fallback following the `rich` pattern.
 4. Prefer small and reputable dependencies and avoid adding a dependency when stdlib is adequate.
 5. Do not use PyInstaller onefile for this repo.
-6. Transfer source from environment 1 to environment 2 only with `make push-src` and `make pull-src` and add no separate SCP plus rsync packaging feature.
-7. Detect optional backends at runtime and use the best available one instead of hard-coding a default.
-8. Cache stdlib Hugging Face downloads by ETag under `DOWNLOAD_LLM_CACHE` or `~/.cache/download-llm/hf` with resume and offline reuse.
+6. Detect optional backends at runtime and use the best available one instead of hard-coding a default.
+7. Cache stdlib Hugging Face downloads by ETag under `DOWNLOAD_LLM_CACHE` or `~/.cache/download-llm/hf` with resume and offline reuse.
 
 ## Critical conventions
 

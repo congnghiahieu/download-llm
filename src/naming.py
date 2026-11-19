@@ -18,7 +18,11 @@ def join_docker_prefix(prefix: str | None, tag: str) -> str:
 
 
 def docker_pull_tag(entry: dict[str, Any], prefix: str | None = None) -> str:
-    tag = entry.get("pull_tag") or entry["tag"]
+    if entry.get("digest"):
+        repo = entry["tag"].rsplit(":", 1)[0]
+        tag = f"{repo}@{entry['digest']}"
+    else:
+        tag = entry.get("pull_tag") or entry["tag"]
     return join_docker_prefix(prefix, tag)
 
 

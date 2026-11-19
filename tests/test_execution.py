@@ -1,8 +1,12 @@
 from __future__ import annotations
 
 import argparse
+import io
 import os
+import tempfile
 import unittest
+from contextlib import redirect_stderr
+from pathlib import Path
 from unittest.mock import patch
 
 import main
@@ -92,6 +96,8 @@ class MultiExecutionTests(unittest.TestCase):
             model_name="Qwen3.6-27B",
         )
         with (
+            tempfile.TemporaryDirectory() as tmp,
+            patch("src.run_logging.LOG_PATH", Path(tmp) / "download-llm.log"),
             patch(
                 "src.cli.ensure_docker_available",
                 side_effect=RuntimeError("Docker is not available"),
@@ -100,6 +106,40 @@ class MultiExecutionTests(unittest.TestCase):
             self.assertRaises(RuntimeError),
         ):
             main.execute(args)
+
+    def test_execute_logs_parallel_phases_to_console_and_file(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            log_path = Path(tmp) / "logs" / "download-llm.log"
+            console = io.StringIO()
+            args = main.parse_args([
+                "--phases", "pull_llm", "--model-weights-dir", tmp,
+                "--huggingface-link", "https://huggingface.co/Org/A,https://huggingface.co/Org/B",
+            ])
+
+            def download(repo: str, name: str, commit: str, directory: Path) -> Path:
+                if repo.endswith("/B"):
+                    raise RuntimeError("detail-must-not-be-logged")
+                directory.mkdir(parents=True, exist_ok=True)
+                path = directory / name
+                path.write_bytes(b"a")
+                return path
+
+            with (
+                patch("src.run_logging.LOG_PATH", log_path),
+                patch("src.pipeline.model_snapshot", return_value=("a" * 40, [("file", 1)])),
+                patch("src.pipeline.download_snapshot_file", side_effect=download),
+                patch("src.planning.planning_cache_dir", return_value=None),
+                redirect_stderr(console),
+                self.assertRaises(RuntimeError),
+            ):
+                main.execute(args)
+            log = log_path.read_text(encoding="utf-8")
+            for line in log.splitlines():
+                self.assertIn(line, console.getvalue())
+            self.assertIn("Pipeline finished [model='A']", log)
+            self.assertIn("Pipeline failed [model='B'] (RuntimeError)", log)
+            self.assertIn("Run failed", log)
+            self.assertNotIn("detail-must-not-be-logged", log)
 
     def test_detect_command_prefix_uses_uv_inside_venv(self) -> None:
         with (

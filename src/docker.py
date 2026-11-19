@@ -1,12 +1,15 @@
 from __future__ import annotations
 
+import json
 import os
+import re
 import shutil
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+from uuid import uuid4
 
 from src.constants import (
     ALPINE_IMAGE_NAME,
@@ -21,6 +24,7 @@ from src.constants import (
     MODEL_PARTS_CONTAINER_DIR,
     PARTS_DIRNAME,
 )
+from src.files import part_files_exist
 from src.naming import docker_pull_tag, docker_repo_name, part_label
 
 
@@ -30,14 +34,18 @@ def run_docker(args: list[str]) -> subprocess.CompletedProcess[str]:
 
 
 def docker_image_exists(tag: str) -> bool:
-    result = subprocess.run(
-        ["docker", "image", "inspect", tag],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        text=True,
-        check=False,
-    )
-    return result.returncode == 0
+    try:
+        result = subprocess.run(
+            ["docker", "image", "inspect", tag],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            text=True,
+            check=False,
+        )
+    except FileNotFoundError:
+        return False
+    else:
+        return result.returncode == 0
 
 
 def docker_image_size(tag: str) -> int | None:
@@ -110,9 +118,8 @@ def dockerfile_text(group: list[dict[str, Any]]) -> str:
     lines = [f"FROM {ALPINE_IMAGE_NAME}"]
     for part in group:
         part_path = part["part_filename"]
-        lines.append(
-            f"COPY {PARTS_DIRNAME}/{part_path} {MODEL_PARTS_CONTAINER_DIR}/{part_path}"
-        )
+        sources = [f"{PARTS_DIRNAME}/{part_path}", f"{MODEL_PARTS_CONTAINER_DIR}/{part_path}"]
+        lines.append(f"COPY {json.dumps(sources)}")
     return "\n".join(lines) + "\n"
 
 
@@ -255,15 +262,16 @@ def confirm_unpushed(tag: str, decision: str | None) -> tuple[bool, str | None]:
 
 
 def extract_image_parts(
-    model_dir: Path, entry: dict[str, Any], docker_pull_prefix: str | None = None
+    model_dir: Path, entry: dict[str, Any], docker_pull_prefix: str | None = None,
+    *, target_dir: Path | None = None,
 ) -> None:
-    container_name = f"download-llm-{entry['label']}-{os.getpid()}"
+    container_name = f"download-llm-{entry['label']}-{uuid4().hex}"
     image_tag = docker_pull_tag(entry, docker_pull_prefix)
     created = False
     try:
         run_docker(["create", "--name", container_name, image_tag])
         created = True
-        target_dir = model_dir / EXTRACTED_DIRNAME / PARTS_DIRNAME
+        target_dir = target_dir or model_dir / EXTRACTED_DIRNAME / PARTS_DIRNAME
         target_dir.mkdir(parents=True, exist_ok=True)
         run_docker(
             [
@@ -275,3 +283,47 @@ def extract_image_parts(
     finally:
         if created:
             subprocess.run(["docker", "rm", container_name], check=False, text=True)
+
+
+def build_isolated_image(
+    model_dir: Path, entry: dict[str, Any], parts: list[dict[str, Any]]
+) -> int | None:
+    from src.state import resolve_state_path
+
+    if not part_files_exist(parts, model_dir):
+        raise RuntimeError(f"Parts for {entry['tag']} do not match the manifest")
+    with tempfile.TemporaryDirectory(prefix=".build-", dir=model_dir) as tmp:
+        context = Path(tmp)
+        for part in parts:
+            source = resolve_state_path(model_dir, part["path"])
+            target = context / PARTS_DIRNAME / part["part_filename"]
+            target.parent.mkdir(parents=True, exist_ok=True)
+            os.link(source, target)
+        (context / "Dockerfile").write_text(dockerfile_text(parts), encoding="utf-8")
+        run_docker(["build", "-t", entry["tag"], str(context)])
+        return docker_image_size(entry["tag"])
+
+
+def remove_local_image(reference: str) -> None:
+    # A digest can share a local image with other tags; remove only this reference.
+    if docker_image_exists(reference):
+        run_docker(["rmi", reference])
+
+
+def push_image_digest(tag: str) -> str:
+    print(f"$ docker push {tag}", flush=True)
+    command = ["docker", "push", tag]
+    digest = None
+    with subprocess.Popen(command, text=True, stdout=subprocess.PIPE) as process:
+        assert process.stdout is not None
+        for line in process.stdout:
+            print(line, end="", flush=True)
+            match = re.search(r"\bdigest:\s+(sha256:[0-9a-f]{64})\b", line)
+            if match:
+                digest = match[1]
+        status = process.wait()
+    if status:
+        raise subprocess.CalledProcessError(status, command)
+    if not digest:
+        raise RuntimeError(f"Docker push did not report an image digest for {tag}")
+    return digest

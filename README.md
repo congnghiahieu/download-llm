@@ -100,6 +100,32 @@ Models built before this feature show `unknown` for image size.
 
 ## Multiple models
 
+### Preview and schedule phase execution
+
+Use `--plan` to preview a run without downloading weights, writing model state, or building and pushing images.
+It fetches Hugging Face metadata for new downloads and checks the relevant storage and local Docker image inventory.
+
+```bash
+python3 main.py --plan --output json --phases pull_llm,push_docker \
+  --huggingface-link https://huggingface.co/owner/model --max-workers 2
+python3 main.py --plan --phases pull_dockerhub,restore_llm --model-name my-model
+```
+
+1. `--max-workers` is the maximum number of active models, not a multiplier for task limits.
+2. The initial command-wide limits are 2 Hugging Face downloads, 1 split, 1 build, 1 push, 2 Docker pulls, and 1 shared extract/restore slot.
+3. No-args interactive mode shows the plan before execution and lets you revise the model and task limits for that run.
+4. The planner distinguishes final storage from temporary peak per filesystem and reserves 1 GiB of headroom per filesystem.
+5. A plan that does not fit at the requested concurrency can reduce model concurrency or serialize tasks; known insufficient storage blocks execution.
+6. If local Docker storage needs elevated read access, execution may ask permission to use `sudo stat`; the application does not handle the password.
+7. Unknown storage requires explicit confirmation before execution; without a terminal the command exits nonzero instead.
+8. Docker layer/cache and network estimates are approximate; runtime admission rechecks free space and stops with checkpoints if no task can safely proceed.
+
+In `pull_llm,push_docker`, file downloads and splits can overlap with image builds and pushes as soon as each group has its parts.
+Builds use an isolated context; newly published pinned models record Docker image digests in `state.json` and are ready for the receiving machine only after the complete manifest is saved.
+For `pull_dockerhub,restore_llm`, a pulled image can be extracted immediately, and a file is restored when all its parts are present and verified.
+Pass the sender's completed `state.json` to the receiving machine as before; `pull_dockerhub` alone still only pulls images.
+For a legacy download already in progress without a pinned commit, use a new model directory for `pull_llm`; existing completed legacy states can still be pushed or restored as appropriate.
+
 ```bash
 # Two links via repeated flags, parallel by default. One --revision applies to every link.
 # An explicit --model-name is honored for a single link and ignored with a warning for multiple links.
@@ -129,6 +155,10 @@ uv run python main.py --phases pull_dockerhub,restore_llm --model-name Qwen3.6-2
 ```
 
 ## Failures and retry
+
+Execution logs record run and per-model task status and timings on stderr and in `logs/download-llm.log` relative to the current directory.
+If the log file cannot be opened, execution continues with console logging only.
+Progress bars, Docker output, and list-models JSON are not copied into the log file.
 
 Config and precondition errors fail fast before any work starts.
 

@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import os
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from src.console import Confirm, Console, Panel, Prompt, Table
 from src.constants import (
@@ -31,6 +32,9 @@ from src.interactive_prompts import (
     prompt_weights_dir,
     show_available_models,
 )
+
+if TYPE_CHECKING:
+    from src.planning import PhasePlan
 
 __all__ = [
     "FLOW_PULL_PUSH",
@@ -197,7 +201,7 @@ def run_interactive() -> int:
         else:
             require_complete = (
                 PHASE_PULL_DOCKERHUB in phases or PHASE_RESTORE_LLM in phases
-            )
+            ) and PHASE_PUSH_DOCKER not in phases
             models = prompt_model_names(console, require_complete, base_dir)
         count = len(links) if links else len(models)
         max_part_size, max_docker_image_size = prompt_sizes(console, phases)
@@ -224,9 +228,6 @@ def run_interactive() -> int:
             summary_image_size,
             keep_flags,
         )
-        if not Confirm.ask("Start now?", default=True):
-            console.print("Aborted, nothing was executed.")
-            return 0
         args = build_args(
             phases,
             links,
@@ -240,10 +241,31 @@ def run_interactive() -> int:
             max_docker_image_size,
             keep_flags,
         )
+        args.interactive_plan = True
         return execute(args)
     except (KeyboardInterrupt, EOFError):
         console.print("\nAborted by user.")
         return 1
+
+
+def preview_plan(plan: PhasePlan) -> bool:
+    from src.planning import render_plan
+
+    def limit(label: str, default: int) -> int:
+        while True:
+            value = Prompt.ask(label, default=str(default))
+            if value.isdecimal() and int(value) > 0:
+                return int(value)
+            print("Enter a positive integer.")
+
+    while True:
+        render_plan(plan)
+        action = Prompt.ask("Plan", choices=["run", "edit", "cancel"], default="run")
+        if action != "edit":
+            return action == "run"
+        workers = limit("Max active models", plan.requested_workers)
+        limits = {kind: limit(kind, current) for kind, current in plan.limits.items()}
+        plan.configure(workers, limits)
 
 
 def prompt_transfer(console: Console, weights_dir: str) -> int:

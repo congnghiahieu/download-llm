@@ -3,11 +3,13 @@ from __future__ import annotations
 import argparse
 import os
 import sys
+import time
 
 from src.constants import BASE_DIR, PHASE_PULL_LLM
 from src.huggingface import parse_huggingface_url
 from src.naming import safe_path_name
 from src.phases import PHASE_HANDLERS
+from src.run_logging import logger
 
 
 def resolve_pull_targets(
@@ -28,6 +30,7 @@ def resolve_pull_targets(
         print(
             "WARNING: --model-name is ignored with multiple --huggingface-link values; "
             "model names are derived from each link.",
+            file=sys.stderr,
             flush=True,
         )
     targets: list[tuple[str, str]] = []
@@ -58,9 +61,21 @@ def copy_args_for_model(
 def run_phases_for_model(args: argparse.Namespace) -> None:
     label = args.model_name or ""
     for phase in args.phases:
-        print(f"=== {phase} [{label}] ===", flush=True)
-        PHASE_HANDLERS[phase](args)
-    print(f"=== done [{label}] ===", flush=True)
+        start = time.monotonic()
+        logger.info("Phase %s started [model=%r]", phase, label)
+        try:
+            PHASE_HANDLERS[phase](args)
+        except Exception as exc:
+            logger.error(
+                "Phase %s failed [model=%r] (%s)", phase, label, type(exc).__name__
+            )
+            raise
+        logger.info(
+            "Phase %s finished [model=%r] (%.2fs)",
+            phase,
+            label,
+            time.monotonic() - start,
+        )
 
 
 def detect_command_prefix() -> str:
@@ -85,7 +100,7 @@ def build_retry_command(item: argparse.Namespace) -> str:
     if links:
         for link in links:
             parts.append(f"--huggingface-link {shlex.quote(link)}")
-    elif getattr(item, "model_name", None):
+    if getattr(item, "model_name", None):
         parts.append(f"--model-name {shlex.quote(item.model_name)}")
     if getattr(item, "revision", None):
         parts.append(f"--revision {shlex.quote(item.revision)}")

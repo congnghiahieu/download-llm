@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import logging
 import os
 import sys
 
@@ -12,7 +13,6 @@ from src.constants import (
     DOCKER_PULL_PREFIX_ENV,
     MODEL_WEIGHTS_DIR_ENV,
     PHASE_PULL_DOCKERHUB,
-    PHASE_PULL_LLM,
     PHASE_PUSH_DOCKER,
     PHASE_RESTORE_LLM,
     VALID_PHASES,
@@ -29,7 +29,7 @@ from src.execution import (
     run_phases_for_model,
     run_sequential_models,
 )
-from src.phases import PHASE_HANDLERS
+from src.run_logging import logger, run_logging
 from src.sizes import parse_size
 
 __all__ = [
@@ -73,11 +73,12 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         action="store_true",
         help="List models in the weights dir with 4-phase status and sizes.",
     )
+    parser.add_argument("--plan", action="store_true", help="Preview phase execution without writing data.")
     parser.add_argument(
         "--output",
         choices=("table", "json"),
         default=None,
-        help="List output format. Defaults to table. Requires --list-models.",
+        help="Output format for --list-models or --plan. Defaults to table.",
     )
     parser.add_argument(
         "--model-weights-dir",
@@ -137,8 +138,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     args = parser.parse_args(argv)
 
     if args.transfer_models:
-        if args.phases or args.list_models:
-            parser.error("--transfer-models cannot be combined with --phases or --list-models")
+        if args.phases or args.list_models or args.plan:
+            parser.error("--transfer-models cannot be combined with --phases, --list-models or --plan")
         if not args.ssh_host or not args.destination_path:
             parser.error("--transfer-models requires --ssh-host and --destination-path")
     elif (args.ssh_host or args.ssh_option or args.destination_path
@@ -148,10 +149,12 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 
     if args.list_models and args.phases:
         parser.error("--list-models cannot be combined with --phases")
+    if args.plan and (not args.phases or args.list_models):
+        parser.error("--plan requires --phases and cannot be combined with --list-models")
     if not args.list_models and not args.phases and not args.transfer_models:
         parser.error("--phases is required unless --list-models or --transfer-models is set")
-    if args.output is not None and not args.list_models:
-        parser.error("--output requires --list-models")
+    if args.output is not None and not (args.list_models or args.plan):
+        parser.error("--output requires --list-models or --plan")
     if args.output is None:
         args.output = "table"
     phases = [
@@ -160,6 +163,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     invalid = [phase for phase in phases if phase not in VALID_PHASES]
     if invalid:
         parser.error(f"Invalid phases: {', '.join(invalid)}")
+    if args.plan and not phases:
+        parser.error("--plan requires at least one phase")
     args.phases = phases
     args.max_part_size_bytes = parse_size(args.max_part_size)
     args.max_docker_image_size_bytes = parse_size(args.max_docker_image_size)
@@ -183,55 +188,54 @@ def validate_execution_prereqs(args: argparse.Namespace) -> None:
 
 
 def execute(args: argparse.Namespace) -> int:
-    from src.listing import run_list_models
-    from src.state import effective_base_dir, resolve_model_names
-
     if getattr(args, "list_models", False):
+        from src.listing import run_list_models
+
         return run_list_models(args)
+    if getattr(args, "plan", False):
+        from src.planning import make_plan, render_plan
+
+        render_plan(make_plan(args), args.output)
+        return 0
+
+    with run_logging():
+        logger.info("Run started")
+        try:
+            status = _execute_work(args)
+        except KeyboardInterrupt:
+            logger.warning("Run interrupted")
+            raise
+        except Exception as exc:
+            logger.error("Run failed (%s)", type(exc).__name__)
+            raise
+        logger.log(
+            logging.INFO if status == 0 else logging.ERROR,
+            "Run finished (exit=%d)",
+            status,
+        )
+        return status
+
+
+def _execute_work(args: argparse.Namespace) -> int:
     if getattr(args, "transfer_models", False):
         from src.transfer import run_transfer
 
         return run_transfer(args)
-    validate_execution_prereqs(args)
-    base_dir = effective_base_dir(args)
-    if PHASE_PULL_LLM in args.phases:
-        targets = resolve_pull_targets(args)
-        if len(targets) == 1:
-            link, model_name = targets[0]
-            single = copy_args_for_model(args, model_name, link)
-            for phase in single.phases:
-                print(f"=== {phase} ===", flush=True)
-                PHASE_HANDLERS[phase](single)
-        else:
-            work_items = [
-                copy_args_for_model(args, model_name, link)
-                for link, model_name in targets
-            ]
-            run_multi_models(work_items, args)
-        return 0
+    from src.pipeline import run_models
+    from src.planning import make_plan, render_plan
 
-    require_complete = any(
-        phase in (PHASE_PULL_DOCKERHUB, PHASE_RESTORE_LLM) for phase in args.phases
-    )
-    model_names = resolve_model_names(
-        args,
-        ",".join(args.phases),
-        require_complete=require_complete,
-        base_dir=base_dir,
-    )
-    seen: dict[str, None] = {}
-    for name in model_names:
-        seen.setdefault(name, None)
-    unique_names = list(seen.keys())
-    if len(unique_names) == 1:
-        args.model_name = unique_names[0]
-        args.model_names = unique_names
-        for phase in args.phases:
-            print(f"=== {phase} ===", flush=True)
-            PHASE_HANDLERS[phase](args)
+    validate_execution_prereqs(args)
+    plan = make_plan(args, allow_sudo=True)
+    if getattr(args, "interactive_plan", False):
+        from src.interactive import preview_plan
+
+        if not preview_plan(plan):
+            return 0
     else:
-        work_items = [copy_args_for_model(args, name) for name in unique_names]
-        run_multi_models(work_items, args)
+        render_plan(plan, to_stderr=True)
+    if not plan.authorize_run():
+        return 1
+    run_models(plan.models, plan.max_workers, plan.scheduler())
     return 0
 
 

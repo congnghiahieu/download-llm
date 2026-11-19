@@ -289,6 +289,11 @@ def phase_status(state: dict[str, Any]) -> dict[str, bool]:
     push_docker = bool(dockerfiles) and all(
         entry.get("built") and entry.get("pushed") for entry in dockerfiles
     )
+    if "publication" in state:
+        push_docker = (
+            push_docker and bool(state["publication"].get("complete"))
+            and all(entry.get("digest") for entry in dockerfiles)
+        )
     pull_dockerhub = bool(dockerfiles) and all(
         entry.get("pulled") for entry in dockerfiles
     )

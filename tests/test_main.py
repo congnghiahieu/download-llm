@@ -10,6 +10,7 @@ from tests.test_hf_stdlib import HfStdlibTests
 from tests.test_huggingface_parse import HuggingfaceParseTests
 from tests.test_phases_pull_push import PhasesPullPushTests
 from tests.test_phases_pullhub_restore import PhasesPullhubRestoreTests
+from tests.test_pipeline import PipelineTests
 from tests.test_state_listing import StateListingTests
 from tests.test_transfer import TransferTests
 
@@ -22,6 +23,7 @@ __all__ = [
     "MultiExecutionTests",
     "PhasesPullPushTests",
     "PhasesPullhubRestoreTests",
+    "PipelineTests",
     "StateListingTests",
     "TransferTests",
 ]

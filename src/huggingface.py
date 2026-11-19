@@ -2,10 +2,12 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
 import urllib.error
 import urllib.request
 from pathlib import Path
+from threading import Lock
 from typing import Any
 from urllib.parse import quote, urlparse
 
@@ -31,6 +33,8 @@ from src.constants import (
 HF_DEFAULT_ENDPOINT = "https://huggingface.co"
 HF_CACHE_ENV = "DOWNLOAD_LLM_CACHE"
 HF_OFFLINE_VALUES = ("1", "true", "yes")
+_download_locks: dict[tuple[str, str, str], Lock] = {}
+_download_locks_guard = Lock()
 
 
 def _hf_cache_dir() -> Path:
@@ -189,6 +193,65 @@ def _list_model_files_stdlib(repo_id: str, revision: str) -> list[str]:
     return files
 
 
+def model_snapshot(repo_id: str, revision: str) -> tuple[str, list[tuple[str, int]]]:
+    """Read the commit and file sizes without downloading file contents."""
+    if _hf_is_offline():
+        raise RuntimeError("Hugging Face is offline and no pinned snapshot is recorded")
+    files: list[tuple[str, int]] = []
+    if _HF_AVAILABLE:
+        assert HfApi is not None
+        api = HfApi()
+        commit = api.model_info(repo_id, revision=revision).sha
+        if not isinstance(commit, str) or not re.fullmatch(r"[0-9a-f]{40}", commit):
+            raise RuntimeError("Hugging Face did not return a valid commit SHA")
+        for entry in api.list_repo_tree(repo_id, revision=commit, recursive=True):
+            size = getattr(entry, "size", None)
+            if size is not None:
+                files.append((entry.path, size))
+    else:
+        endpoint = _hf_endpoint()
+        headers = _hf_auth_headers()
+        info_url = f"{endpoint}/api/models/{repo_id}/revision/{quote(revision, safe='')}"
+        with _hf_open(info_url, headers=headers) as response:
+            commit = json.load(response).get("sha")
+        if not isinstance(commit, str) or not re.fullmatch(r"[0-9a-f]{40}", commit):
+            raise RuntimeError("Hugging Face did not return a valid commit SHA")
+        url: str | None = f"{endpoint}/api/models/{repo_id}/tree/{commit}?recursive=true"
+        while url:
+            with _hf_open(url, headers=headers) as response:
+                for entry in json.load(response):
+                    if entry.get("type") == "file":
+                        files.append((entry["path"], entry.get("size")))
+                url = _hf_next_page(response.headers.get("Link"))
+    if not files or any(not isinstance(size, int) or size < 0 for _, size in files):
+        raise RuntimeError("Hugging Face did not return a complete file size inventory")
+    return commit, sorted(files)
+
+
+def planning_cache_dir() -> Path | None:
+    # hf_hub_download(local_dir=...) stores the downloaded payload in local_dir.
+    return None if _HF_AVAILABLE else _hf_cache_dir()
+
+
+def cached_download_bytes(repo_id: str, commit: str, filename: str, size: int) -> int:
+    if _HF_AVAILABLE:
+        return 0
+    blob, _, partial, _ = _hf_cache_paths(repo_id, commit, filename)
+    if blob.is_file() and blob.stat().st_size == size:
+        return size
+    if partial.is_file():
+        return min(size, partial.stat().st_size)
+    return 0
+
+
+def download_snapshot_file(repo_id: str, filename: str, commit: str, dest: Path) -> Path:
+    key = (repo_id, commit, filename)
+    with _download_locks_guard:
+        lock = _download_locks.setdefault(key, Lock())
+    with lock:
+        return download_model_file(repo_id, filename, commit, dest)
+
+
 def _hf_stream_body(
     url: str, filename: str, headers: dict[str, str], target_path: Path, offset: int
 ) -> None:
@@ -242,10 +305,6 @@ def _download_model_file_stdlib(
         if meta is None:
             offset = part_file.stat().st_size if part_file.exists() else 0
             _hf_stream_body(url, filename, headers, part_file, offset)
-            if part_file.stat().st_size == 0:
-                raise RuntimeError(
-                    f"Hugging Face download failed: {filename} is empty"
-                )
             os.replace(part_file, blob)
             if etag_file.exists():
                 etag_file.unlink()
@@ -261,10 +320,6 @@ def _download_model_file_stdlib(
         if meta is None and not _hf_is_offline():
             offset = part_file.stat().st_size if part_file.exists() else 0
             _hf_stream_body(url, filename, headers, part_file, offset)
-            if part_file.stat().st_size == 0:
-                raise RuntimeError(
-                    f"Hugging Face download failed: {filename} is empty"
-                )
             os.replace(part_file, blob)
             if etag_file.exists():
                 etag_file.unlink()
@@ -291,8 +346,6 @@ def _download_model_file_stdlib(
     if key is not None:
         part_etag_file.write_text(key, encoding="utf-8")
     _hf_stream_body(url, filename, headers, part_file, offset)
-    if part_file.stat().st_size == 0:
-        raise RuntimeError(f"Hugging Face download failed: {filename} is empty")
     if meta.get("length") is not None and part_file.stat().st_size != meta["length"]:
         raise RuntimeError(
             f"Hugging Face download failed: {filename} is truncated "

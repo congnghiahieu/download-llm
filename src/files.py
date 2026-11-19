@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import os
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from typing import Any
 
 from src.constants import (
@@ -78,6 +79,10 @@ def restored_file_valid(model_dir: Path, raw: dict[str, Any]) -> bool:
     )
 
 
+def part_path_for_file(raw_rel: Path, index: int) -> Path:
+    return raw_rel.parent / f"{raw_rel.stem}-{part_label(index)}{raw_rel.suffix}"
+
+
 def split_raw_file(
     raw_path: Path,
     raw_rel: Path,
@@ -87,8 +92,6 @@ def split_raw_file(
 ) -> tuple[str, list[dict[str, Any]]]:
     raw_digest = hashlib.sha256()
     part_entries: list[dict[str, Any]] = []
-    suffix = raw_path.suffix
-    stem = raw_path.stem
     part_index = 1
 
     with raw_path.open("rb") as source:
@@ -97,7 +100,7 @@ def split_raw_file(
             if not first:
                 break
 
-            part_rel = raw_rel.parent / f"{stem}-{part_label(part_index)}{suffix}"
+            part_rel = part_path_for_file(raw_rel, part_index)
             part_path = parts_dir / part_rel
             part_path.parent.mkdir(parents=True, exist_ok=True)
             part_digest = hashlib.sha256()
@@ -151,31 +154,28 @@ def restore_raw_file(
     restored_path.parent.mkdir(parents=True, exist_ok=True)
     digest = hashlib.sha256()
     written = 0
-    with restored_path.open("wb") as target:
-        for part in sorted(parts, key=lambda item: int(item["index"])):
-            part_path = (
-                model_dir / EXTRACTED_DIRNAME / PARTS_DIRNAME / part["part_filename"]
-            )
-            if not part_path.exists():
-                raise FileNotFoundError(f"Missing extracted part: {part_path}")
-            actual_size = part_path.stat().st_size
-            if actual_size != part["size_bytes"]:
-                raise ValueError(f"Size mismatch for {part_path}")
-            actual_sha = sha256_file(part_path)
-            if actual_sha != part["sha256"]:
-                raise ValueError(f"SHA256 mismatch for {part_path}")
-            with part_path.open("rb") as source:
-                while chunk := source.read(BUFFER_SIZE):
-                    target.write(chunk)
-                    digest.update(chunk)
-                    written += len(chunk)
-                    if progress_cb is not None:
-                        progress_cb(len(chunk))
-            part["extracted"] = True
-
-    restored_sha = digest.hexdigest()
-    if written != raw["size_bytes"] or restored_sha != raw["sha256"]:
-        raise ValueError(f"Restored file mismatch for {raw['filename']}")
+    with TemporaryDirectory(dir=restored_path.parent, prefix=".restore-") as directory:
+        temporary = Path(directory) / "payload"
+        with temporary.open("wb") as target:
+            for part in sorted(parts, key=lambda item: int(item["index"])):
+                part_path = model_dir / EXTRACTED_DIRNAME / PARTS_DIRNAME / part["part_filename"]
+                part_hash = hashlib.sha256()
+                part_size = 0
+                with part_path.open("rb") as source:
+                    while chunk := source.read(BUFFER_SIZE):
+                        target.write(chunk)
+                        part_hash.update(chunk)
+                        digest.update(chunk)
+                        written += len(chunk)
+                        part_size += len(chunk)
+                        if progress_cb is not None:
+                            progress_cb(len(chunk))
+                if part_size != part["size_bytes"] or part_hash.hexdigest() != part["sha256"]:
+                    raise ValueError(f"Size or SHA256 mismatch for {part_path}")
+            restored_sha = digest.hexdigest()
+            if written != raw["size_bytes"] or restored_sha != raw["sha256"]:
+                raise ValueError(f"Restored file mismatch for {raw['filename']}")
+        os.replace(temporary, restored_path)
     return {
         "raw_filename": raw["filename"],
         "restored_path": f"{EXTRACTED_DIRNAME}/{RESTORED_DIRNAME}/{Path(str(raw['filename'])).as_posix()}",

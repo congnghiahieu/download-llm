@@ -13,5 +13,9 @@ wheels/
 model_weights/*/raw/
 model_weights/*/parts/
 model_weights/*/extracted/
+.pipeline.lock
+
+# Runtime logs
+/logs/
 
 pyrefly-type-check-errors.json

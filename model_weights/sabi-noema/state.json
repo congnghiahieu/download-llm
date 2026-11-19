@@ -1,0 +1,1099 @@
+{
+  "model_name": "sabi-noema",
+  "docker_repo_name": "sabi-noema",
+  "repo_id": "sabicap/sabi-noema",
+  "revision": "main",
+  "url": "https://huggingface.co/sabicap/sabi-noema",
+  "max_part_size_bytes": 5000000000,
+  "max_part_size": "5.00GB",
+  "max_docker_image_size_bytes": 5000000000,
+  "max_docker_image_size": "5.00GB",
+  "raw": [
+    {
+      "filename": ".gitattributes",
+      "path": "raw/.gitattributes",
+      "size_bytes": 1635,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "1.64KB",
+      "sha256": "58e9494751f6dd247017e2edc9c18dbb685e389bf47cc39a4fcd9c59d794007e"
+    },
+    {
+      "filename": "LICENSE",
+      "path": "raw/LICENSE",
+      "size_bytes": 11544,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "11.54KB",
+      "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a"
+    },
+    {
+      "filename": "README.md",
+      "path": "raw/README.md",
+      "size_bytes": 7991,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "7.99KB",
+      "sha256": "16345c110a136194b109981c12ee5df2b16bcdc797cf8ec1c2284a70338ece3d"
+    },
+    {
+      "filename": "SHA256SUMS",
+      "path": "raw/SHA256SUMS",
+      "size_bytes": 2736,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "2.74KB",
+      "sha256": "d0667d13d0b84350defb0a7d9891e9fbbefbb9abd82432060f80cdd5e52cbf70"
+    },
+    {
+      "filename": "assets/sabi-noema-tokens.png",
+      "path": "raw/assets/sabi-noema-tokens.png",
+      "size_bytes": 206071,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "206.07KB",
+      "sha256": "5ee0684ba9c3a1967d0ef2c94f2d02faebd133d905a90653eac2fdeeee1090eb"
+    },
+    {
+      "filename": "chat_template.jinja",
+      "path": "raw/chat_template.jinja",
+      "size_bytes": 8976,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "8.98KB",
+      "sha256": "d392c2cd22ccb5a7e55a57ff1c6acc8d6ba3163c1724d1515321806139e58eb5"
+    },
+    {
+      "filename": "config.json",
+      "path": "raw/config.json",
+      "size_bytes": 3637,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "3.64KB",
+      "sha256": "eb81acc40e6b3a01a7ae029e4e6725decc753ab2e3a8697d2f7fbb3349cdcf9d"
+    },
+    {
+      "filename": "examples/chat.py",
+      "path": "raw/examples/chat.py",
+      "size_bytes": 2237,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "2.24KB",
+      "sha256": "e913bda54aca072cf9cc7d8e27a3661f5ca67a3ebdc9e608a6812fe29a3659e5"
+    },
+    {
+      "filename": "examples/llama_cpp.md",
+      "path": "raw/examples/llama_cpp.md",
+      "size_bytes": 1337,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "1.34KB",
+      "sha256": "a324c40d6b2f53632a2bf039b53b9b4abfe70ab57b3262bf27094cf951e5206a"
+    },
+    {
+      "filename": "examples/serve_vllm.sh",
+      "path": "raw/examples/serve_vllm.sh",
+      "size_bytes": 2194,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "2.19KB",
+      "sha256": "7ef17389adbfb1361ce2b6947ee812c755a3772f3f8fc4022134d3619297519e"
+    },
+    {
+      "filename": "examples/tools.py",
+      "path": "raw/examples/tools.py",
+      "size_bytes": 2503,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "2.50KB",
+      "sha256": "c6460dfbb15f2e3956032f702e9c104ef87195ef198535f2efa7ccb970a6e8b3"
+    },
+    {
+      "filename": "examples/transformers_generate.py",
+      "path": "raw/examples/transformers_generate.py",
+      "size_bytes": 2114,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "2.11KB",
+      "sha256": "227620d07281968543567f05a4d60339a665064ae5dc95edde3fa26d5b47bb8a"
+    },
+    {
+      "filename": "generation_config.json",
+      "path": "raw/generation_config.json",
+      "size_bytes": 202,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "202B",
+      "sha256": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e"
+    },
+    {
+      "filename": "merges.txt",
+      "path": "raw/merges.txt",
+      "size_bytes": 3353259,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "3.35MB",
+      "sha256": "a9d356d7bdf1ef4949e3e748e95b8e10ad9d4e2e838eddc38a0a7b6b94d1db8d"
+    },
+    {
+      "filename": "model-00001-of-00012.safetensors",
+      "path": "raw/model-00001-of-00012.safetensors",
+      "size_bytes": 4997475144,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "5.00GB",
+      "sha256": "aeb34fecb808da703167334c4d3cea2178f389c198a43b3c5c78dc56e6a17410"
+    },
+    {
+      "filename": "model-00002-of-00012.safetensors",
+      "path": "raw/model-00002-of-00012.safetensors",
+      "size_bytes": 4965146440,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "4.97GB",
+      "sha256": "69d13ac20a7046309cdb9c15e0c682e79a94a809ae7599c2e8152d71193b7c0a"
+    },
+    {
+      "filename": "model-00003-of-00012.safetensors",
+      "path": "raw/model-00003-of-00012.safetensors",
+      "size_bytes": 4974752704,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "4.97GB",
+      "sha256": "edae628b69ac6c02574a0598337225d9d2300994b7a11cf84566993a2142af43"
+    },
+    {
+      "filename": "model-00004-of-00012.safetensors",
+      "path": "raw/model-00004-of-00012.safetensors",
+      "size_bytes": 4902231760,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "4.90GB",
+      "sha256": "390ea6d8dd0df1dfe2575aab352f0e338aac4c32b2dd0e90ae8d6df615b2926c"
+    },
+    {
+      "filename": "model-00005-of-00012.safetensors",
+      "path": "raw/model-00005-of-00012.safetensors",
+      "size_bytes": 4911765152,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "4.91GB",
+      "sha256": "7aa759ea582baa578689fbd143d78b961b2fb3b866100c67728964207be6cf26"
+    },
+    {
+      "filename": "model-00006-of-00012.safetensors",
+      "path": "raw/model-00006-of-00012.safetensors",
+      "size_bytes": 2542796928,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "2.54GB",
+      "sha256": "09a987c78aa37e441bd04f07221d6ba2abb1a56d47fc4fcd5c4c8a099201b4fb"
+    },
+    {
+      "filename": "model-00007-of-00012.safetensors",
+      "path": "raw/model-00007-of-00012.safetensors",
+      "size_bytes": 4965229536,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "4.97GB",
+      "sha256": "c66b014b544d76173cdc00cd4c2fd3de1d02d727c26af8deb2b65daa7a6ed9a5"
+    },
+    {
+      "filename": "model-00008-of-00012.safetensors",
+      "path": "raw/model-00008-of-00012.safetensors",
+      "size_bytes": 4996789296,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "5.00GB",
+      "sha256": "4577023d45f1d5bd33aa743c0386da5d44f0a66af0253abff6b1d8ccc3ea8418"
+    },
+    {
+      "filename": "model-00009-of-00012.safetensors",
+      "path": "raw/model-00009-of-00012.safetensors",
+      "size_bytes": 4924268384,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "4.92GB",
+      "sha256": "29d0a5a6161f4ed4cade9290413761daf311a5ad8b17e771fa8ddc40205b31e2"
+    },
+    {
+      "filename": "model-00010-of-00012.safetensors",
+      "path": "raw/model-00010-of-00012.safetensors",
+      "size_bytes": 4974752704,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "4.97GB",
+      "sha256": "8024a2cc98196267ca185e8fa31bb6acc2702b160674796268f2032949372a73"
+    },
+    {
+      "filename": "model-00011-of-00012.safetensors",
+      "path": "raw/model-00011-of-00012.safetensors",
+      "size_bytes": 4924268384,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "4.92GB",
+      "sha256": "01bf638e5601257cd9a7dfad57e73a57f440a02cee8eb73e3c6f5b225a95b58f"
+    },
+    {
+      "filename": "model-00012-of-00012.safetensors",
+      "path": "raw/model-00012-of-00012.safetensors",
+      "size_bytes": 2634145824,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "2.63GB",
+      "sha256": "f89a8832858a6f63ce55dd757088cd07fba97894d4c44d6f49c1b99df457ed6e"
+    },
+    {
+      "filename": "model.safetensors.index.json",
+      "path": "raw/model.safetensors.index.json",
+      "size_bytes": 111073,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "111.07KB",
+      "sha256": "1853d3ec9f55211fbbe69826fb94d485b5c12048ca52839c9e4e519fb7ccf82f"
+    },
+    {
+      "filename": "preprocessor_config.json",
+      "path": "raw/preprocessor_config.json",
+      "size_bytes": 390,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "390B",
+      "sha256": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516"
+    },
+    {
+      "filename": "tokenizer.json",
+      "path": "raw/tokenizer.json",
+      "size_bytes": 12809320,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "12.81MB",
+      "sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3"
+    },
+    {
+      "filename": "tokenizer_config.json",
+      "path": "raw/tokenizer_config.json",
+      "size_bytes": 17952,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "17.95KB",
+      "sha256": "e12c626e6a0a4b48a9e19664b2a5343a8096891e454b2a516aedb291704b6010"
+    },
+    {
+      "filename": "video_preprocessor_config.json",
+      "path": "raw/video_preprocessor_config.json",
+      "size_bytes": 385,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "385B",
+      "sha256": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13"
+    },
+    {
+      "filename": "vocab.json",
+      "path": "raw/vocab.json",
+      "size_bytes": 6722759,
+      "downloaded": true,
+      "split": true,
+      "deleted": true,
+      "size": "6.72MB",
+      "sha256": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003"
+    }
+  ],
+  "parts": [
+    {
+      "raw_filename": ".gitattributes",
+      "index": 1,
+      "part_filename": ".gitattributes-part0001",
+      "path": "parts/.gitattributes-part0001",
+      "size_bytes": 1635,
+      "size": "1.64KB",
+      "sha256": "58e9494751f6dd247017e2edc9c18dbb685e389bf47cc39a4fcd9c59d794007e",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "LICENSE",
+      "index": 1,
+      "part_filename": "LICENSE-part0001",
+      "path": "parts/LICENSE-part0001",
+      "size_bytes": 11544,
+      "size": "11.54KB",
+      "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "SHA256SUMS",
+      "index": 1,
+      "part_filename": "SHA256SUMS-part0001",
+      "path": "parts/SHA256SUMS-part0001",
+      "size_bytes": 2736,
+      "size": "2.74KB",
+      "sha256": "d0667d13d0b84350defb0a7d9891e9fbbefbb9abd82432060f80cdd5e52cbf70",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "README.md",
+      "index": 1,
+      "part_filename": "README-part0001.md",
+      "path": "parts/README-part0001.md",
+      "size_bytes": 7991,
+      "size": "7.99KB",
+      "sha256": "16345c110a136194b109981c12ee5df2b16bcdc797cf8ec1c2284a70338ece3d",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "chat_template.jinja",
+      "index": 1,
+      "part_filename": "chat_template-part0001.jinja",
+      "path": "parts/chat_template-part0001.jinja",
+      "size_bytes": 8976,
+      "size": "8.98KB",
+      "sha256": "d392c2cd22ccb5a7e55a57ff1c6acc8d6ba3163c1724d1515321806139e58eb5",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "config.json",
+      "index": 1,
+      "part_filename": "config-part0001.json",
+      "path": "parts/config-part0001.json",
+      "size_bytes": 3637,
+      "size": "3.64KB",
+      "sha256": "eb81acc40e6b3a01a7ae029e4e6725decc753ab2e3a8697d2f7fbb3349cdcf9d",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "assets/sabi-noema-tokens.png",
+      "index": 1,
+      "part_filename": "assets/sabi-noema-tokens-part0001.png",
+      "path": "parts/assets/sabi-noema-tokens-part0001.png",
+      "size_bytes": 206071,
+      "size": "206.07KB",
+      "sha256": "5ee0684ba9c3a1967d0ef2c94f2d02faebd133d905a90653eac2fdeeee1090eb",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "examples/chat.py",
+      "index": 1,
+      "part_filename": "examples/chat-part0001.py",
+      "path": "parts/examples/chat-part0001.py",
+      "size_bytes": 2237,
+      "size": "2.24KB",
+      "sha256": "e913bda54aca072cf9cc7d8e27a3661f5ca67a3ebdc9e608a6812fe29a3659e5",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "examples/llama_cpp.md",
+      "index": 1,
+      "part_filename": "examples/llama_cpp-part0001.md",
+      "path": "parts/examples/llama_cpp-part0001.md",
+      "size_bytes": 1337,
+      "size": "1.34KB",
+      "sha256": "a324c40d6b2f53632a2bf039b53b9b4abfe70ab57b3262bf27094cf951e5206a",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "examples/serve_vllm.sh",
+      "index": 1,
+      "part_filename": "examples/serve_vllm-part0001.sh",
+      "path": "parts/examples/serve_vllm-part0001.sh",
+      "size_bytes": 2194,
+      "size": "2.19KB",
+      "sha256": "7ef17389adbfb1361ce2b6947ee812c755a3772f3f8fc4022134d3619297519e",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "examples/tools.py",
+      "index": 1,
+      "part_filename": "examples/tools-part0001.py",
+      "path": "parts/examples/tools-part0001.py",
+      "size_bytes": 2503,
+      "size": "2.50KB",
+      "sha256": "c6460dfbb15f2e3956032f702e9c104ef87195ef198535f2efa7ccb970a6e8b3",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "examples/transformers_generate.py",
+      "index": 1,
+      "part_filename": "examples/transformers_generate-part0001.py",
+      "path": "parts/examples/transformers_generate-part0001.py",
+      "size_bytes": 2114,
+      "size": "2.11KB",
+      "sha256": "227620d07281968543567f05a4d60339a665064ae5dc95edde3fa26d5b47bb8a",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "generation_config.json",
+      "index": 1,
+      "part_filename": "generation_config-part0001.json",
+      "path": "parts/generation_config-part0001.json",
+      "size_bytes": 202,
+      "size": "202B",
+      "sha256": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "merges.txt",
+      "index": 1,
+      "part_filename": "merges-part0001.txt",
+      "path": "parts/merges-part0001.txt",
+      "size_bytes": 3353259,
+      "size": "3.35MB",
+      "sha256": "a9d356d7bdf1ef4949e3e748e95b8e10ad9d4e2e838eddc38a0a7b6b94d1db8d",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00001-of-00012.safetensors",
+      "index": 1,
+      "part_filename": "model-00001-of-00012-part0001.safetensors",
+      "path": "parts/model-00001-of-00012-part0001.safetensors",
+      "size_bytes": 4997475144,
+      "size": "5.00GB",
+      "sha256": "aeb34fecb808da703167334c4d3cea2178f389c198a43b3c5c78dc56e6a17410",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00002-of-00012.safetensors",
+      "index": 1,
+      "part_filename": "model-00002-of-00012-part0001.safetensors",
+      "path": "parts/model-00002-of-00012-part0001.safetensors",
+      "size_bytes": 4965146440,
+      "size": "4.97GB",
+      "sha256": "69d13ac20a7046309cdb9c15e0c682e79a94a809ae7599c2e8152d71193b7c0a",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00006-of-00012.safetensors",
+      "index": 1,
+      "part_filename": "model-00006-of-00012-part0001.safetensors",
+      "path": "parts/model-00006-of-00012-part0001.safetensors",
+      "size_bytes": 2542796928,
+      "size": "2.54GB",
+      "sha256": "09a987c78aa37e441bd04f07221d6ba2abb1a56d47fc4fcd5c4c8a099201b4fb",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00005-of-00012.safetensors",
+      "index": 1,
+      "part_filename": "model-00005-of-00012-part0001.safetensors",
+      "path": "parts/model-00005-of-00012-part0001.safetensors",
+      "size_bytes": 4911765152,
+      "size": "4.91GB",
+      "sha256": "7aa759ea582baa578689fbd143d78b961b2fb3b866100c67728964207be6cf26",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00003-of-00012.safetensors",
+      "index": 1,
+      "part_filename": "model-00003-of-00012-part0001.safetensors",
+      "path": "parts/model-00003-of-00012-part0001.safetensors",
+      "size_bytes": 4974752704,
+      "size": "4.97GB",
+      "sha256": "edae628b69ac6c02574a0598337225d9d2300994b7a11cf84566993a2142af43",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00004-of-00012.safetensors",
+      "index": 1,
+      "part_filename": "model-00004-of-00012-part0001.safetensors",
+      "path": "parts/model-00004-of-00012-part0001.safetensors",
+      "size_bytes": 4902231760,
+      "size": "4.90GB",
+      "sha256": "390ea6d8dd0df1dfe2575aab352f0e338aac4c32b2dd0e90ae8d6df615b2926c",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00007-of-00012.safetensors",
+      "index": 1,
+      "part_filename": "model-00007-of-00012-part0001.safetensors",
+      "path": "parts/model-00007-of-00012-part0001.safetensors",
+      "size_bytes": 4965229536,
+      "size": "4.97GB",
+      "sha256": "c66b014b544d76173cdc00cd4c2fd3de1d02d727c26af8deb2b65daa7a6ed9a5",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00008-of-00012.safetensors",
+      "index": 1,
+      "part_filename": "model-00008-of-00012-part0001.safetensors",
+      "path": "parts/model-00008-of-00012-part0001.safetensors",
+      "size_bytes": 4996789296,
+      "size": "5.00GB",
+      "sha256": "4577023d45f1d5bd33aa743c0386da5d44f0a66af0253abff6b1d8ccc3ea8418",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00009-of-00012.safetensors",
+      "index": 1,
+      "part_filename": "model-00009-of-00012-part0001.safetensors",
+      "path": "parts/model-00009-of-00012-part0001.safetensors",
+      "size_bytes": 4924268384,
+      "size": "4.92GB",
+      "sha256": "29d0a5a6161f4ed4cade9290413761daf311a5ad8b17e771fa8ddc40205b31e2",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model.safetensors.index.json",
+      "index": 1,
+      "part_filename": "model.safetensors.index-part0001.json",
+      "path": "parts/model.safetensors.index-part0001.json",
+      "size_bytes": 111073,
+      "size": "111.07KB",
+      "sha256": "1853d3ec9f55211fbbe69826fb94d485b5c12048ca52839c9e4e519fb7ccf82f",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "preprocessor_config.json",
+      "index": 1,
+      "part_filename": "preprocessor_config-part0001.json",
+      "path": "parts/preprocessor_config-part0001.json",
+      "size_bytes": 390,
+      "size": "390B",
+      "sha256": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "tokenizer.json",
+      "index": 1,
+      "part_filename": "tokenizer-part0001.json",
+      "path": "parts/tokenizer-part0001.json",
+      "size_bytes": 12809320,
+      "size": "12.81MB",
+      "sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00010-of-00012.safetensors",
+      "index": 1,
+      "part_filename": "model-00010-of-00012-part0001.safetensors",
+      "path": "parts/model-00010-of-00012-part0001.safetensors",
+      "size_bytes": 4974752704,
+      "size": "4.97GB",
+      "sha256": "8024a2cc98196267ca185e8fa31bb6acc2702b160674796268f2032949372a73",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "tokenizer_config.json",
+      "index": 1,
+      "part_filename": "tokenizer_config-part0001.json",
+      "path": "parts/tokenizer_config-part0001.json",
+      "size_bytes": 17952,
+      "size": "17.95KB",
+      "sha256": "e12c626e6a0a4b48a9e19664b2a5343a8096891e454b2a516aedb291704b6010",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "video_preprocessor_config.json",
+      "index": 1,
+      "part_filename": "video_preprocessor_config-part0001.json",
+      "path": "parts/video_preprocessor_config-part0001.json",
+      "size_bytes": 385,
+      "size": "385B",
+      "sha256": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "vocab.json",
+      "index": 1,
+      "part_filename": "vocab-part0001.json",
+      "path": "parts/vocab-part0001.json",
+      "size_bytes": 6722759,
+      "size": "6.72MB",
+      "sha256": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00011-of-00012.safetensors",
+      "index": 1,
+      "part_filename": "model-00011-of-00012-part0001.safetensors",
+      "path": "parts/model-00011-of-00012-part0001.safetensors",
+      "size_bytes": 4924268384,
+      "size": "4.92GB",
+      "sha256": "01bf638e5601257cd9a7dfad57e73a57f440a02cee8eb73e3c6f5b225a95b58f",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    },
+    {
+      "raw_filename": "model-00012-of-00012.safetensors",
+      "index": 1,
+      "part_filename": "model-00012-of-00012-part0001.safetensors",
+      "path": "parts/model-00012-of-00012-part0001.safetensors",
+      "size_bytes": 2634145824,
+      "size": "2.63GB",
+      "sha256": "f89a8832858a6f63ce55dd757088cd07fba97894d4c44d6f49c1b99df457ed6e",
+      "deleted": true,
+      "extracted": false,
+      "restored": false
+    }
+  ],
+  "dockerfiles": [
+    {
+      "index": 1,
+      "label": "part0001",
+      "dockerfile": "dockerfiles/Dockerfile.part0001",
+      "tag": "hieucien/sabi-noema:part0001-926a7c97e34891525b776181d856cf742237006f12580adec23c2d700175788c",
+      "included_parts": [
+        ".gitattributes-part0001",
+        "LICENSE-part0001",
+        "README-part0001.md",
+        "SHA256SUMS-part0001",
+        "assets/sabi-noema-tokens-part0001.png",
+        "chat_template-part0001.jinja",
+        "config-part0001.json",
+        "examples/chat-part0001.py",
+        "examples/llama_cpp-part0001.md",
+        "examples/serve_vllm-part0001.sh",
+        "examples/tools-part0001.py",
+        "examples/transformers_generate-part0001.py",
+        "generation_config-part0001.json",
+        "merges-part0001.txt"
+      ],
+      "built": true,
+      "pushed": true,
+      "removed": true,
+      "size_bytes": 5370349,
+      "size": "5.37MB",
+      "pulled": false,
+      "extracted": false,
+      "digest": "sha256:37baccaaee6ede81f60cc1539726caba038b0e0902d23a7ffbf7fafdce4a8d82"
+    },
+    {
+      "index": 2,
+      "label": "part0002",
+      "dockerfile": "dockerfiles/Dockerfile.part0002",
+      "tag": "hieucien/sabi-noema:part0002-926a7c97e34891525b776181d856cf742237006f12580adec23c2d700175788c",
+      "included_parts": [
+        "model-00001-of-00012-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 3907182052,
+      "size": "3.91GB",
+      "digest": "sha256:4fddf8228f05f2abbf7c046274318620ab6fcd4a987a482d88be836aac4de387"
+    },
+    {
+      "index": 3,
+      "label": "part0003",
+      "dockerfile": "dockerfiles/Dockerfile.part0003",
+      "tag": "hieucien/sabi-noema:part0003-926a7c97e34891525b776181d856cf742237006f12580adec23c2d700175788c",
+      "included_parts": [
+        "model-00002-of-00012-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 3881239179,
+      "size": "3.88GB",
+      "digest": "sha256:ed5403c078f2cc0372e66fd4e8532d498aff06dfdf85125ce37045cad7be120e"
+    },
+    {
+      "index": 4,
+      "label": "part0004",
+      "dockerfile": "dockerfiles/Dockerfile.part0004",
+      "tag": "hieucien/sabi-noema:part0004-926a7c97e34891525b776181d856cf742237006f12580adec23c2d700175788c",
+      "included_parts": [
+        "model-00003-of-00012-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 3890961906,
+      "size": "3.89GB",
+      "digest": "sha256:8abe86cb8ef72ed401496fde8edeab71f6835e2a8b66d7737171df8636304706"
+    },
+    {
+      "index": 5,
+      "label": "part0005",
+      "dockerfile": "dockerfiles/Dockerfile.part0005",
+      "tag": "hieucien/sabi-noema:part0005-926a7c97e34891525b776181d856cf742237006f12580adec23c2d700175788c",
+      "included_parts": [
+        "model-00004-of-00012-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 3833635170,
+      "size": "3.83GB",
+      "digest": "sha256:7c9d8b1647954e5e0327e693913d2b3698d038da823b34196963490f7c86659d"
+    },
+    {
+      "index": 6,
+      "label": "part0006",
+      "dockerfile": "dockerfiles/Dockerfile.part0006",
+      "tag": "hieucien/sabi-noema:part0006-926a7c97e34891525b776181d856cf742237006f12580adec23c2d700175788c",
+      "included_parts": [
+        "model-00005-of-00012-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 3839812290,
+      "size": "3.84GB",
+      "digest": "sha256:c0c2eb01e52bd721ffd6805899a4911f4a03e17880b89a0d2602f9110f315eab"
+    },
+    {
+      "index": 7,
+      "label": "part0007",
+      "dockerfile": "dockerfiles/Dockerfile.part0007",
+      "tag": "hieucien/sabi-noema:part0007-926a7c97e34891525b776181d856cf742237006f12580adec23c2d700175788c",
+      "included_parts": [
+        "model-00006-of-00012-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 1988462488,
+      "size": "1.99GB",
+      "digest": "sha256:608d2ce5d06f638da0b3f32b4505d8b7a554c480f40db62035b4b3a38ec1e0a4"
+    },
+    {
+      "index": 8,
+      "label": "part0008",
+      "dockerfile": "dockerfiles/Dockerfile.part0008",
+      "tag": "hieucien/sabi-noema:part0008-926a7c97e34891525b776181d856cf742237006f12580adec23c2d700175788c",
+      "included_parts": [
+        "model-00007-of-00012-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 3882099085,
+      "size": "3.88GB",
+      "digest": "sha256:06e613d01ebda8e226266270e0e63164cdb2e47c72de6a1899c1ada16c2c7861"
+    },
+    {
+      "index": 9,
+      "label": "part0009",
+      "dockerfile": "dockerfiles/Dockerfile.part0009",
+      "tag": "hieucien/sabi-noema:part0009-926a7c97e34891525b776181d856cf742237006f12580adec23c2d700175788c",
+      "included_parts": [
+        "model-00008-of-00012-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 3906121335,
+      "size": "3.91GB",
+      "digest": "sha256:cd0f06b45a5c1afa51035df6ba75dc25907101f7967b563453b931a23a8a48c5"
+    },
+    {
+      "index": 10,
+      "label": "part0010",
+      "dockerfile": "dockerfiles/Dockerfile.part0010",
+      "tag": "hieucien/sabi-noema:part0010-926a7c97e34891525b776181d856cf742237006f12580adec23c2d700175788c",
+      "included_parts": [
+        "model-00009-of-00012-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 3850061377,
+      "size": "3.85GB",
+      "digest": "sha256:61bbbaa9739cda78bb67305f85774d24e027b46005922caacae13660f8c24f67"
+    },
+    {
+      "index": 11,
+      "label": "part0011",
+      "dockerfile": "dockerfiles/Dockerfile.part0011",
+      "tag": "hieucien/sabi-noema:part0011-926a7c97e34891525b776181d856cf742237006f12580adec23c2d700175788c",
+      "included_parts": [
+        "model-00010-of-00012-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 3891042953,
+      "size": "3.89GB",
+      "digest": "sha256:22c3c8f0c46dbcdf86950426c943af298b3719ffa0c4043fd3441b0c99add39a"
+    },
+    {
+      "index": 12,
+      "label": "part0012",
+      "dockerfile": "dockerfiles/Dockerfile.part0012",
+      "tag": "hieucien/sabi-noema:part0012-926a7c97e34891525b776181d856cf742237006f12580adec23c2d700175788c",
+      "included_parts": [
+        "model-00011-of-00012-part0001.safetensors"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 3850829679,
+      "size": "3.85GB",
+      "digest": "sha256:16735f60fc338efd7ee18b3f5015b7c74f091878368d82393932fe991fed0cf2"
+    },
+    {
+      "index": 13,
+      "label": "part0013",
+      "dockerfile": "dockerfiles/Dockerfile.part0013",
+      "tag": "hieucien/sabi-noema:part0013-926a7c97e34891525b776181d856cf742237006f12580adec23c2d700175788c",
+      "included_parts": [
+        "model-00012-of-00012-part0001.safetensors",
+        "model.safetensors.index-part0001.json",
+        "preprocessor_config-part0001.json",
+        "tokenizer-part0001.json",
+        "tokenizer_config-part0001.json",
+        "video_preprocessor_config-part0001.json",
+        "vocab-part0001.json"
+      ],
+      "built": true,
+      "pushed": true,
+      "pulled": false,
+      "removed": true,
+      "extracted": false,
+      "size_bytes": 2066013964,
+      "size": "2.07GB",
+      "digest": "sha256:e24d1a53bfa8697e94b04c6e044f575ee8a9a89b571f8766503eacbe200c4139"
+    }
+  ],
+  "restore": [],
+  "snapshot": {
+    "commit": "2908c2d59081522a6cbfdb60ef0f848508295667",
+    "files": [
+      [
+        ".gitattributes",
+        1635
+      ],
+      [
+        "LICENSE",
+        11544
+      ],
+      [
+        "README.md",
+        7991
+      ],
+      [
+        "SHA256SUMS",
+        2736
+      ],
+      [
+        "assets/sabi-noema-tokens.png",
+        206071
+      ],
+      [
+        "chat_template.jinja",
+        8976
+      ],
+      [
+        "config.json",
+        3637
+      ],
+      [
+        "examples/chat.py",
+        2237
+      ],
+      [
+        "examples/llama_cpp.md",
+        1337
+      ],
+      [
+        "examples/serve_vllm.sh",
+        2194
+      ],
+      [
+        "examples/tools.py",
+        2503
+      ],
+      [
+        "examples/transformers_generate.py",
+        2114
+      ],
+      [
+        "generation_config.json",
+        202
+      ],
+      [
+        "merges.txt",
+        3353259
+      ],
+      [
+        "model-00001-of-00012.safetensors",
+        4997475144
+      ],
+      [
+        "model-00002-of-00012.safetensors",
+        4965146440
+      ],
+      [
+        "model-00003-of-00012.safetensors",
+        4974752704
+      ],
+      [
+        "model-00004-of-00012.safetensors",
+        4902231760
+      ],
+      [
+        "model-00005-of-00012.safetensors",
+        4911765152
+      ],
+      [
+        "model-00006-of-00012.safetensors",
+        2542796928
+      ],
+      [
+        "model-00007-of-00012.safetensors",
+        4965229536
+      ],
+      [
+        "model-00008-of-00012.safetensors",
+        4996789296
+      ],
+      [
+        "model-00009-of-00012.safetensors",
+        4924268384
+      ],
+      [
+        "model-00010-of-00012.safetensors",
+        4974752704
+      ],
+      [
+        "model-00011-of-00012.safetensors",
+        4924268384
+      ],
+      [
+        "model-00012-of-00012.safetensors",
+        2634145824
+      ],
+      [
+        "model.safetensors.index.json",
+        111073
+      ],
+      [
+        "preprocessor_config.json",
+        390
+      ],
+      [
+        "tokenizer.json",
+        12809320
+      ],
+      [
+        "tokenizer_config.json",
+        17952
+      ],
+      [
+        "video_preprocessor_config.json",
+        385
+      ],
+      [
+        "vocab.json",
+        6722759
+      ]
+    ]
+  },
+  "publication": {
+    "complete": true,
+    "commit": "2908c2d59081522a6cbfdb60ef0f848508295667"
+  }
+}

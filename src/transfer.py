@@ -61,15 +61,16 @@ def ssh_options(host: str, options: list[str]) -> list[str]:
 @contextmanager
 def ssh_connection(host: str, options: list[str]) -> Iterator[list[str]]:
     with tempfile.TemporaryDirectory(prefix="download-llm-ssh-") as directory:
-        transport = ["ssh", "-o", f"ControlPath={directory}/socket",
-                     "-o", "ControlMaster=no", "-o", "ControlPersist=no",
-                     "-o", "RequestTTY=no", "-o", "RemoteCommand=none",
-                     "-o", "SessionType=default", "-o", "ForkAfterAuthentication=no",
-                     *options]
+        common = ["ssh", "-o", f"ControlPath={directory}/socket",
+                  "-o", "ControlPersist=no", "-o", "RequestTTY=no",
+                  "-o", "RemoteCommand=none"]
+        transport = [*common, "-o", "ControlMaster=no", "-o", "SessionType=default",
+                     "-o", "ForkAfterAuthentication=no", *options]
+        master = [*common, "-o", "SessionType=none", "-M", "-f", *options, host]
         try:
             # Foreground authentication inherits the terminal, including MFA and
             # host-key prompts. Only OpenSSH backgrounds itself after success.
-            subprocess.run([*transport, "-M", "-N", "-f", host], check=True)
+            subprocess.run(master, check=True)
             yield transport
         finally:
             subprocess.run([*transport, "-O", "exit", host],

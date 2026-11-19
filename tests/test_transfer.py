@@ -71,6 +71,28 @@ class TransferTests(unittest.TestCase):
             self.assertIn("-M", run.call_args_list[0].args[0])
             self.assertIn("exit", run.call_args_list[-1].args[0])
 
+    @unittest.skipUnless(shutil.which("ssh"), "OpenSSH client required")
+    def test_openssh_parses_master_and_transfer_sessions_with_proxyjump(self):
+        with (
+            patch("src.transfer.subprocess.run") as run,
+            ssh_connection("target", ssh_options("target", ["ProxyJump=jump"])) as transport,
+        ):
+            master = run.call_args.args[0]
+
+        for args, session_type, control_master, fork in (
+            (master, "none", "true", "yes"),
+            ([*transport, "target", "true"], "default", "false", "no"),
+        ):
+            with self.subTest(session_type=session_type):
+                config = subprocess.run(
+                    [args[0], "-G", "-F", "/dev/null", *args[1:]],
+                    check=True, capture_output=True, text=True,
+                ).stdout.splitlines()
+                self.assertIn(f"sessiontype {session_type}", config)
+                self.assertIn(f"controlmaster {control_master}", config)
+                self.assertIn(f"forkafterauthentication {fork}", config)
+                self.assertIn("proxyjump jump", config)
+
     @patch("src.transfer.destination_conflicts", return_value=["model"])
     def test_existing_destination_noninteractive(self, conflicts):
         with patch("src.transfer.sys.stdin.isatty", return_value=False):

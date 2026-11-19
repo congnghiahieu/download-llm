@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import fcntl
 import hashlib
+import logging
 import os
 import re
 import tempfile
@@ -52,7 +53,7 @@ from src.huggingface import (
     parse_huggingface_url,
 )
 from src.naming import docker_pull_tag
-from src.run_logging import logger
+from src.run_logging import log_file, logger
 from src.scheduling import Scheduler
 from src.sizes import human_size
 from src.state import (
@@ -62,6 +63,7 @@ from src.state import (
     is_pull_push_complete,
     load_state,
     make_initial_state,
+    phase_progress,
     phase_status,
     resolve_state_path,
     save_state,
@@ -750,6 +752,13 @@ def run_models(
                     model.start()
                 except Exception as exc:  # noqa: BLE001 - preserve failures per model
                     failures.append((model.name, exc))
+                    log_file(
+                        logging.ERROR,
+                        "Pipeline start failed [model=%r, storage=%r]",
+                        model.name,
+                        scheduler.disk_snapshot(),
+                        exc_info=True,
+                    )
                 else:
                     active.append(model)
             if not active:
@@ -778,6 +787,18 @@ def run_models(
                                 key[1],
                                 type(exc).__name__,
                             )
+                            log_file(
+                                logging.ERROR,
+                                "Task failure details [model=%r, task=%s, item=%r, elapsed=%.2fs, demand=%r, storage=%r, stderr_tail=%r]",
+                                model.name,
+                                task.kind,
+                                key[1],
+                                time.monotonic() - task.started,
+                                task.disk,
+                                scheduler.disk_snapshot(),
+                                getattr(exc, "stderr", None),
+                                exc_info=True,
+                            )
                         progressed = True
                 if model.failure is None:
                     try:
@@ -785,6 +806,13 @@ def run_models(
                     except Exception as exc:  # noqa: BLE001 - preserve failures per model
                         model.failure = exc
                         ready = []
+                        log_file(
+                            logging.ERROR,
+                            "Pipeline scheduling failed [model=%r, storage=%r]",
+                            model.name,
+                            scheduler.disk_snapshot(),
+                            exc_info=True,
+                        )
                     for task in ready:
                         if task.key not in model.running:
                             priority = {
@@ -804,6 +832,12 @@ def run_models(
                             "Pipeline failed [model=%r] (%s)",
                             model.name,
                             type(model.failure).__name__,
+                        )
+                        log_file(
+                            logging.INFO,
+                            "Checkpoint at failure [model=%r, progress=%r]",
+                            model.name,
+                            phase_progress(model.state),
                         )
                     else:
                         logger.info(
@@ -833,6 +867,14 @@ def run_models(
                 if future is not None:
                     buffered += int(buffered_pull)
                     model.running[task.key] = task, future
+                    log_file(
+                        logging.INFO,
+                        "Task %s admitted [model=%r, item=%r, demand=%r]",
+                        task.kind,
+                        model.name,
+                        task.key[1],
+                        task.disk,
+                    )
                     progressed = True
                     if not scheduler.overlap:
                         break
@@ -845,7 +887,11 @@ def run_models(
         print("Retry each failed model individually:", flush=True)
         for model in models:
             if model.name in failed:
-                print(f"  {build_retry_command(model.args)}", flush=True)
+                command = build_retry_command(model.args)
+                print(f"  {command}", flush=True)
+                log_file(
+                    logging.INFO, "Retry command [model=%r]: %s", model.name, command
+                )
         details = "; ".join(f"{name}: {exc}" for name, exc in failures)
         raise RuntimeError(
             f"{len(failures)} model(s) failed; rerun to resume: {details}"

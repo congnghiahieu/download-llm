@@ -120,6 +120,12 @@ python3 main.py --plan --phases pull_dockerhub,restore_llm --model-name my-model
 7. Unknown storage requires explicit confirmation before execution; without a terminal the command exits nonzero instead.
 8. Docker layer/cache and network estimates are approximate; runtime admission rechecks free space and stops with checkpoints if no task can safely proceed.
 
+On WSL 2, the planner checks the Linux filesystem and the Windows drive backing its VHDX separately.
+For Docker Desktop with its WSL backend, it measures the daemon's guest filesystem and checks the Windows drive containing `docker_data.vhdx`.
+Paths already on a Windows-mounted drive are counted only on that drive. If Ubuntu, the Hugging Face cache, and Docker use the same Windows drive, their `*_host` roles share one budget and one headroom.
+Host estimates conservatively reserve space for task writes; deleting guest files does not imply that Windows gets the space back. Free bytes are rechecked before admitting each task.
+The probe uses read-only Windows interop with the WSL registry and Docker Desktop settings; unsupported layouts, disabled interop, or unreadable mounts are shown as `unknown` rather than substituted with the Linux root's free space.
+
 In `pull_llm,push_docker`, file downloads and splits can overlap with image builds and pushes as soon as each group has its parts.
 Builds use an isolated context; newly published pinned models record Docker image digests in `state.json` and are ready for the receiving machine only after the complete manifest is saved.
 For `pull_dockerhub,restore_llm`, a pulled image can be extracted immediately, and a file is restored when all its parts are present and verified.
@@ -158,7 +164,10 @@ uv run python main.py --phases pull_dockerhub,restore_llm --model-name Qwen3.6-2
 
 Execution logs record run and per-model task status and timings on stderr and in `logs/download-llm.log` relative to the current directory.
 If the log file cannot be opened, execution continues with console logging only.
-Progress bars, Docker output, and list-models JSON are not copied into the log file.
+The file also records the approved plan, task admissions, Docker stdout/stderr and exit codes, failure tracebacks, storage measurements at failure, and retry commands.
+Use the `run` and `command` IDs to trace concurrent failures. Known Hugging Face tokens, authorization values and HTTP URL credentials/query strings are redacted in the log.
+If Docker storage is `unknown`, the weights filesystem's free bytes do not establish how much disk space the Docker daemon had.
+Interactive progress bars and list-models JSON are not copied into the log file.
 
 Config and precondition errors fail fast before any work starts.
 

@@ -118,7 +118,7 @@ class MultiExecutionTests(unittest.TestCase):
 
             def download(repo: str, name: str, commit: str, directory: Path) -> Path:
                 if repo.endswith("/B"):
-                    raise RuntimeError("detail-must-not-be-logged")
+                    raise RuntimeError("403 repository unavailable: https://example.test/file?secret=abc fake-token-123")
                 directory.mkdir(parents=True, exist_ok=True)
                 path = directory / name
                 path.write_bytes(b"a")
@@ -129,17 +129,24 @@ class MultiExecutionTests(unittest.TestCase):
                 patch("src.pipeline.model_snapshot", return_value=("a" * 40, [("file", 1)])),
                 patch("src.pipeline.download_snapshot_file", side_effect=download),
                 patch("src.planning.planning_cache_dir", return_value=None),
+                patch("src.planning.WslStorageProbe.detect", return_value=None),
+                patch.dict(os.environ, {"HF_TOKEN": "fake-token-123"}),
                 redirect_stderr(console),
                 self.assertRaises(RuntimeError),
             ):
                 main.execute(args)
             log = log_path.read_text(encoding="utf-8")
-            for line in log.splitlines():
-                self.assertIn(line, console.getvalue())
+            self.assertIn("Run started", console.getvalue())
+            self.assertNotIn("Task failure details", console.getvalue())
             self.assertIn("Pipeline finished [model='A']", log)
             self.assertIn("Pipeline failed [model='B'] (RuntimeError)", log)
             self.assertIn("Run failed", log)
-            self.assertNotIn("detail-must-not-be-logged", log)
+            self.assertIn("Traceback", log)
+            self.assertIn("403 repository unavailable", log)
+            self.assertIn("free_bytes", log)
+            self.assertIn("Retry command [model='B']", log)
+            self.assertNotIn("secret=abc", log)
+            self.assertNotIn("fake-token-123", log)
 
     def test_detect_command_prefix_uses_uv_inside_venv(self) -> None:
         with (

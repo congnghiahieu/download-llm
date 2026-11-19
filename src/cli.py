@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import logging
 import os
 import sys
@@ -29,7 +30,7 @@ from src.execution import (
     run_phases_for_model,
     run_sequential_models,
 )
-from src.run_logging import logger, run_logging
+from src.run_logging import log_file, logger, run_logging
 from src.sizes import parse_size
 
 __all__ = [
@@ -207,6 +208,7 @@ def execute(args: argparse.Namespace) -> int:
             raise
         except Exception as exc:
             logger.error("Run failed (%s)", type(exc).__name__)
+            log_file(logging.ERROR, "Run failure traceback", exc_info=True)
             raise
         logger.log(
             logging.INFO if status == 0 else logging.ERROR,
@@ -233,7 +235,13 @@ def _execute_work(args: argparse.Namespace) -> int:
             return 0
     else:
         render_plan(plan, to_stderr=True)
-    if not plan.authorize_run():
+    log_file(logging.INFO, "Execution plan: %s", json.dumps(plan.output()))
+    for role, storage in plan.storage.items():
+        if storage.measurement_error:
+            log_file(logging.INFO, "Storage measurement unavailable [role=%s, path=%s]: %s", role, storage.path, storage.measurement_error)
+    authorized = plan.authorize_run()
+    log_file(logging.INFO, "Execution authorized: %s", authorized)
+    if not authorized:
         return 1
     run_models(plan.models, plan.max_workers, plan.scheduler())
     return 0

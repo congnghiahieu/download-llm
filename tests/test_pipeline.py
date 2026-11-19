@@ -19,6 +19,11 @@ from src.state import is_pull_push_complete, load_state
 
 
 class PipelineTests(unittest.TestCase):
+    def setUp(self) -> None:
+        probe = patch("src.planning.WslStorageProbe.detect", return_value=None)
+        probe.start()
+        self.addCleanup(probe.stop)
+
     def _args(self, root: Path, phases: str, *extra: str):
         return main.parse_args(
             ["--phases", phases, "--model-weights-dir", str(root), *extra]

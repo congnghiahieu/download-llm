@@ -1,15 +1,19 @@
 from __future__ import annotations
 
+import logging
 import os
 import shutil
 import subprocess
 import sys
 from collections import Counter
-from collections.abc import Callable
+from collections.abc import Callable, Collection
 from concurrent.futures import Future, ThreadPoolExecutor
+from dataclasses import dataclass
 from pathlib import Path
 from threading import Condition
 from typing import TypeVar
+
+from src.run_logging import log_file
 
 DEFAULT_LIMITS = {
     "hf_download": 2,
@@ -22,6 +26,12 @@ DEFAULT_LIMITS = {
 DISK_HEADROOM = 1024**3
 
 T = TypeVar("T")
+Device = int | str
+
+
+def storage_constraints(role: str, available: Collection[str]) -> tuple[str, ...]:
+    host = f"{role}_host"
+    return (role, host) if host in available else (role,)
 
 
 def confirm(message: str) -> bool:
@@ -36,11 +46,16 @@ def confirm(message: str) -> bool:
 
 def _docker_output(*args: str) -> str:
     return subprocess.check_output(
-        ["docker", *args], text=True, stderr=subprocess.DEVNULL
+        ["docker", *args], text=True, stderr=subprocess.PIPE
     ).strip()
 
 
-def docker_storage() -> Path | None:
+@dataclass(frozen=True)
+class DockerDesktopRoot:
+    path: Path
+
+
+def docker_storage(*, include_desktop: bool = False) -> Path | DockerDesktopRoot | None:
     try:
         endpoint = (
             os.environ.get("DOCKER_HOST")
@@ -53,33 +68,72 @@ def docker_storage() -> Path | None:
                 "context", "inspect", context, "--format", "{{.Endpoints.docker.Host}}"
             )
         if not endpoint.startswith("unix://"):
+            log_file(
+                logging.INFO,
+                "Docker storage is not measurable locally: endpoint scheme=%r",
+                endpoint.split(":", 1)[0],
+            )
             return None
-        location = Path(_docker_output("info", "--format", "{{.DockerRootDir}}"))
+        daemon_os, _, root = _docker_output(
+            "info", "--format", "{{.OperatingSystem}}\n{{.DockerRootDir}}"
+        ).partition("\n")
+        log_file(
+            logging.INFO, "Docker daemon storage [os=%r, root=%r]", daemon_os, root
+        )
+        location = Path(root)
+        if "docker desktop" in daemon_os.lower():
+            if include_desktop and location.is_absolute():
+                return DockerDesktopRoot(location)
+            log_file(
+                logging.INFO,
+                "Docker Desktop storage belongs to its daemon environment, not the CLI filesystem",
+            )
+            return None
         return location if location.is_absolute() else None
-    except (OSError, subprocess.CalledProcessError):
+    except (OSError, subprocess.CalledProcessError) as exc:
+        log_file(
+            logging.WARNING,
+            "Docker storage probe failed: %s %s",
+            exc,
+            getattr(exc, "stderr", ""),
+        )
         return None
 
 
 class Storage:
-    def __init__(self, path: Path | None, *, docker: bool = False) -> None:
+    def __init__(
+        self,
+        path: Path | None,
+        *,
+        docker: bool = False,
+        unavailable_reason: str | None = None,
+    ) -> None:
         self.path = path
         self.docker = docker
         self.sudo = False
+        self.measurement_error = unavailable_reason
 
     def _local(self) -> tuple[int, int] | None:
         path = self.path
         if path is None:
+            self.measurement_error = (
+                self.measurement_error or "storage path not available locally"
+            )
             return None
         try:
             while True:
                 try:
                     device = path.stat().st_dev
-                    return device, shutil.disk_usage(path).free
-                except FileNotFoundError:
+                    free = shutil.disk_usage(path).free
+                    self.measurement_error = None
+                    return device, free
+                except FileNotFoundError as exc:
                     if self.docker or path == path.parent:
+                        self.measurement_error = str(exc)
                         return None
                     path = path.parent
-        except OSError:
+        except OSError as exc:
+            self.measurement_error = str(exc)
             return None
 
     def _elevated(self, *, authenticate: bool = False) -> tuple[int, int] | None:
@@ -94,11 +148,13 @@ class Storage:
                 [*prefix, "stat", "-f", "-c", "%a %S", "--", str(self.path)], text=True
             )
             blocks, size = map(int, data.split())
+            self.measurement_error = None
             return int(device), blocks * size
-        except (OSError, ValueError, subprocess.CalledProcessError):
+        except (OSError, ValueError, subprocess.CalledProcessError) as exc:
+            self.measurement_error = f"sudo storage probe: {exc}"
             return None
 
-    def measure(self) -> tuple[int, int] | None:
+    def measure(self) -> tuple[Device, int] | None:
         result = self._local()
         return result if result is not None or not self.sudo else self._elevated()
 
@@ -131,9 +187,10 @@ class Scheduler:
         self.unknown = unknown
         self.overlap = overlap
         self.active: Counter[str] = Counter()
-        self.reserved: Counter[int] = Counter()
+        self.reserved: Counter[Device] = Counter()
         self.changed = Condition()
         self.generation = 0
+        self.last_disk_block: dict[str, int | str] | None = None
         self.pool = ThreadPoolExecutor(max_workers=sum(limits.values()))
 
     def close(self) -> None:
@@ -144,6 +201,25 @@ class Scheduler:
             self.generation += 1
             self.changed.notify_all()
 
+    def disk_snapshot(self) -> dict[str, dict[str, object]]:
+        with self.changed:
+            snapshot: dict[str, dict[str, object]] = {}
+            for role, store in self.storage.items():
+                result = store.measure()
+                snapshot[role] = {"path": str(store.path) if store.path else None}
+                if result is None:
+                    snapshot[role].update(
+                        free_bytes=None, reason=store.measurement_error
+                    )
+                else:
+                    device, available = result
+                    snapshot[role].update(
+                        device=device,
+                        free_bytes=available,
+                        reserved_bytes=self.reserved[device],
+                    )
+            return snapshot
+
     def submit(
         self, kind: str, estimates: dict[str, int], work: Callable[[], T]
     ) -> Future[T] | None:
@@ -152,26 +228,44 @@ class Scheduler:
                 not self.overlap and any(self.active.values())
             ):
                 return None
-            demand: Counter[int] = Counter()
-            free: dict[int, int] = {}
+            demand: Counter[Device] = Counter()
+            free: dict[Device, int] = {}
             for role, size in estimates.items():
                 if not size:
                     continue
-                result = self.storage[role].measure()
-                if result is None:
-                    if role in self.unknown:
-                        continue
-                    raise RuntimeError(
-                        f"Disk capacity for {role} can no longer be verified"
-                    )
-                device, remaining = result
-                demand[device] += size
-                free[device] = min(remaining, free.get(device, remaining))
-            if any(
-                free[dev] < size + self.reserved[dev] + DISK_HEADROOM
-                for dev, size in demand.items()
-            ):
-                return None
+                charged: set[Device] = set()
+                for constraint in storage_constraints(role, self.storage):
+                    store = self.storage[constraint]
+                    result = store.measure()
+                    if result is None:
+                        if constraint in self.unknown:
+                            continue
+                        log_file(
+                            logging.ERROR,
+                            "Storage measurement lost [role=%s, path=%s]: %s",
+                            constraint,
+                            store.path,
+                            store.measurement_error,
+                        )
+                        raise RuntimeError(
+                            f"Disk capacity for {constraint} can no longer be verified"
+                        )
+                    device, remaining = result
+                    if device not in charged:
+                        demand[device] += size
+                        charged.add(device)
+                    free[device] = min(remaining, free.get(device, remaining))
+            for dev, size in demand.items():
+                if free[dev] < size + self.reserved[dev] + DISK_HEADROOM:
+                    self.last_disk_block = {
+                        "task": kind,
+                        "device": dev,
+                        "free_bytes": free[dev],
+                        "requested_bytes": size,
+                        "reserved_bytes": self.reserved[dev],
+                        "headroom_bytes": DISK_HEADROOM,
+                    }
+                    return None
             self.active[kind] += 1
             self.reserved.update(demand)
             try:
@@ -195,6 +289,12 @@ class Scheduler:
             if generation != self.generation:
                 return
             if not any(self.active.values()):
+                log_file(
+                    logging.ERROR,
+                    "Scheduler stalled [last_disk_block=%r, storage=%r]",
+                    self.last_disk_block,
+                    self.disk_snapshot(),
+                )
                 raise RuntimeError(
                     "No task can proceed within the disk budget; checkpoint retained for resume"
                 )

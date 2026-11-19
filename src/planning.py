@@ -22,13 +22,16 @@ from src.pipeline import ModelPipeline, prepare_model
 from src.scheduling import (
     DEFAULT_LIMITS,
     DISK_HEADROOM,
+    DockerDesktopRoot,
     Scheduler,
     Storage,
     confirm,
     docker_storage,
+    storage_constraints,
 )
 from src.sizes import human_size
 from src.state import effective_base_dir, resolve_model_names
+from src.wsl_storage import DockerWslStorage, WindowsBackingStorage, WslStorageProbe
 
 
 @dataclass
@@ -46,6 +49,14 @@ class Estimate:
     )
     transfer: Counter[str] = field(default_factory=Counter)
 
+    def devices(self, role: str) -> tuple[str, ...]:
+        return tuple(
+            dict.fromkeys(
+                self.device_for[name]
+                for name in storage_constraints(role, self.device_for)
+            )
+        )
+
     def step(
         self,
         role: str,
@@ -55,21 +66,23 @@ class Estimate:
         temporary: bool = True,
         kind: str | None = None,
     ) -> None:
-        device = self.device_for[role]
-        self.serial_peak[device] = max(
-            self.serial_peak[device], self.live[device] + needed
-        )
-        self.live[device] += retained
-        if temporary:
-            self.possible_temp[device] += retained
-        if kind and needed > retained:
-            self.scratch[device, kind].append(needed - retained)
+        for device in self.devices(role):
+            self.serial_peak[device] = max(
+                self.serial_peak[device], self.live[device] + needed
+            )
+            self.live[device] += retained
+            if temporary:
+                self.possible_temp[device] += retained
+            if kind and needed > retained:
+                self.scratch[device, kind].append(needed - retained)
 
     def release(self, role: str, count: int) -> None:
-        self.live[self.device_for[role]] -= count
+        for device in self.devices(role):
+            self.live[device] -= count
 
     def keep(self, role: str, count: int) -> None:
-        self.retained[self.device_for[role]] += count
+        for device in self.devices(role):
+            self.retained[device] += count
 
 
 def _estimate_send(model: ModelPipeline, calc: Estimate) -> set[str]:
@@ -204,7 +217,8 @@ def _estimate_receive(
             if retained_image:
                 calc.keep("docker", size)
             else:
-                calc.pull_backlog[calc.device_for["docker"]].append(size)
+                for device in calc.devices("docker"):
+                    calc.pull_backlog[device].append(size)
         else:
             calc.transfer["docker_reused_uncompressed_estimate"] += size
         if not model.restoring:
@@ -418,11 +432,28 @@ def make_plan(args: argparse.Namespace, *, allow_sudo: bool = False) -> PhasePla
             "A pipeline using pull_llm and restore requires push_docker between them"
         )
     storage = {"weights": Storage(base)}
+    wsl = WslStorageProbe.detect()
     cache = planning_cache_dir() if PHASE_PULL_LLM in phases else None
     if cache is not None:
         storage["hf_cache"] = Storage(cache.absolute())
     if set(phases) - {PHASE_PULL_LLM}:
-        storage["docker"] = Storage(docker_storage(), docker=True)
+        location = docker_storage(include_desktop=wsl is not None)
+        if isinstance(location, DockerDesktopRoot):
+            assert wsl is not None
+            storage["docker"] = DockerWslStorage(location.path)
+            storage["docker_host"] = wsl.docker_host()
+        else:
+            storage["docker"] = Storage(location, docker=True)
+    if wsl is not None:
+        for role, store in list(storage.items()):
+            if role not in {"weights", "hf_cache", "docker"} or isinstance(
+                store, DockerWslStorage
+            ):
+                continue
+            if store.path is not None:
+                host = wsl.guest_host(store.path)
+                if host is not None:
+                    storage[f"{role}_host"] = host
     if PHASE_PULL_LLM in phases:
         targets = [(name, link) for link, name in resolve_pull_targets(args)]
     else:
@@ -463,6 +494,10 @@ def make_plan(args: argparse.Namespace, *, allow_sudo: bool = False) -> PhasePla
         volume = volumes.setdefault(dev, {"roles": [], "paths": [], "free_bytes": free})
         volume["roles"].append(role)
         volume["paths"].append(str(store.path) if store.path is not None else None)
+        if isinstance(store, WindowsBackingStorage):
+            volume["windows_drive"] = store.windows_drive
+        if value is None and store.measurement_error:
+            volume["measurement_error"] = store.measurement_error
         if free is not None:
             volume["free_bytes"] = min(volume["free_bytes"], free)
     estimates = [_model_estimate(model, devices) for model in models]
@@ -508,12 +543,17 @@ def render_plan(
             if volume["free_bytes"] is None
             else human_size(volume["free_bytes"])
         )
+        roles = ", ".join(volume["roles"])
+        if drive := volume.get("windows_drive"):
+            roles = f"{roles} ({drive})"
         print(
-            f"{', '.join(volume['roles']):25} {free:>12} "
+            f"{roles:25} {free:>12} "
             f"{human_size(volume['final_additional_bytes']):>12} "
             f"{human_size(volume['serial_peak_additional_bytes']):>14} "
             f"{human_size(volume['peak_additional_bytes']):>12}  {volume['status']}",
             file=stream,
         )
+        if reason := volume.get("measurement_error"):
+            print(f"  {reason}", file=stream)
     for note in info["notes"]:
         print(note, file=stream)

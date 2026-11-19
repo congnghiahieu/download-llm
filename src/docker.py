@@ -1,14 +1,19 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 import shutil
 import subprocess
 import sys
 import tempfile
+from collections import deque
+from collections.abc import Callable
+from contextlib import suppress
 from pathlib import Path
-from typing import Any
+from threading import Thread
+from typing import IO, Any
 from uuid import uuid4
 
 from src.constants import (
@@ -26,11 +31,60 @@ from src.constants import (
 )
 from src.files import part_files_exist
 from src.naming import docker_pull_tag, docker_repo_name, part_label
+from src.run_logging import log_file
 
 
 def run_docker(args: list[str]) -> subprocess.CompletedProcess[str]:
-    print("$", " ".join(["docker", *args]), flush=True)
-    return subprocess.run(["docker", *args], check=True, text=True)
+    return _run_docker_logged(args)
+
+
+def _run_docker_logged(
+    args: list[str], *, on_stdout: Callable[[str], None] | None = None
+) -> subprocess.CompletedProcess[str]:
+    command = ["docker", *args]
+    command_id = uuid4().hex[:10]
+    print("$", " ".join(command), flush=True)
+    log_file(logging.INFO, "Docker command started [command=%s] %r", command_id, command)
+    # Capture only a bounded stderr tail for the exception; the file gets the full output.
+    error_tail: deque[str] = deque(maxlen=12)
+    with subprocess.Popen(
+        command, text=True, errors="replace", stdout=subprocess.PIPE, stderr=subprocess.PIPE
+    ) as process:
+        stdout, stderr = process.stdout, process.stderr
+        assert stdout is not None and stderr is not None
+
+        def read_stderr(source: IO[str]) -> None:
+            for line in source:
+                error_tail.append(line[-2000:])
+                log_file(logging.INFO, "Docker stderr [command=%s] %s", command_id, line.rstrip("\r\n"))
+                with suppress(BrokenPipeError):
+                    print(line, end="", file=sys.stderr, flush=True)
+
+        reader = Thread(target=read_stderr, args=(stderr,), name=f"docker-stderr-{command_id}")
+        reader.start()
+        try:
+            for line in stdout:
+                log_file(logging.INFO, "Docker stdout [command=%s] %s", command_id, line.rstrip("\r\n"))
+                print(line, end="", flush=True)
+                if on_stdout is not None:
+                    on_stdout(line)
+        except BaseException:
+            # If forwarding stdout fails, terminate before joining to avoid a blocked pipe.
+            if process.poll() is None:
+                process.terminate()
+            raise
+        finally:
+            reader.join()
+        status = process.wait()
+    log_file(
+        logging.ERROR if status else logging.INFO,
+        "Docker command finished [command=%s, exit=%d]",
+        command_id,
+        status,
+    )
+    if status:
+        raise subprocess.CalledProcessError(status, command, stderr="".join(error_tail))
+    return subprocess.CompletedProcess(command, status)
 
 
 def docker_image_exists(tag: str) -> bool:
@@ -72,12 +126,15 @@ def docker_daemon_available() -> bool:
         result = subprocess.run(
             ["docker", "info"],
             stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
             text=True,
             check=False,
         )
-    except FileNotFoundError:
+    except FileNotFoundError as exc:
+        log_file(logging.ERROR, "Docker availability probe failed: %s", exc)
         return False
+    if result.returncode:
+        log_file(logging.ERROR, "Docker availability probe failed [exit=%d]: %s", result.returncode, result.stderr.strip())
     return result.returncode == 0
 
 
@@ -282,7 +339,10 @@ def extract_image_parts(
         )
     finally:
         if created:
-            subprocess.run(["docker", "rm", container_name], check=False, text=True)
+            try:
+                run_docker(["rm", container_name])
+            except subprocess.CalledProcessError:
+                log_file(logging.WARNING, "Cannot remove temporary Docker container %r", container_name)
 
 
 def build_isolated_image(
@@ -311,19 +371,15 @@ def remove_local_image(reference: str) -> None:
 
 
 def push_image_digest(tag: str) -> str:
-    print(f"$ docker push {tag}", flush=True)
-    command = ["docker", "push", tag]
     digest = None
-    with subprocess.Popen(command, text=True, stdout=subprocess.PIPE) as process:
-        assert process.stdout is not None
-        for line in process.stdout:
-            print(line, end="", flush=True)
-            match = re.search(r"\bdigest:\s+(sha256:[0-9a-f]{64})\b", line)
-            if match:
-                digest = match[1]
-        status = process.wait()
-    if status:
-        raise subprocess.CalledProcessError(status, command)
+
+    def capture_digest(line: str) -> None:
+        nonlocal digest
+        match = re.search(r"\bdigest:\s+(sha256:[0-9a-f]{64})\b", line)
+        if match:
+            digest = match[1]
+
+    _run_docker_logged(["push", tag], on_stdout=capture_digest)
     if not digest:
         raise RuntimeError(f"Docker push did not report an image digest for {tag}")
     return digest

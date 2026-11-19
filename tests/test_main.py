@@ -13,6 +13,7 @@ from tests.test_phases_pullhub_restore import PhasesPullhubRestoreTests
 from tests.test_pipeline import PipelineTests
 from tests.test_state_listing import StateListingTests
 from tests.test_transfer import TransferTests
+from tests.test_wsl_storage import WslStorageTests
 
 __all__ = [
     "DockerUtilsTests",
@@ -26,6 +27,7 @@ __all__ = [
     "PipelineTests",
     "StateListingTests",
     "TransferTests",
+    "WslStorageTests",
 ]
 
 

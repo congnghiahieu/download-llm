@@ -12,11 +12,13 @@ PHASE_PULL_LLM = "pull_llm"
 PHASE_PUSH_DOCKER = "push_docker"
 PHASE_PULL_DOCKERHUB = "pull_dockerhub"
 PHASE_RESTORE_LLM = "restore_llm"
+PHASE_DELIVER_LLM = "deliver_llm"
 VALID_PHASES = (
     PHASE_PULL_LLM,
     PHASE_PUSH_DOCKER,
     PHASE_PULL_DOCKERHUB,
     PHASE_RESTORE_LLM,
+    PHASE_DELIVER_LLM,
 )
 
 STATE_FILENAME = "state.json"

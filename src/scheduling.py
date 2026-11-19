@@ -284,11 +284,13 @@ class Scheduler:
             future.add_done_callback(release)
             return future
 
-    def wait_for_change(self, generation: int) -> None:
+    def wait_for_change(
+        self, generation: int, *, external: bool = False, timeout: float | None = None
+    ) -> None:
         with self.changed:
             if generation != self.generation:
                 return
-            if not any(self.active.values()):
+            if not external and not any(self.active.values()):
                 log_file(
                     logging.ERROR,
                     "Scheduler stalled [last_disk_block=%r, storage=%r]",
@@ -298,4 +300,4 @@ class Scheduler:
                 raise RuntimeError(
                     "No task can proceed within the disk budget; checkpoint retained for resume"
                 )
-            self.changed.wait_for(lambda: self.generation != generation)
+            self.changed.wait_for(lambda: self.generation != generation, timeout=timeout)

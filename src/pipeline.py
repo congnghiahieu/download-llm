@@ -10,15 +10,16 @@ import time
 from collections import defaultdict
 from collections.abc import Callable, Iterator
 from concurrent.futures import FIRST_COMPLETED, Future, wait
-from contextlib import ExitStack, closing
+from contextlib import ExitStack, closing, nullcontext
 from dataclasses import dataclass, field
 from functools import cached_property, partial
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from src.constants import (
     EXTRACTED_DIRNAME,
     PARTS_DIRNAME,
+    PHASE_DELIVER_LLM,
     PHASE_PULL_DOCKERHUB,
     PHASE_PULL_LLM,
     PHASE_PUSH_DOCKER,
@@ -26,6 +27,7 @@ from src.constants import (
     RAW_DIRNAME,
     STATE_FILENAME,
 )
+from src.delivery import Delivery, previously_delivered, validate_delivery
 from src.docker import (
     _expected_docker_entries,
     build_isolated_image,
@@ -69,6 +71,9 @@ from src.state import (
     resolve_state_path,
     save_state,
 )
+
+if TYPE_CHECKING:
+    from src.planning import DeliveryDiskForecast
 
 IMAGE_OVERHEAD = 32 * 1024**2  # base layers, filesystem and image metadata estimate
 Record = dict[str, Any]
@@ -297,6 +302,10 @@ class ModelPipeline:
     @property
     def restoring(self) -> bool:
         return PHASE_RESTORE_LLM in self.args.phases
+
+    @property
+    def delivering(self) -> bool:
+        return PHASE_DELIVER_LLM in self.args.phases
 
     def save(self) -> None:
         save_state(self.directory, self.state)
@@ -587,7 +596,9 @@ class ModelPipeline:
             for raw in self.state["raw"]:
                 name = raw["filename"]
                 record = saved.get(name)
-                if restored_file_valid(self.directory, raw):
+                if previously_delivered(self, raw):
+                    self.restored.add(name)
+                elif restored_file_valid(self.directory, raw):
                     self.restored.add(name)
                     if record is None or not record.get("restored"):
                         saved[name] = restored_record(name, raw["size_bytes"], raw["sha256"])
@@ -816,17 +827,18 @@ def prepare_model(
             files = state["snapshot"]["files"]
             inventory = _part_inventory(files, state["max_part_size_bytes"])
         _prepare_images(args, state, inventory)
-    if receiving and not publishing and not is_pull_push_complete(state):
+    delivering = PHASE_DELIVER_LLM in args.phases
+    if (receiving or delivering) and not publishing and not is_pull_push_complete(state):
         raise ValueError(
             f"{directory.name}: the model needs a complete pull/push manifest"
         )
-    if receiving:
+    if receiving or delivering:
         _validate_manifest(state, inventory, published=not publishing)
     for part in inventory:
         _validate_path(part["part_filename"])
     for raw in state["raw"]:
         _validate_path(raw["filename"])
-    return ModelPipeline(
+    model = ModelPipeline(
         args,
         directory,
         state,
@@ -835,10 +847,16 @@ def prepare_model(
         fingerprint,
         containerd_push=containerd_push,
     )
+    if delivering:
+        validate_delivery(model)
+    return model
 
 
 def run_models(
-    models: list[ModelPipeline], max_workers: int, scheduler: Scheduler
+    models: list[ModelPipeline],
+    max_workers: int,
+    scheduler: Scheduler,
+    forecast: DeliveryDiskForecast | None = None,
 ) -> None:
     waiting = iter(models)
     active: list[ModelPipeline] = []
@@ -856,9 +874,14 @@ def run_models(
         )
 
     # A single coordinator commits all state transitions, even for different models.
-    with ExitStack() as locks, closing(scheduler):
+    delivery = Delivery(scheduler.mark_change) if any(model.delivering for model in models) else None
+    delivery_context = closing(delivery) if delivery is not None else nullcontext()
+    forecast_interval = 30 if forecast is not None else None
+    with ExitStack() as locks, closing(scheduler), delivery_context:
         while True:
             generation = scheduler.generation
+            if delivery is not None:
+                delivery.collect()
             while (
                 admission_error is None
                 and len(active) < max_workers
@@ -879,7 +902,16 @@ def run_models(
                     )
                 else:
                     active.append(model)
+                    if delivery is not None and model.delivering:
+                        delivery.add(model)
             if not active:
+                if delivery is not None:
+                    delivery.submit_next()
+                    if delivery.running is not None:
+                        if forecast is not None:
+                            forecast.report(delivery, scheduler)
+                        scheduler.wait_for_change(generation, external=True, timeout=forecast_interval)
+                        continue
                 break
             progressed = False
             candidates: list[tuple[int, ModelPipeline, Task]] = []
@@ -889,6 +921,8 @@ def run_models(
                         model.running.pop(key)
                         try:
                             task.commit(future.result())
+                            if forecast is not None and key[0] == "restore":
+                                forecast.restored(model, key[1])
                             logger.info(
                                 "Task %s finished [model=%r, item=%r] (%.2fs)",
                                 task.kind,
@@ -976,6 +1010,8 @@ def run_models(
             window = (
                 scheduler.limits["docker_pull"] + scheduler.limits["extract_restore"]
             )
+            if delivery is not None:
+                scheduler.last_disk_block = None
             for _, model, task in sorted(candidates, key=lambda value: value[0]):
                 buffered_pull = task.kind == "docker_pull" and model.restoring
                 if buffered_pull and buffered >= window:
@@ -1001,6 +1037,10 @@ def run_models(
                     progressed = True
                     if not scheduler.overlap:
                         break
+            if delivery is not None:
+                delivery.submit_next()
+                if forecast is not None:
+                    forecast.report(delivery, scheduler)
             if not progressed:
                 if admission_error is not None:
                     wait(
@@ -1013,9 +1053,16 @@ def run_models(
                     )
                 else:
                     try:
-                        scheduler.wait_for_change(generation)
+                        scheduler.wait_for_change(generation, timeout=forecast_interval)
                     except Exception as exc:  # noqa: BLE001 - preserve checkpoints on scheduler failure
+                        if delivery is not None and forecast is not None:
+                            forecast.report(delivery, scheduler, blocked=True)
                         stop_admission(exc)
+        if delivery is not None:
+            if forecast is not None:
+                forecast.report(delivery, scheduler, force=True)
+            delivery.finish()
+            failures.extend(delivery.failures.items())
     if failures:
         from src.execution import build_retry_command
 
@@ -1023,12 +1070,15 @@ def run_models(
         print("Retry each failed model individually:", flush=True)
         for model in models:
             if model.name in failed:
-                command = build_retry_command(model.args)
+                retry = model.args
+                if delivery is not None and model.name in delivery.failures and model.failure is None:
+                    retry = argparse.Namespace(**(vars(retry) | {"phases": [PHASE_DELIVER_LLM]}))
+                command = build_retry_command(retry)
                 print(f"  {command}", flush=True)
                 log_file(
                     logging.INFO, "Retry command [model=%r]: %s", model.name, command
                 )
         details = "; ".join(f"{name}: {exc}" for name, exc in failures)
         raise RuntimeError(
-            f"{len(failures)} model(s) failed; rerun to resume: {details}"
+            f"{len(failed)} model(s) failed; rerun to resume: {details}"
         ) from failures[0][1]

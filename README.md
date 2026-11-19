@@ -91,6 +91,24 @@ DOCKER_PULL_PREFIX=docker.internal/proxy-cache uv run python main.py --phases pu
 
 Run `docker login` before `push_docker` because Docker is called through the Docker CLI.
 
+## Restore and deliver to another host
+
+```bash
+python3 main.py --phases pull_dockerhub,restore_llm,deliver_llm \
+  --model-name Qwen3.6-35B-A3B --ssh-host model-server --destination-path /srv/models
+
+# Resume delivery from local restored files and the remote staging directory; no Docker calls.
+python3 main.py --phases deliver_llm \
+  --model-name Qwen3.6-35B-A3B --ssh-host model-server --destination-path /srv/models
+```
+
+1. Delivery requires OpenSSH and `rsync` on the intermediate host, and `rsync` and `python3` on the Linux destination; no application install is needed there. Configure non-interactive SSH authentication and host verification up front (for example, via `ssh-agent` and `known_hosts`).
+2. One independent worker sends the largest ready file across all selected models. Restore always stages complete verified files locally and does not slow down to match SSH. Temporary network failures get up to two retries per command; authentication and destination conflicts are not retried.
+3. Files go into `/srv/models/<model>.transferring`. The receiver retains partial files for `rsync` to reuse, checks SHA-256, and publishes the directory to `/srv/models/<model>` only after the full manifest matches. A matching final directory is accepted; a conflicting final directory or staging manifest is never overwritten.
+4. Each file is removed from the intermediate host only after its remote copy is verified, unless `--keep-local` is set. If transfer fails, unverified files stay local, and restore continues as disk allows. If a previously verified remote file is later lost after local cleanup, run `restore_llm` separately to recreate it before resuming delivery.
+5. The plan shows the disk estimate without transfer cleanup. During the run, the planner reports staged backlog and estimates additional peak per filesystem both with continued transfer and with no further cleanup. The rolling estimate becomes available after throughput samples and includes the planner's conservative Docker/extraction working-space allowance. Neither backlog nor forecast throttles restore; actual lack of space stops new restore work and reports the remaining files and disk shortfall. Delivery can still run for already staged files.
+6. Restore and delivery report separate outcomes, and a combined run exits nonzero if either is incomplete. `--transfer-models` remains the separate workflow for copying an already restored model tree. The no-args menu also offers the combined pipeline and delivery-only resume.
+
 ## List models
 
 ```bash
@@ -130,7 +148,7 @@ python3 main.py --plan --phases pull_dockerhub,restore_llm --model-name my-model
 2. Command-wide task caps are calculated for each run from pending jobs, measured CPU and available RAM, and measured free space. Extract and restore share one operation limit.
 3. No-args interactive mode shows the plan before execution and lets you revise the model and task limits for that run.
 4. The planner distinguishes final storage from temporary peak per filesystem and reserves 1 GiB of headroom per filesystem.
-5. A plan that does not fit at the requested concurrency can reduce model concurrency or serialize tasks; known insufficient storage blocks execution.
+5. A plan that does not fit at the requested concurrency can reduce model concurrency or serialize tasks; known insufficient storage blocks execution except for delivery pipelines, which check each task at runtime and can reclaim verified local files.
 6. If local Docker storage needs elevated read access, execution may ask permission to use `sudo stat`; the application does not handle the password.
 7. Unknown storage requires explicit confirmation before execution; without a terminal the command exits nonzero instead.
 8. Docker layer/cache and network estimates are approximate; runtime admission rechecks free space and stops with checkpoints if no task can safely proceed.

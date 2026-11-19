@@ -9,6 +9,7 @@ from src.constants import (
     DEFAULT_MAX_DOCKER_IMAGE_SIZE,
     DEFAULT_MAX_PART_SIZE,
     MODEL_WEIGHTS_DIR_ENV,
+    PHASE_DELIVER_LLM,
     PHASE_PULL_DOCKERHUB,
     PHASE_PULL_LLM,
     PHASE_PUSH_DOCKER,
@@ -41,8 +42,14 @@ def prompt_phases(console: Console) -> list[str] | None:
     table.add_row("4", "list", "Show models with phase status and sizes")
     table.add_row("5", "transfer", "Transfer restored models over SSH")
     table.add_row("6", "cleanup", "Clean up selected local model data")
+    table.add_row("7", f"{FLOW_RESTORE},{PHASE_DELIVER_LLM}", "Restore and deliver each verified file over SSH")
+    table.add_row("8", PHASE_DELIVER_LLM, "Resume verified delivery without Docker")
     console.print(table)
-    choice = Prompt.ask("Choose workflow", choices=["1", "2", "3", "4", "5", "6"], default="1")
+    choice = Prompt.ask("Choose workflow", choices=["1", "2", "3", "4", "5", "6", "7", "8"], default="1")
+    if choice == "7":
+        return [PHASE_PULL_DOCKERHUB, PHASE_RESTORE_LLM, PHASE_DELIVER_LLM]
+    if choice == "8":
+        return [PHASE_DELIVER_LLM]
     if choice == "6":
         return ["cleanup"]
     if choice == "5":

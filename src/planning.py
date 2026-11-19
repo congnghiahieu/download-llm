@@ -1,19 +1,23 @@
 from __future__ import annotations
 
 import argparse
+import heapq
 import json
 import sys
+import time
 from collections import Counter, defaultdict
 from collections.abc import Sequence
 from dataclasses import dataclass, field
-from typing import Any, TextIO
+from typing import TYPE_CHECKING, Any, TextIO
 
 from src.constants import (
+    PHASE_DELIVER_LLM,
     PHASE_PULL_DOCKERHUB,
     PHASE_PULL_LLM,
     PHASE_PUSH_DOCKER,
     PHASE_RESTORE_LLM,
 )
+from src.delivery import previously_delivered
 from src.docker import docker_image_exists, docker_uses_containerd_store
 from src.execution import copy_args_for_model, resolve_pull_targets
 from src.files import extracted_parts_exist, restored_file_valid
@@ -21,6 +25,7 @@ from src.huggingface import planning_cache_dir
 from src.naming import docker_pull_tag
 from src.pipeline import ModelPipeline, _pushed, prepare_model
 from src.planner_capacity import ResourceCapacity, measure_resources
+from src.run_logging import logger
 from src.scheduling import (
     DISK_HEADROOM,
     DockerDesktopRoot,
@@ -33,6 +38,9 @@ from src.scheduling import (
 from src.sizes import human_size
 from src.state import effective_base_dir, resolve_model_names
 from src.wsl_storage import DockerWslStorage, WindowsBackingStorage, WslStorageProbe
+
+if TYPE_CHECKING:
+    from src.delivery import Delivery
 
 TASK_LABELS = {
     "hf_download": "Download Hugging Face files",
@@ -57,6 +65,7 @@ _PHASE_TASKS = {
     PHASE_PUSH_DOCKER: ("docker_build", "docker_push"),
     PHASE_PULL_DOCKERHUB: ("docker_pull",),
     PHASE_RESTORE_LLM: ("docker_pull", "extract_restore"),
+    PHASE_DELIVER_LLM: (),
 }
 _DISK_STATUS = {
     "fits": "Fits",
@@ -89,6 +98,7 @@ class Estimate:
         default_factory=lambda: defaultdict(list)
     )
     transfer: Counter[str] = field(default_factory=Counter)
+    restores: dict[str, int] = field(default_factory=dict)
     jobs: dict[str, list[dict[str, int]]] = field(
         default_factory=lambda: defaultdict(list)
     )
@@ -235,7 +245,9 @@ def _estimate_receive(
     if model.restoring:
         for raw in state["raw"]:
             name = raw["filename"]
-            if not raw.get("sha256") or not restored_file_valid(model.directory, raw):
+            if not previously_delivered(model, raw) and (
+                not raw.get("sha256") or not restored_file_valid(model.directory, raw)
+            ):
                 pending[name] = raw["size_bytes"]
     ready = {
         part["part_filename"]
@@ -248,6 +260,7 @@ def _estimate_receive(
     def restore_ready() -> None:
         for name, size in list(pending.items()):
             if by_raw[name] <= ready:
+                calc.restores[name] = size
                 calc.task("extract_restore", weights=size)
                 calc.step("weights", size, size, temporary=False)
                 calc.keep("weights", size)
@@ -336,6 +349,12 @@ class PhasePlan:
     resources: ResourceCapacity | None = None
     task_limits_source: str = "configured"
     serial_reason: str | None = None
+    delivering: bool = False
+    keep_local: bool = False
+
+    @property
+    def rolling_cleanup(self) -> bool:
+        return self.delivering and not self.keep_local
 
     def _peak(
         self,
@@ -424,12 +443,12 @@ class PhasePlan:
             volume["final_additional_bytes"] = total
             volume["serial_peak_additional_bytes"] = max(total, minimum)
 
-        while self.max_workers > 1 and not all(
+        while not self.rolling_cleanup and self.max_workers > 1 and not all(
             self._fits(dev, self._batch_peak(dev, self.max_workers))
             for dev in self.volumes
         ):
             self.max_workers -= 1
-        if self.overlap and not all(
+        if not self.rolling_cleanup and self.overlap and not all(
             self._fits(dev, self._batch_peak(dev, self.max_workers))
             for dev in self.volumes
         ):
@@ -496,12 +515,14 @@ class PhasePlan:
                     if limits[kind] >= pending[kind]:
                         continue
                     candidate = limits | {kind: limits[kind] + 1}
-                    if fits_resources(candidate) and all(
-                        self._fits(
-                            device,
-                            self._batch_peak(device, self.max_workers, candidate),
+                    if fits_resources(candidate) and (
+                        self.rolling_cleanup or all(
+                            self._fits(
+                                device,
+                                self._batch_peak(device, self.max_workers, candidate),
+                            )
+                            for device in self.volumes
                         )
-                        for device in self.volumes
                     ):
                         limits = candidate
                         growing = True
@@ -587,6 +608,14 @@ class PhasePlan:
             "disk_status": status,
             "disk_headroom_bytes": DISK_HEADROOM,
             "filesystems": list(self.volumes.values()),
+            **(
+                {"delivery": {
+                    "workers": 1,
+                    "keep_local": self.keep_local,
+                    "transfer_peak": "estimated at runtime after throughput samples",
+                }}
+                if self.delivering else {}
+            ),
             "notes": [
                 "Disk peaks including Docker layers/cache are estimates, not guaranteed bounds.",
                 "Hugging Face raw files reserve space for a copy even when the stdlib backend may hard-link from cache.",
@@ -602,19 +631,25 @@ class PhasePlan:
             for volume in self.volumes.values()
             if volume["status"].startswith("insufficient_")
         ]
-        if blocked:
+        if blocked and not self.delivering:
             print(
                 f"Execution blocked by disk preflight: {'; '.join(blocked)}",
                 file=sys.stderr,
             )
             return False
+        if blocked:
+            print(
+                f"Without transfer cleanup, estimated space is insufficient: {'; '.join(blocked)}; checking each task at runtime.",
+                file=sys.stderr,
+            )
         unknown = [
             role
             for volume in self.volumes.values()
             if volume["status"] == "unknown"
             for role in volume["roles"]
         ]
-        if unknown and not confirm(
+        delivery_only = self.delivering and "docker" not in self.storage
+        if unknown and not delivery_only and not confirm(
             f"Warning: disk capacity is unknown for {', '.join(unknown)}."
         ):
             print(
@@ -650,6 +685,7 @@ def make_plan(args: argparse.Namespace, *, allow_sudo: bool = False) -> PhasePla
             PHASE_PUSH_DOCKER,
             PHASE_PULL_DOCKERHUB,
             PHASE_RESTORE_LLM,
+            PHASE_DELIVER_LLM,
         ).index,
     ):
         raise ValueError("Select each phase once in pipeline order")
@@ -657,12 +693,17 @@ def make_plan(args: argparse.Namespace, *, allow_sudo: bool = False) -> PhasePla
         raise ValueError(
             "A pipeline using pull_llm and restore requires push_docker between them"
         )
+    if PHASE_DELIVER_LLM in phases and phases not in (
+        [PHASE_DELIVER_LLM], [PHASE_RESTORE_LLM, PHASE_DELIVER_LLM],
+        [PHASE_PULL_DOCKERHUB, PHASE_RESTORE_LLM, PHASE_DELIVER_LLM],
+    ):
+        raise ValueError("deliver_llm runs alone or after restore_llm in a receive pipeline")
     storage = {"weights": Storage(base)}
     wsl = WslStorageProbe.detect()
     cache = planning_cache_dir() if PHASE_PULL_LLM in phases else None
     if cache is not None:
         storage["hf_cache"] = Storage(cache.absolute())
-    if set(phases) - {PHASE_PULL_LLM}:
+    if set(phases) - {PHASE_PULL_LLM, PHASE_DELIVER_LLM}:
         location = docker_storage(include_desktop=wsl is not None)
         if isinstance(location, DockerDesktopRoot):
             assert wsl is not None
@@ -732,9 +773,143 @@ def make_plan(args: argparse.Namespace, *, allow_sudo: bool = False) -> PhasePla
             volume["free_bytes"] = min(volume["free_bytes"], free)
     estimates = [_model_estimate(model, devices) for model in models]
     workers = getattr(args, "max_workers", None) or len(models)
-    plan = PhasePlan(models, storage, estimates, volumes, workers)
+    plan = PhasePlan(
+        models, storage, estimates, volumes, workers,
+        delivering=PHASE_DELIVER_LLM in phases, keep_local=getattr(args, "keep_local", False),
+    )
     plan.configure_auto(workers, measure_resources(docker="docker" in storage))
     return plan
+
+
+def _backlog_peak(
+    pending: list[tuple[int, bool]], queued: list[int], restore_rate: float,
+    send_rate: float, in_flight: tuple[int, float] | None = None,
+) -> int:
+    """Simulate complete-file arrival and reclamation with one largest-first sender."""
+    heap = [-size for size in queued]
+    heapq.heapify(heap)
+    used = peak = 0  # Current queued files are already included in measured usage.
+    arrival = 0.0
+    departure = 0.0
+    sending = 0
+    if in_flight is not None:
+        sending, departure = in_flight
+    for size, reclaimable in pending:
+        arrival += size / restore_rate
+        while (sending or heap) and departure < arrival:
+            if sending:
+                used -= sending
+                sending = 0
+            if heap:
+                sending = -heapq.heappop(heap)
+                departure += sending / send_rate
+            else:
+                departure = arrival
+        used += size
+        peak = max(peak, used)
+        if reclaimable and size:
+            heapq.heappush(heap, -size)
+        if not sending and heap:
+            sending = -heapq.heappop(heap)
+            departure = arrival + sending / send_rate
+    return peak
+
+
+class DeliveryDiskForecast:
+    """Live disk estimate; never used to admit, pause, or throttle tasks."""
+
+    def __init__(self, plan: PhasePlan) -> None:
+        self.plan = plan
+        self.started = time.monotonic()
+        self.last_report = 0.0
+        self.restored_bytes = 0
+        initial_raw_bytes: Counter[str] = Counter()
+        for estimate in plan.estimates:
+            for device in estimate.devices("weights"):
+                initial_raw_bytes[device] += sum(estimate.restores.values())
+        self.overhead = {
+            dev: max(0, volume["peak_additional_bytes"] - initial_raw_bytes[dev])
+            for dev, volume in plan.volumes.items()
+        }
+
+    def restored(self, model: ModelPipeline, name: str) -> None:
+        for item, estimate in zip(self.plan.models, self.plan.estimates):
+            if item is model:
+                self.restored_bytes += estimate.restores.get(name, 0)
+                return
+
+    def report(
+        self, delivery: Delivery, scheduler: Scheduler, *, blocked: bool = False,
+        force: bool = False,
+    ) -> None:
+        now = time.monotonic()
+        if not (blocked or force) and now - self.last_report < 30:
+            return
+        self.last_report = now
+        pending: list[tuple[int, bool]] = []
+        queued: list[int] = []
+        backlog = 0
+        inflight: tuple[int, float] | None = None
+        restore_rate = self.restored_bytes / max(now - self.started, 0.001)
+        send_rate = delivery.sent_bytes / max(delivery.send_seconds, 0.001)
+        for model, estimate in zip(self.plan.models, self.plan.estimates):
+            target = delivery.targets.get(model.name)
+            reclaimable = self.plan.rolling_cleanup and model.name not in delivery.failures
+            pending.extend((size, reclaimable) for name, size in estimate.restores.items() if name not in model.restored)
+            for raw in model.state["raw"]:
+                name, size = raw["filename"], raw["size_bytes"]
+                if target is not None and name in target.handled:
+                    continue
+                if name in estimate.restores and name not in model.restored:
+                    continue
+                if not model.output_path(raw).is_file():
+                    continue
+                if target is None or name not in target.verified:
+                    backlog += size
+                if reclaimable:
+                    running = delivery.running
+                    if send_rate and running and running[0] is target and running[2] is raw:
+                        inflight = size, max(0.0, size / send_rate - (now - running[4]))
+                    else:
+                        queued.append(size)
+        remaining = sum(size for size, _ in pending)
+        forecast = remaining
+        if pending and (queued or inflight or any(reclaim for _, reclaim in pending)):
+            forecast = (
+                _backlog_peak(pending, queued, restore_rate, send_rate, inflight)
+                if restore_rate and send_rate else None
+            )
+        log = logger.error if blocked else logger.info
+        log("Restore remaining: %d file(s), %s; staged delivery backlog: %s",
+            len(pending), human_size(remaining), human_size(backlog))
+        if restore_rate or send_rate:
+            log("Observed throughput: restore %s, verified delivery %s",
+                f"{human_size(int(restore_rate))}/s" if restore_rate else "unknown",
+                f"{human_size(int(send_rate))}/s" if send_rate else "unknown")
+        snapshot = scheduler.disk_snapshot()
+        for dev, volume in self.plan.volumes.items():
+            is_weights = bool(set(volume["roles"]) & {"weights", "weights_host"})
+            overhead = self.overhead[dev] if pending else 0
+            offline = overhead + (remaining if is_weights else 0)
+            if "weights" in volume["roles"]:
+                online = None if forecast is None else overhead + forecast
+            else:
+                # No payload is staged here, or this is a WSL backing volume
+                # where deleting guest files may not reclaim Windows free space.
+                online = offline
+            measured = (snapshot[role]["free_bytes"] for role in volume["roles"])
+            free = min((value for value in measured if isinstance(value, int)), default=None)
+            log("Disk [%s] estimated peak extra from now: transfer continues %s; transfer stops %s; free now %s",
+                _storage_name(volume), _format_bytes(online), human_size(offline), _format_bytes(free))
+            if free is not None and pending:
+                online_gap = max(0, online + DISK_HEADROOM - free) if online is not None else None
+                offline_gap = max(0, offline + DISK_HEADROOM - free)
+                log("Disk [%s] estimated additional free space needed: transfer continues %s; transfer stops %s",
+                    _storage_name(volume), _format_bytes(online_gap), human_size(offline_gap))
+        if blocked and (block := scheduler.last_disk_block):
+            short = sum(int(block[key]) for key in ("requested_bytes", "reserved_bytes", "headroom_bytes")) - int(block["free_bytes"])
+            log("Disk admission stopped: %s needs %s more free on filesystem %s",
+                block["task"], human_size(max(0, short)), block["device"])
 
 
 def render_plan(
@@ -746,6 +921,8 @@ def render_plan(
         print(json.dumps(info, indent=2), file=stream)
         return
     print(f"Disk check: {_DISK_STATUS[info['disk_status']]}", file=stream)
+    if plan.delivering:
+        print("Delivery uses one independent rsync worker. Disk figures below assume no delivery cleanup; the rolling peak is estimated during execution.", file=stream)
     print(
         f"Reserved free space: {human_size(DISK_HEADROOM)} per filesystem.", file=stream
     )

@@ -13,6 +13,7 @@ from src.constants import (
     DEFAULT_MAX_PART_SIZE,
     DOCKER_PULL_PREFIX_ENV,
     MODEL_WEIGHTS_DIR_ENV,
+    PHASE_DELIVER_LLM,
     PHASE_PULL_DOCKERHUB,
     PHASE_PULL_LLM,
     PHASE_PUSH_DOCKER,
@@ -202,13 +203,13 @@ def run_interactive() -> int:
             links = prompt_links(console)
         else:
             require_complete = (
-                PHASE_PULL_DOCKERHUB in phases or PHASE_RESTORE_LLM in phases
+                any(phase in phases for phase in (PHASE_PULL_DOCKERHUB, PHASE_RESTORE_LLM, PHASE_DELIVER_LLM))
             ) and PHASE_PUSH_DOCKER not in phases
             models = prompt_model_names(console, require_complete, base_dir)
         count = len(links) if links else len(models)
         max_part_size, max_docker_image_size = prompt_sizes(console, phases)
         keep_flags = prompt_keep_flags(console, phases)
-        max_workers = prompt_execution_mode(console, count)
+        max_workers = None if phases == [PHASE_DELIVER_LLM] else prompt_execution_mode(console, count)
         summary_part_size = max_part_size if PHASE_PULL_LLM in phases else None
         summary_image_size = (
             max_docker_image_size
@@ -243,6 +244,10 @@ def run_interactive() -> int:
             max_docker_image_size,
             keep_flags,
         )
+        if PHASE_DELIVER_LLM in phases:
+            args.ssh_host, args.destination_path, args.ssh_option = prompt_ssh_destination(console)
+            args.keep_local = Confirm.ask("Keep verified files on this host?", default=False)
+            console.print(f"Delivery: {args.ssh_host}:{args.destination_path}/<model>/ (one rsync worker)")
         args.interactive_plan = True
         return execute(args)
     except (KeyboardInterrupt, EOFError):
@@ -262,7 +267,8 @@ def preview_plan(plan: PhasePlan) -> bool:
 
     while True:
         render_plan(plan)
-        action = Prompt.ask("Plan", choices=["run", "edit", "cancel"], default="run")
+        choices = ["run", "edit", "cancel"] if plan.selected_task_limits() else ["run", "cancel"]
+        action = Prompt.ask("Plan", choices=choices, default="run")
         if action != "edit":
             return action == "run"
         workers = limit("Max active models", plan.requested_workers)
@@ -311,10 +317,7 @@ def prompt_cleanup(console: Console, weights_dir: str) -> int:
         return 1
 
 
-def prompt_transfer(console: Console, weights_dir: str) -> int:
-    from src.cli import execute, parse_args
-
-    models = prompt_model_names(console, False, Path(weights_dir))
+def prompt_ssh_destination(console: Console) -> tuple[str, str, list[str]]:
     host = Prompt.ask("SSH host (username@hostname or config alias)").strip()
     destination = Prompt.ask("Absolute destination path on server").strip()
     options = []
@@ -322,13 +325,23 @@ def prompt_transfer(console: Console, weights_dir: str) -> int:
         option = Prompt.ask("SSH option (Key=Value, empty to finish)", default="").strip()
         if not option:
             break
-        options.extend(["--ssh-option", option])
+        options.append(option)
+    return host, destination, options
+
+
+def prompt_transfer(console: Console, weights_dir: str) -> int:
+    from src.cli import execute, parse_args
+
+    models = prompt_model_names(console, False, Path(weights_dir))
+    host, destination, options = prompt_ssh_destination(console)
     workers = prompt_execution_mode(console, len(models))
     policy = Prompt.ask("Existing destination policy", choices=["ask", "merge"], default="ask")
     dry_run = Confirm.ask("Dry run only?", default=False)
     argv = ["--transfer-models", "--model-weights-dir", weights_dir,
             "--ssh-host", host, "--destination-path", destination,
-            "--existing-destination", policy, *options]
+            "--existing-destination", policy]
+    for option in options:
+        argv.extend(["--ssh-option", option])
     for name in models:
         argv.extend(["--model-name", name])
     if workers is not None:

@@ -117,7 +117,12 @@ def build_retry_command(item: argparse.Namespace) -> str:
     weights_dir = getattr(item, "model_weights_dir", None)
     if weights_dir and not _is_default_weights_dir(str(weights_dir)):
         parts.append(f"--model-weights-dir {shlex.quote(str(weights_dir))}")
-    for flag in ("keep_raw", "keep_parts", "keep_images", "keep_extracted_parts"):
+    for flag in ("ssh_host", "destination_path"):
+        if value := getattr(item, flag, None):
+            parts.append(f"--{flag.replace('_', '-')} {shlex.quote(value)}")
+    for option in getattr(item, "ssh_option", []):
+        parts.append(f"--ssh-option {shlex.quote(option)}")
+    for flag in ("keep_raw", "keep_parts", "keep_images", "keep_extracted_parts", "keep_local"):
         if getattr(item, flag, False):
             parts.append(f"--{flag.replace('_', '-')}")
     return " ".join(parts)

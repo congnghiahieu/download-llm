@@ -3,6 +3,7 @@ from __future__ import annotations
 import unittest
 
 from tests.test_cleanup import CleanupTests
+from tests.test_delivery import DeliveryTests
 from tests.test_docker import DockerUtilsTests
 from tests.test_execution import MultiExecutionTests
 from tests.test_fallback import FallbackTests
@@ -18,6 +19,7 @@ from tests.test_wsl_storage import WslStorageTests
 
 __all__ = [
     "CleanupTests",
+    "DeliveryTests",
     "DockerUtilsTests",
     "FallbackTests",
     "FilesPartsTests",

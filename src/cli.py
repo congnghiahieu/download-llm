@@ -13,6 +13,7 @@ from src.constants import (
     DEFAULT_MAX_PART_SIZE,
     DOCKER_PULL_PREFIX_ENV,
     MODEL_WEIGHTS_DIR_ENV,
+    PHASE_DELIVER_LLM,
     PHASE_PULL_DOCKERHUB,
     PHASE_PUSH_DOCKER,
     PHASE_RESTORE_LLM,
@@ -129,6 +130,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--keep-parts", action="store_true")
     parser.add_argument("--keep-images", action="store_true")
     parser.add_argument("--keep-extracted-parts", action="store_true")
+    parser.add_argument("--keep-local", action="store_true", help="Keep restored files after deliver_llm verifies them remotely.")
     parser.add_argument("--transfer-models", action="store_true",
                         help="Transfer restored model payloads over SSH, independently of phases.")
     parser.add_argument("--ssh-host", help="SSH config alias or username@hostname.")
@@ -142,15 +144,24 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--yes", action="store_true", help="Explicitly authorize the selected cleanup.")
     parser.add_argument("--dry-run", action="store_true", help="Preview cleanup or transfer without changing data.")
     args = parser.parse_args(argv)
+    phases = [phase.strip() for phase in (args.phases or "").split(",") if phase.strip()]
+    delivering = PHASE_DELIVER_LLM in phases
 
     if args.transfer_models:
         if args.phases or args.list_models or args.plan or args.cleanup:
             parser.error("--transfer-models cannot be combined with --phases, --list-models, --plan or --cleanup")
         if not args.ssh_host or not args.destination_path:
             parser.error("--transfer-models requires --ssh-host and --destination-path")
+    elif delivering:
+        if not args.ssh_host or not args.destination_path:
+            parser.error("deliver_llm requires --ssh-host and --destination-path")
+        if args.existing_destination:
+            parser.error("deliver_llm never merges into an existing destination")
     elif (args.ssh_host or args.ssh_option or args.destination_path
           or args.existing_destination):
-        parser.error("SSH and destination options require --transfer-models")
+        parser.error("SSH and destination options require --transfer-models or deliver_llm")
+    if args.keep_local and not delivering:
+        parser.error("--keep-local requires deliver_llm")
     if args.dry_run and not (args.transfer_models or args.cleanup):
         parser.error("--dry-run requires --transfer-models or --cleanup")
     if args.cleanup and (args.phases is not None or args.list_models or args.plan or args.huggingface_links):
@@ -169,9 +180,6 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         parser.error("--output requires --list-models or --plan")
     if args.output is None:
         args.output = "table"
-    phases = [
-        phase.strip() for phase in (args.phases or "").split(",") if phase.strip()
-    ]
     invalid = [phase for phase in phases if phase not in VALID_PHASES]
     if invalid:
         parser.error(f"Invalid phases: {', '.join(invalid)}")
@@ -247,7 +255,7 @@ def _execute_work(args: argparse.Namespace) -> int:
 
         return run_transfer(args)
     from src.pipeline import run_models
-    from src.planning import make_plan, render_plan
+    from src.planning import DeliveryDiskForecast, make_plan, render_plan
 
     validate_execution_prereqs(args)
     plan = make_plan(args, allow_sudo=True)
@@ -266,7 +274,11 @@ def _execute_work(args: argparse.Namespace) -> int:
     log_file(logging.INFO, "Execution authorized: %s", authorized)
     if not authorized:
         return 1
-    run_models(plan.models, plan.max_workers, plan.scheduler())
+    if PHASE_DELIVER_LLM in args.phases:
+        forecast = DeliveryDiskForecast(plan) if PHASE_RESTORE_LLM in args.phases else None
+        run_models(plan.models, plan.max_workers, plan.scheduler(), forecast)
+    else:
+        run_models(plan.models, plan.max_workers, plan.scheduler())
     return 0
 
 

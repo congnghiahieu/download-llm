@@ -10,7 +10,7 @@ import tempfile
 import time
 from collections import defaultdict
 from collections.abc import Callable, Iterator
-from concurrent.futures import Future
+from concurrent.futures import FIRST_COMPLETED, Future, wait
 from contextlib import ExitStack, closing
 from dataclasses import dataclass, field
 from functools import cached_property, partial
@@ -262,6 +262,7 @@ class ModelPipeline:
     inventory: list[Record]
     cache_role: bool
     fingerprint: tuple[int, int, int] | None
+    containerd_push: bool = False
     running: dict[tuple[str, str], tuple[Task, Future[Any]]] = field(
         default_factory=dict
     )
@@ -352,6 +353,10 @@ class ModelPipeline:
         return max(
             entry.get("size_bytes") or 0, self.image_parts_size(entry) + IMAGE_OVERHEAD
         )
+
+    def push_disk_demand(self, size: int) -> dict[str, int]:
+        # The verified containerd store streams existing blobs to the registry.
+        return {} if self.containerd_push else {"docker": size}
 
     def missing_download_bytes(self, raw: Record) -> int:
         size = raw["size_bytes"]
@@ -450,7 +455,7 @@ class ModelPipeline:
                     yield Task(
                         ("push", tag),
                         "docker_push",
-                        {"docker": self.image_estimate(entry)},
+                        self.push_disk_demand(self.image_estimate(entry)),
                         partial(push_image_digest, tag),
                         partial(self._pushed_done, entry, ready),
                     )
@@ -689,7 +694,11 @@ def state_fingerprint(directory: Path) -> tuple[int, int, int] | None:
 
 
 def prepare_model(
-    args: argparse.Namespace, directory: Path, cache_role: bool
+    args: argparse.Namespace,
+    directory: Path,
+    cache_role: bool,
+    *,
+    containerd_push: bool = False,
 ) -> ModelPipeline:
     fingerprint = state_fingerprint(directory)
     state = load_state(directory) if fingerprint else {}
@@ -722,7 +731,15 @@ def prepare_model(
         _validate_path(part["part_filename"])
     for raw in state["raw"]:
         _validate_path(raw["filename"])
-    return ModelPipeline(args, directory, state, inventory, cache_role, fingerprint)
+    return ModelPipeline(
+        args,
+        directory,
+        state,
+        inventory,
+        cache_role,
+        fingerprint,
+        containerd_push=containerd_push,
+    )
 
 
 def run_models(
@@ -731,12 +748,26 @@ def run_models(
     waiting = iter(models)
     active: list[ModelPipeline] = []
     failures: list[tuple[str, Exception]] = []
+    admission_error: Exception | None = None
+
+    def stop_admission(exc: Exception) -> None:
+        nonlocal admission_error
+        admission_error = exc
+        # Failed models skip discovery but still commit every completed future.
+        for model in active:
+            model.failure = model.failure or exc
+        logger.error(
+            "Stopping task admission; saving in-flight results before exit: %s", exc
+        )
+
     # A single coordinator commits all state transitions, even for different models.
     with ExitStack() as locks, closing(scheduler):
         while True:
             generation = scheduler.generation
             while (
-                len(active) < max_workers and (model := next(waiting, None)) is not None
+                admission_error is None
+                and len(active) < max_workers
+                and (model := next(waiting, None)) is not None
             ):
                 try:
                     model.directory.mkdir(parents=True, exist_ok=True)
@@ -863,7 +894,12 @@ def run_models(
                 if buffered_pull and buffered >= window:
                     continue
                 task.started = time.monotonic()
-                future = scheduler.submit(task.kind, task.disk, task.work)
+                try:
+                    future = scheduler.submit(task.kind, task.disk, task.work)
+                except Exception as exc:  # noqa: BLE001 - drain before surfacing admission failure
+                    stop_admission(exc)
+                    progressed = True
+                    break
                 if future is not None:
                     buffered += int(buffered_pull)
                     model.running[task.key] = task, future
@@ -879,7 +915,20 @@ def run_models(
                     if not scheduler.overlap:
                         break
             if not progressed:
-                scheduler.wait_for_change(generation)
+                if admission_error is not None:
+                    wait(
+                        [
+                            future
+                            for model in active
+                            for _, future in model.running.values()
+                        ],
+                        return_when=FIRST_COMPLETED,
+                    )
+                else:
+                    try:
+                        scheduler.wait_for_change(generation)
+                    except Exception as exc:  # noqa: BLE001 - preserve checkpoints on scheduler failure
+                        stop_admission(exc)
     if failures:
         from src.execution import build_retry_command
 

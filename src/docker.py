@@ -34,6 +34,25 @@ from src.naming import docker_pull_tag, docker_repo_name, part_label
 from src.run_logging import log_file
 
 
+def docker_uses_containerd_store() -> bool:
+    try:
+        status = json.loads(
+            subprocess.check_output(
+                ["docker", "info", "--format", "{{json .DriverStatus}}"],
+                text=True,
+                stderr=subprocess.PIPE,
+                timeout=5,
+            )
+        )
+    except (OSError, subprocess.SubprocessError, ValueError) as exc:
+        log_file(logging.INFO, "Docker image store could not be verified: %s", exc)
+        return False
+    return (
+        isinstance(status, list)
+        and ["driver-type", "io.containerd.snapshotter.v1"] in status
+    )
+
+
 def run_docker(args: list[str]) -> subprocess.CompletedProcess[str]:
     return _run_docker_logged(args)
 

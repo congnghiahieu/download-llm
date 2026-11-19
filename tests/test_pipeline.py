@@ -8,12 +8,15 @@ import unittest
 from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 from threading import Event
-from unittest.mock import patch
+from types import SimpleNamespace
+from typing import Any
+from unittest.mock import Mock, patch
 
 import main
 from src.files import restore_raw_file
 from src.pipeline import run_models
-from src.planning import Estimate, PhasePlan, make_plan
+from src.planner_capacity import ResourceCapacity, measure_resources
+from src.planning import Estimate, PhasePlan, make_plan, render_plan
 from src.scheduling import DEFAULT_LIMITS, DISK_HEADROOM, Storage
 from src.state import is_pull_push_complete, load_state
 
@@ -23,11 +26,138 @@ class PipelineTests(unittest.TestCase):
         probe = patch("src.planning.WslStorageProbe.detect", return_value=None)
         probe.start()
         self.addCleanup(probe.stop)
+        resources = patch(
+            "src.planning.measure_resources",
+            return_value=ResourceCapacity(16, 16 * 1024**3),
+        )
+        resources.start()
+        self.addCleanup(resources.stop)
+        backend = patch("src.planning.docker_uses_containerd_store", return_value=False)
+        self.docker_backend = backend.start()
+        self.addCleanup(backend.stop)
 
     def _args(self, root: Path, phases: str, *extra: str):
         return main.parse_args(
             ["--phases", phases, "--model-weights-dir", str(root), *extra]
         )
+
+    def test_plan_report_shows_disk_per_model_and_only_selected_operations(
+        self,
+    ) -> None:
+        model = Mock()
+        model.name = "Example"
+        model.args = SimpleNamespace(phases=["push_docker"])
+        model.state = {"raw": [{"size_bytes": 100}, {"size_bytes": 200}]}
+        estimate = Estimate({"docker": "volume"})
+        estimate.step("docker", 70, 40, kind="docker_build")
+        estimate.step("docker", 50, kind="docker_push")
+        for _ in range(2):
+            estimate.task("docker_build", docker=20)
+        for _ in range(3):
+            estimate.task("docker_push", docker=10)
+        volume = {"roles": ["docker"], "free_bytes": DISK_HEADROOM + 150}
+        plan = PhasePlan([model], {}, [estimate], {"volume": volume}, 1)
+        plan.configure(1, {**DEFAULT_LIMITS, "docker_build": 2, "docker_push": 3})
+
+        self.assertEqual(plan.output()["models"][0]["model_size_bytes"], 300)
+        self.assertEqual(
+            plan.output()["models"][0]["disk"],
+            [
+                {
+                    "roles": ["docker"],
+                    "final_additional_bytes": 0,
+                    "peak_additional_bytes": 120,
+                }
+            ],
+        )
+        self.assertEqual(
+            plan.output()["run_task_limits"], {"docker_build": 2, "docker_push": 3}
+        )
+
+        stream = io.StringIO()
+        with redirect_stdout(stream):
+            render_plan(plan)
+        report = stream.getvalue()
+        self.assertTrue(report.startswith("Disk check: Fits\n"))
+        self.assertIn("Extra at peak", report)
+        self.assertIn("Build Docker images", report)
+        self.assertIn("Push Docker images", report)
+        self.assertNotIn("Download Hugging Face files", report)
+
+        volume["free_bytes"] = DISK_HEADROOM + 100
+        plan.configure(1, plan.limits)
+        self.assertEqual(plan.output()["disk_status"], "fits_reduced_concurrency")
+        self.assertEqual(
+            plan.output()["run_task_limits"], {"docker_build": 1, "docker_push": 1}
+        )
+        self.assertEqual(
+            plan.output()["models"][0]["disk"][0]["peak_additional_bytes"], 90
+        )
+
+    def test_resource_probe_respects_affinity_and_cgroup_budgets(self) -> None:
+        values = {
+            "/proc/meminfo": "MemAvailable: 4096 kB",
+            "/proc/self/cgroup": "0::/example",
+            "/sys/fs/cgroup/example/cpu.max": "250000 100000",
+            "/sys/fs/cgroup/example/memory.max": "4194304",
+            "/sys/fs/cgroup/example/memory.current": "1048576",
+            "/sys/fs/cgroup/cpu.max": "max 100000",
+        }
+        with (
+            patch(
+                "src.planner_capacity._read",
+                side_effect=lambda path: values.get(str(path), ""),
+            ),
+            patch(
+                "src.planner_capacity.os.sched_getaffinity", return_value=set(range(8))
+            ),
+            patch(
+                "src.planner_capacity.subprocess.check_output",
+                return_value="4 16777216",
+            ),
+        ):
+            self.assertEqual(
+                measure_resources(docker=True), ResourceCapacity(2.5, 3 * 1024**2)
+            )
+
+    def test_automatic_limits_follow_job_count_and_measured_budgets(self) -> None:
+        model = Mock()
+        model.args = SimpleNamespace(phases=["push_docker"])
+        model.state = {"raw": []}
+        estimate = Estimate({"docker": "volume"})
+        for _ in range(3):
+            estimate.task("docker_build", docker=80)
+        estimate.step("docker", 80)
+        volume: dict[str, Any] = {
+            "roles": ["docker"],
+            "free_bytes": DISK_HEADROOM + 250,
+        }
+        plan = PhasePlan([model], {}, [estimate], {"volume": volume}, 1)
+        ample = ResourceCapacity(8, 8 * 1024**3)
+
+        plan.configure_auto(1, ample)
+        self.assertEqual(plan.output()["task_limits_source"], "calculated")
+        self.assertEqual(
+            plan.output()["run_task_limits"], {"docker_build": 3, "docker_push": 0}
+        )
+        self.assertEqual(volume["peak_additional_bytes"], 240)
+        self.assertEqual(plan.output()["remaining_tasks"], {"docker_build": 3})
+
+        volume["free_bytes"] = DISK_HEADROOM + 170
+        plan.configure_auto(1, ample)
+        self.assertEqual(plan.limits["docker_build"], 2)
+        self.assertEqual(volume["peak_additional_bytes"], 160)
+
+        plan.configure_auto(1, ResourceCapacity(8, 2 * 1024**3))
+        self.assertEqual(plan.limits["docker_build"], 1)
+        plan.configure_auto(1, ResourceCapacity(1, ample.available_memory_bytes))
+        self.assertFalse(plan.overlap)
+        self.assertEqual(plan.serial_reason, "resources")
+
+        volume["free_bytes"] = None
+        plan.configure_auto(1, ample)
+        self.assertEqual(plan.limits["docker_build"], 1)
+        self.assertEqual(plan.output()["disk_status"], "unknown")
 
     def test_send_pipeline_starts_upload_before_last_file_and_overlaps_build(
         self,
@@ -263,6 +393,142 @@ class PipelineTests(unittest.TestCase):
                 snapshot.assert_called_once()
                 push_mock.assert_called_once_with(first["dockerfiles"][1]["tag"])
                 self.assertTrue(is_pull_push_complete(load_state(root / "m")))
+
+    def test_containerd_push_skips_admission_probe_but_build_does_not(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            args = self._args(
+                root,
+                "pull_llm,push_docker",
+                "--huggingface-link",
+                "https://huggingface.co/o/m",
+            )
+
+            def download(repo: str, name: str, revision: str, dest: Path) -> Path:
+                dest.mkdir(parents=True, exist_ok=True)
+                path = dest / name
+                path.write_bytes(b"ab")
+                return path
+
+            with (
+                patch(
+                    "src.pipeline.model_snapshot", return_value=("a" * 40, [("a", 2)])
+                ),
+                patch("src.pipeline.download_snapshot_file", side_effect=download),
+                patch("src.pipeline.build_isolated_image", return_value=2),
+                patch(
+                    "src.pipeline.push_image_digest", return_value="sha256:" + "b" * 64
+                ),
+                patch("src.pipeline.remove_local_image"),
+                patch("src.planning.planning_cache_dir", return_value=None),
+                patch("src.planning.docker_storage", return_value=root),
+            ):
+                classic = make_plan(args)
+                self.docker_backend.return_value = True
+                plan = make_plan(args)
+                self.assertEqual(plan.remaining_tasks()["docker_push"], 1)
+                self.assertLess(
+                    plan.output()["filesystems"][0]["peak_additional_bytes"],
+                    classic.output()["filesystems"][0]["peak_additional_bytes"],
+                )
+                scheduler = plan.scheduler()
+                submit = scheduler.submit
+                checked = set()
+
+                def record_probe(kind, estimates, work):
+                    store = plan.storage["docker"]
+                    with patch.object(store, "measure", wraps=store.measure) as measure:
+                        future = submit(kind, estimates, work)
+                    if measure.called:
+                        checked.add(kind)
+                    return future
+
+                with patch.object(scheduler, "submit", side_effect=record_probe):
+                    run_models(plan.models, 1, scheduler)
+                self.assertIn("docker_build", checked)
+                self.assertNotIn("docker_push", checked)
+                self.assertTrue(is_pull_push_complete(load_state(root / "m")))
+
+    def test_admission_failure_saves_in_flight_push_before_exit(self) -> None:
+        lost_probe = Event()
+        digest = "sha256:" + "b" * 64
+
+        def download(repo: str, name: str, revision: str, dest: Path) -> Path:
+            dest.mkdir(parents=True, exist_ok=True)
+            path = dest / name
+            path.write_bytes(b"ab")
+            return path
+
+        def push(tag: str) -> str:
+            self.assertTrue(lost_probe.wait(5))
+            return digest
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            args = self._args(
+                root,
+                "pull_llm,push_docker",
+                "--huggingface-link",
+                "https://huggingface.co/o/m",
+                "--max-part-size",
+                "2B",
+                "--max-docker-image-size",
+                "2B",
+            )
+            with (
+                patch(
+                    "src.pipeline.model_snapshot",
+                    return_value=("a" * 40, [(name, 2) for name in "abc"]),
+                ),
+                patch("src.pipeline.download_snapshot_file", side_effect=download),
+                patch("src.pipeline.build_isolated_image", return_value=2),
+                patch("src.pipeline.push_image_digest", side_effect=push) as pushed,
+                patch("src.pipeline.remove_local_image") as cleanup,
+                patch("src.planning.planning_cache_dir", return_value=None),
+                patch("src.planning.docker_storage", return_value=root),
+            ):
+                plan = make_plan(args)
+                plan.configure(1, {**DEFAULT_LIMITS, "docker_push": 2})
+                scheduler = plan.scheduler()
+                submit = scheduler.submit
+                admitted_push = False
+
+                def submit_or_fail(kind, disk, work):
+                    nonlocal admitted_push
+                    if kind == "docker_push" and admitted_push:
+                        lost_probe.set()
+                        raise RuntimeError(
+                            "Disk capacity for docker can no longer be verified"
+                        )
+                    future = submit(kind, disk, work)
+                    if kind == "docker_push" and future is not None:
+                        admitted_push = True
+                    return future
+
+                def verify_saved_before_cleanup(tag: str) -> None:
+                    entries = load_state(root / "m")["dockerfiles"]
+                    self.assertEqual(
+                        next(entry for entry in entries if entry["tag"] == tag)[
+                            "digest"
+                        ],
+                        digest,
+                    )
+
+                cleanup.side_effect = verify_saved_before_cleanup
+                with (
+                    patch.object(scheduler, "submit", side_effect=submit_or_fail),
+                    self.assertRaisesRegex(RuntimeError, "Disk capacity for docker"),
+                ):
+                    run_models(plan.models, 1, scheduler)
+
+                pushed.assert_called_once()
+                admitted_tag = pushed.call_args.args[0]
+                cleanup.assert_called_once_with(admitted_tag)
+                entries = load_state(root / "m")["dockerfiles"]
+                self.assertEqual(
+                    [entry["tag"] for entry in entries if entry["pushed"]],
+                    [admitted_tag],
+                )
 
     def test_unknown_disk_blocks_execution_without_terminal(self) -> None:
         plan = PhasePlan(

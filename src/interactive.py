@@ -249,7 +249,7 @@ def run_interactive() -> int:
 
 
 def preview_plan(plan: PhasePlan) -> bool:
-    from src.planning import render_plan
+    from src.planning import TASK_LABELS, render_plan
 
     def limit(label: str, default: int) -> int:
         while True:
@@ -264,7 +264,10 @@ def preview_plan(plan: PhasePlan) -> bool:
         if action != "edit":
             return action == "run"
         workers = limit("Max active models", plan.requested_workers)
-        limits = {kind: limit(kind, current) for kind, current in plan.limits.items()}
+        limits = plan.limits | {
+            kind: limit(TASK_LABELS[kind], current)
+            for kind, current in plan.selected_task_limits().items()
+        }
         plan.configure(workers, limits)
 
 

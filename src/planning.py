@@ -4,8 +4,9 @@ import argparse
 import json
 import sys
 from collections import Counter, defaultdict
+from collections.abc import Sequence
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, TextIO
 
 from src.constants import (
     PHASE_PULL_DOCKERHUB,
@@ -13,14 +14,14 @@ from src.constants import (
     PHASE_PUSH_DOCKER,
     PHASE_RESTORE_LLM,
 )
-from src.docker import docker_image_exists
+from src.docker import docker_image_exists, docker_uses_containerd_store
 from src.execution import copy_args_for_model, resolve_pull_targets
 from src.files import extracted_parts_exist, path_matches, restored_file_valid
 from src.huggingface import planning_cache_dir
 from src.naming import docker_pull_tag
-from src.pipeline import ModelPipeline, prepare_model
+from src.pipeline import ModelPipeline, _pushed, prepare_model
+from src.planner_capacity import ResourceCapacity, measure_resources
 from src.scheduling import (
-    DEFAULT_LIMITS,
     DISK_HEADROOM,
     DockerDesktopRoot,
     Scheduler,
@@ -32,6 +33,46 @@ from src.scheduling import (
 from src.sizes import human_size
 from src.state import effective_base_dir, resolve_model_names
 from src.wsl_storage import DockerWslStorage, WindowsBackingStorage, WslStorageProbe
+
+TASK_LABELS = {
+    "hf_download": "Download Hugging Face files",
+    "split": "Split files into parts",
+    "docker_build": "Build Docker images",
+    "docker_push": "Push Docker images",
+    "docker_pull": "Pull Docker images",
+    "extract_restore": "Extract images / restore files (shared)",
+}
+# Estimates per admitted task; Docker may use more internally (e.g. parallel layers).
+_MIB = 1024**2
+_TASK_COST = {
+    "hf_download": (1, 128 * _MIB),
+    "split": (1, 128 * _MIB),
+    "docker_build": (2, 1024 * _MIB),
+    "docker_push": (2, 512 * _MIB),
+    "docker_pull": (1, 512 * _MIB),
+    "extract_restore": (1, 256 * _MIB),
+}
+_PHASE_TASKS = {
+    PHASE_PULL_LLM: ("hf_download", "split"),
+    PHASE_PUSH_DOCKER: ("docker_build", "docker_push"),
+    PHASE_PULL_DOCKERHUB: ("docker_pull",),
+    PHASE_RESTORE_LLM: ("docker_pull", "extract_restore"),
+}
+_DISK_STATUS = {
+    "fits": "Fits",
+    "fits_reduced_concurrency": "Fits with reduced concurrency",
+    "insufficient_final": "Not enough space for retained data",
+    "insufficient_temporary": "Not enough working space, even in serial",
+    "unknown": "Unknown capacity; confirmation required",
+}
+_STORAGE_LABELS = {
+    "weights": "Model files",
+    "hf_cache": "Hugging Face cache",
+    "docker": "Docker storage",
+    "weights_host": "Model files",
+    "hf_cache_host": "Hugging Face cache",
+    "docker_host": "Docker",
+}
 
 
 @dataclass
@@ -48,6 +89,9 @@ class Estimate:
         default_factory=lambda: defaultdict(list)
     )
     transfer: Counter[str] = field(default_factory=Counter)
+    jobs: dict[str, list[dict[str, int]]] = field(
+        default_factory=lambda: defaultdict(list)
+    )
 
     def devices(self, role: str) -> tuple[str, ...]:
         return tuple(
@@ -56,6 +100,13 @@ class Estimate:
                 for name in storage_constraints(role, self.device_for)
             )
         )
+
+    def task(self, kind: str, **bytes_by_role: int) -> None:
+        reservation: Counter[str] = Counter()
+        for role, size in bytes_by_role.items():
+            for device in self.devices(role):
+                reservation[device] += size
+        self.jobs[kind].append(dict(reservation))
 
     def step(
         self,
@@ -90,7 +141,8 @@ def _estimate_send(model: ModelPipeline, calc: Estimate) -> set[str]:
     entries = state["dockerfiles"] if model.publishing else []
     ready = {part["part_filename"] for part in state["parts"]}
     parts = {part["part_filename"]: part for part in model.inventory}
-    remaining = [entry for entry in entries if not entry.get("pushed")]
+    pinned = bool(state.get("snapshot"))
+    remaining = [entry for entry in entries if not _pushed(entry, pinned)]
     added_parts: set[str] = set()
     local_builds: set[str] = set()
 
@@ -102,6 +154,7 @@ def _estimate_send(model: ModelPipeline, calc: Estimate) -> set[str]:
             tag = entry["tag"]
             size = model.image_estimate(entry)
             if not entry.get("built") or not docker_image_exists(tag):
+                calc.task("docker_build", docker=2 * size)
                 calc.step(
                     "docker",
                     2 * size,
@@ -110,7 +163,10 @@ def _estimate_send(model: ModelPipeline, calc: Estimate) -> set[str]:
                     kind="docker_build",
                 )
                 local_builds.add(tag)
-            calc.step("docker", size, kind="docker_push")
+            demand = model.push_disk_demand(size)
+            calc.task("docker_push", **demand)
+            for role, required in demand.items():
+                calc.step(role, required, kind="docker_push")
             calc.transfer["docker_upload_uncompressed_estimate"] += size
             if args.keep_images and tag in local_builds:
                 calc.keep("docker", size)
@@ -140,10 +196,13 @@ def _estimate_send(model: ModelPipeline, calc: Estimate) -> set[str]:
                 if model.cache_role:
                     calc.step("hf_cache", download, download, temporary=False)
                     calc.keep("hf_cache", download)
+                demand = {"hf_cache": download} if model.cache_role else {}
+                calc.task("hf_download", weights=size, **demand)
                 added_raw = size  # a hard-link may work, but copy fallback needs this reservation
                 calc.step("weights", size, size, temporary=not args.keep_raw)
                 if args.keep_raw:
                     calc.keep("weights", size)
+            calc.task("split", weights=size)
             calc.step(
                 "weights",
                 size,
@@ -186,6 +245,7 @@ def _estimate_receive(
     def restore_ready() -> None:
         for name, size in list(pending.items()):
             if by_raw[name] <= ready:
+                calc.task("extract_restore", weights=size)
                 calc.step("weights", size, size, temporary=False)
                 calc.keep("weights", size)
                 del pending[name]
@@ -213,6 +273,7 @@ def _estimate_receive(
         retained_image = args.keep_images or not model.restoring
         if not local:
             calc.transfer["docker_download_uncompressed_estimate"] += size
+            calc.task("docker_pull", docker=2 * size)
             calc.step("docker", 2 * size, size, temporary=False, kind="docker_pull")
             if retained_image:
                 calc.keep("docker", size)
@@ -224,6 +285,7 @@ def _estimate_receive(
         if not model.restoring:
             continue
         kept_parts = sum(parts[name]["size_bytes"] for name in missing)
+        calc.task("extract_restore", weights=model.image_parts_size(entry))
         calc.step(
             "weights",
             model.image_parts_size(entry),
@@ -261,17 +323,93 @@ class PhasePlan:
     estimates: list[Estimate]
     volumes: dict[str, dict[str, Any]]
     max_workers: int
-    limits: dict[str, int] = field(default_factory=DEFAULT_LIMITS.copy)
+    limits: dict[str, int] = field(
+        default_factory=lambda: dict.fromkeys(TASK_LABELS, 1)
+    )
     overlap: bool = True
     requested_workers: int = 1
+    resources: ResourceCapacity | None = None
+    task_limits_source: str = "configured"
+    serial_reason: str | None = None
 
-    def configure(self, workers: int, limits: dict[str, int]) -> None:
-        if workers < 1 or any(limits[kind] < 1 for kind in DEFAULT_LIMITS):
+    def _peak(
+        self,
+        device: str,
+        estimates: list[Estimate],
+        workers: int,
+        serial: int,
+        final: int,
+        limits: dict[str, int] | None = None,
+    ) -> int:
+        caps = self.limits if limits is None else limits
+        extras = sorted(
+            (item.possible_temp[device] for item in estimates), reverse=True
+        )
+        scratch = sum(
+            sum(
+                sorted(
+                    (
+                        size
+                        for item in estimates
+                        for size in item.scratch.get((device, kind), [])
+                    ),
+                    reverse=True,
+                )[:limit]
+            )
+            for kind, limit in caps.items()
+        )
+        buffered = sorted(
+            (size for item in estimates for size in item.pull_backlog.get(device, [])),
+            reverse=True,
+        )
+        window = caps["docker_pull"] + caps["extract_restore"]
+        reservations = sum(
+            sum(
+                sorted(
+                    (
+                        job.get(device, 0)
+                        for item in estimates
+                        for job in item.jobs.get(kind, [])
+                    ),
+                    reverse=True,
+                )[:limit]
+            )
+            for kind, limit in caps.items()
+        )
+        return max(
+            serial,
+            final + sum(extras[:workers]) + scratch + sum(buffered[:window]),
+            reservations,
+        )
+
+    def _batch_peak(
+        self, device: str, workers: int, limits: dict[str, int] | None = None
+    ) -> int:
+        volume = self.volumes[device]
+        return self._peak(
+            device,
+            self.estimates,
+            workers,
+            volume["serial_peak_additional_bytes"],
+            volume["final_additional_bytes"],
+            limits,
+        )
+
+    def _fits(self, device: str, additional: int) -> bool:
+        available = self.volumes[device]["free_bytes"]
+        return available is None or available >= additional + DISK_HEADROOM
+
+    def configure(
+        self, workers: int, limits: dict[str, int], *, allow_overlap: bool = True
+    ) -> None:
+        if workers < 1 or any(limits[kind] < 1 for kind in TASK_LABELS):
             raise ValueError("Model and task limits must be positive")
         self.requested_workers = min(workers, len(self.models))
-        self.max_workers = self.requested_workers
+        self.max_workers = self.requested_workers if allow_overlap else 1
         self.limits = limits.copy()
-        self.overlap = True
+        self.task_limits_source = "configured"
+        self.overlap = allow_overlap
+        self.serial_reason = None if allow_overlap else "resources"
         for device, volume in self.volumes.items():
             total = sum(item.retained[device] for item in self.estimates)
             carry = minimum = 0
@@ -281,92 +419,175 @@ class PhasePlan:
             volume["final_additional_bytes"] = total
             volume["serial_peak_additional_bytes"] = max(total, minimum)
 
-        def peak(device: str, count: int) -> int:
-            extras = sorted(
-                (item.possible_temp[device] for item in self.estimates), reverse=True
-            )
-            scratch = sum(
-                sum(
-                    sorted(
-                        (
-                            size
-                            for item in self.estimates
-                            for size in item.scratch.get((device, kind), [])
-                        ),
-                        reverse=True,
-                    )[:limit]
-                )
-                for kind, limit in self.limits.items()
-            )
-            buffered_pulls = sorted(
-                (
-                    size
-                    for item in self.estimates
-                    for size in item.pull_backlog.get(device, [])
-                ),
-                reverse=True,
-            )
-            window = self.limits["docker_pull"] + self.limits["extract_restore"]
-            return max(
-                self.volumes[device]["serial_peak_additional_bytes"],
-                self.volumes[device]["final_additional_bytes"]
-                + sum(extras[:count])
-                + scratch
-                + sum(buffered_pulls[:window]),
-            )
-
-        def fits(device: str, additional: int) -> bool:
-            available = self.volumes[device]["free_bytes"]
-            return available is None or available >= additional + DISK_HEADROOM
-
         while self.max_workers > 1 and not all(
-            fits(dev, peak(dev, self.max_workers)) for dev in self.volumes
+            self._fits(dev, self._batch_peak(dev, self.max_workers))
+            for dev in self.volumes
         ):
             self.max_workers -= 1
-        if not all(fits(dev, peak(dev, self.max_workers)) for dev in self.volumes):
+        if self.overlap and not all(
+            self._fits(dev, self._batch_peak(dev, self.max_workers))
+            for dev in self.volumes
+        ):
             self.overlap = False
             self.max_workers = 1
+            self.serial_reason = "disk"
         for device, volume in self.volumes.items():
             final = volume["final_additional_bytes"]
             serial = volume["serial_peak_additional_bytes"]
             volume["peak_additional_bytes"] = (
-                peak(device, self.max_workers) if self.overlap else serial
+                self._batch_peak(device, self.max_workers) if self.overlap else serial
             )
             if volume["free_bytes"] is None:
                 status = "unknown"
-            elif not fits(device, final):
+            elif not self._fits(device, final):
                 status = "insufficient_final"
-            elif not fits(device, serial):
+            elif not self._fits(device, serial):
                 status = "insufficient_temporary"
-            elif not fits(device, peak(device, self.requested_workers)):
+            elif not self._fits(
+                device, self._batch_peak(device, self.requested_workers)
+            ):
                 status = "fits_reduced_concurrency"
             else:
                 status = "fits"
             volume["status"] = status
 
+    def remaining_tasks(self) -> Counter[str]:
+        counts: Counter[str] = Counter()
+        for estimate in self.estimates:
+            counts.update({kind: len(jobs) for kind, jobs in estimate.jobs.items()})
+        return counts
+
+    def configure_auto(self, workers: int, resources: ResourceCapacity) -> None:
+        self.resources = resources
+        limits = dict.fromkeys(TASK_LABELS, 1)
+        pending = self.remaining_tasks()
+
+        def fits_resources(caps: dict[str, int]) -> bool:
+            if not pending:
+                return True
+            cpu, ram = resources.cpu_threads, resources.available_memory_bytes
+            if cpu is None or ram is None:
+                return False
+            cpus = memory = 0
+            for kind, count in pending.items():
+                task_cpu, task_memory = _TASK_COST[kind]
+                slots = min(caps[kind], count)
+                cpus += task_cpu * slots
+                memory += task_memory * slots
+            return cpus <= cpu and memory <= max(0, ram - max(1024 * _MIB, ram // 5))
+
+        allow_overlap = fits_resources(limits)
+        self.configure(workers, limits, allow_overlap=allow_overlap)
+        # Keep the model count chosen at one slot per operation. Only grow the
+        # per-operation caps if the measured budgets still fit that schedule.
+        disk_known = all(
+            volume["free_bytes"] is not None for volume in self.volumes.values()
+        )
+        if self.overlap and disk_known:
+            growing = True
+            while growing:
+                growing = False
+                for kind in TASK_LABELS:
+                    if limits[kind] >= pending[kind]:
+                        continue
+                    candidate = limits | {kind: limits[kind] + 1}
+                    if fits_resources(candidate) and all(
+                        self._fits(
+                            device,
+                            self._batch_peak(device, self.max_workers, candidate),
+                        )
+                        for device in self.volumes
+                    ):
+                        limits = candidate
+                        growing = True
+            self.configure(workers, limits, allow_overlap=allow_overlap)
+        self.task_limits_source = "calculated"
+
+    def selected_task_limits(self) -> dict[str, int]:
+        tasks = {
+            task
+            for model in self.models
+            for phase in model.args.phases
+            for task in _PHASE_TASKS[phase]
+        }
+        return {kind: self.limits[kind] for kind in TASK_LABELS if kind in tasks}
+
+    def _model_output(self, model: ModelPipeline, estimate: Estimate) -> dict[str, Any]:
+        sizes = [raw.get("size_bytes") for raw in model.state["raw"]]
+        disk = []
+        for device, volume in self.volumes.items():
+            final = estimate.retained[device]
+            serial_peak = max(final, estimate.serial_peak[device])
+            row = {
+                "roles": volume["roles"],
+                "final_additional_bytes": final,
+                "peak_additional_bytes": self._peak(
+                    device, [estimate], 1, serial_peak, final
+                )
+                if self.overlap
+                else serial_peak,
+            }
+            if drive := volume.get("windows_drive"):
+                row["windows_drive"] = drive
+            disk.append(row)
+        return {
+            "name": model.name,
+            "phases": model.args.phases,
+            "revision": model.state.get("snapshot", {}).get("commit"),
+            "model_size_bytes": sum(sizes)
+            if sizes and all(isinstance(size, int) for size in sizes)
+            else None,
+            "disk": disk,
+            "network_bytes": dict(estimate.transfer),
+        }
+
     def output(self) -> dict[str, Any]:
+        pending = self.remaining_tasks()
+        statuses = {volume["status"] for volume in self.volumes.values()}
+        status = next(
+            (
+                key
+                for key in (
+                    "insufficient_final",
+                    "insufficient_temporary",
+                    "unknown",
+                    "fits_reduced_concurrency",
+                )
+                if key in statuses
+            ),
+            "fits",
+        )
         return {
             "models": [
-                {
-                    "name": model.name,
-                    "phases": model.args.phases,
-                    "revision": model.state.get("snapshot", {}).get("commit"),
-                    "network_bytes": dict(estimate.transfer),
-                }
+                self._model_output(model, estimate)
                 for model, estimate in zip(self.models, self.estimates)
             ],
             "requested_model_workers": self.requested_workers,
             "model_workers": self.max_workers,
             "task_limits": self.limits,
+            "run_task_limits": {
+                task: min(pending[task], limit if self.overlap else 1)
+                for task, limit in self.selected_task_limits().items()
+            },
+            "task_limits_source": self.task_limits_source,
+            "remaining_tasks": dict(pending),
+            "resource_capacity": {
+                "cpu_threads": self.resources.cpu_threads,
+                "available_memory_bytes": self.resources.available_memory_bytes,
+            }
+            if self.resources is not None
+            else None,
             "task_overlap": self.overlap,
+            "serial_reason": self.serial_reason,
+            "disk_status": status,
             "disk_headroom_bytes": DISK_HEADROOM,
             "filesystems": list(self.volumes.values()),
             "notes": [
                 "Disk peaks including Docker layers/cache are estimates, not guaranteed bounds.",
                 "Hugging Face raw files reserve space for a copy even when the stdlib backend may hard-link from cache.",
                 "Docker network estimates are uncompressed sizes; registry layer reuse and wire sizes are not known.",
-                "Concurrency is global. Disk checks may reduce it at runtime.",
-                "Python streams file I/O in chunks; Docker memory and disk I/O vary by daemon and workload.",
+                "Calculated limits use pending jobs and measured CPU, RAM, and disk, with estimated resource costs per operation.",
+                "Network throughput is not benchmarked; runtime disk checks may reduce actual concurrency.",
             ],
         }
 
@@ -464,9 +685,13 @@ def make_plan(args: argparse.Namespace, *, allow_sudo: bool = False) -> PhasePla
         raise ValueError(
             "Multiple selected models resolve to the same weights directory; run with distinct model names"
         )
+    containerd_push = PHASE_PUSH_DOCKER in phases and docker_uses_containerd_store()
     models = [
         prepare_model(
-            copy_args_for_model(args, name, link), base / name, cache is not None
+            copy_args_for_model(args, name, link),
+            base / name,
+            cache is not None,
+            containerd_push=containerd_push,
         )
         for name, link in targets
     ]
@@ -503,7 +728,7 @@ def make_plan(args: argparse.Namespace, *, allow_sudo: bool = False) -> PhasePla
     estimates = [_model_estimate(model, devices) for model in models]
     workers = getattr(args, "max_workers", None) or len(models)
     plan = PhasePlan(models, storage, estimates, volumes, workers)
-    plan.configure(workers, DEFAULT_LIMITS)
+    plan.configure_auto(workers, measure_resources(docker="docker" in storage))
     return plan
 
 
@@ -515,45 +740,139 @@ def render_plan(
     if output == "json":
         print(json.dumps(info, indent=2), file=stream)
         return
-    print(f"Models: {', '.join(model.name for model in plan.models)}", file=stream)
-    for model in info["models"]:
-        network = ", ".join(
-            f"{name}={human_size(size)}"
-            for name, size in model["network_bytes"].items()
+    print(f"Disk check: {_DISK_STATUS[info['disk_status']]}", file=stream)
+    print(
+        f"Reserved free space: {human_size(DISK_HEADROOM)} per filesystem.", file=stream
+    )
+    rows = []
+    for volume in plan.volumes.values():
+        rows.append(
+            (
+                _storage_name(volume),
+                _format_bytes(volume["free_bytes"]),
+                human_size(volume["final_additional_bytes"]),
+                human_size(volume["peak_additional_bytes"]),
+                _DISK_STATUS[volume["status"]],
+            )
         )
-        if network:
-            print(f"  {model['name']} network: {network}", file=stream)
-    print(
-        f"Model workers: {plan.max_workers}/{plan.requested_workers}, task overlap: {plan.overlap}",
-        file=stream,
-    )
-    print(
-        "Task limits: "
-        + ", ".join(f"{kind}={limit}" for kind, limit in plan.limits.items()),
-        file=stream,
-    )
-    print(f"Disk (headroom per filesystem: {human_size(DISK_HEADROOM)})", file=stream)
-    print(
-        f"{'Filesystem roles':25} {'Free':>12} {'Final +':>12} {'Serial peak +':>14} {'Peak +':>12}  Status",
-        file=stream,
+    _print_table(
+        stream,
+        ("Filesystem", "Free now", "Extra kept", "Extra at peak", "Result"),
+        rows,
+        numeric=(1, 2, 3),
     )
     for volume in plan.volumes.values():
-        free = (
-            "unknown"
-            if volume["free_bytes"] is None
-            else human_size(volume["free_bytes"])
-        )
-        roles = ", ".join(volume["roles"])
-        if drive := volume.get("windows_drive"):
-            roles = f"{roles} ({drive})"
+        if reason := volume.get("measurement_error"):
+            print(f"  {_storage_name(volume)}: {reason}", file=stream)
+
+    print("\nDisk by model", file=stream)
+    rows = []
+    for model in info["models"]:
+        for index, volume in enumerate(model["disk"]):
+            rows.append(
+                (
+                    model["name"] if index == 0 else "",
+                    _format_bytes(model["model_size_bytes"]) if index == 0 else "",
+                    _storage_name(volume),
+                    human_size(volume["final_additional_bytes"]),
+                    human_size(volume["peak_additional_bytes"]),
+                )
+            )
+    _print_table(
+        stream,
+        ("Model", "Original size", "Filesystem", "Extra kept", "Extra at peak"),
+        rows,
+        numeric=(1, 3, 4),
+    )
+    print(
+        "Extra kept is new space still in use at the end; extra at peak is the most new space needed during the run.",
+        file=stream,
+    )
+    print(
+        "Existing data is already counted in free space. Docker cache and peak figures are estimates.",
+        file=stream,
+    )
+    if any(volume.get("windows_drive") for volume in plan.volumes.values()):
         print(
-            f"{roles:25} {free:>12} "
-            f"{human_size(volume['final_additional_bytes']):>12} "
-            f"{human_size(volume['serial_peak_additional_bytes']):>14} "
-            f"{human_size(volume['peak_additional_bytes']):>12}  {volume['status']}",
+            "Windows backing space checks the same writes at the host level. Do not add it to guest figures.",
             file=stream,
         )
-        if reason := volume.get("measurement_error"):
-            print(f"  {reason}", file=stream)
-    for note in info["notes"]:
-        print(note, file=stream)
+    if len(plan.models) > 1:
+        print(
+            "Per-model peaks assume one model at a time. Use the first table to check space for the full run.",
+            file=stream,
+        )
+
+    print(
+        f"\nConcurrency for this run: {plan.max_workers} of {plan.requested_workers} requested models",
+        file=stream,
+    )
+    if not plan.overlap:
+        reason = (
+            "CPU/RAM budget" if plan.serial_reason == "resources" else "Disk budget"
+        )
+        print(
+            f"{reason} requires one operation at a time, with no overlap.", file=stream
+        )
+    if resources := info["resource_capacity"]:
+        cpu = resources["cpu_threads"]
+        cpu_label = "Unknown" if cpu is None else f"{cpu:g}"
+        print(
+            f"Capacity checked: {cpu_label} CPU threads, {_format_bytes(resources['available_memory_bytes'])} RAM available.",
+            file=stream,
+        )
+    _print_table(
+        stream,
+        ("Operation", "Jobs left", "Max at once"),
+        [
+            (TASK_LABELS[task], str(info["remaining_tasks"].get(task, 0)), str(limit))
+            for task, limit in info["run_task_limits"].items()
+        ],
+        numeric=(1, 2),
+    )
+    source = (
+        "Calculated from pending jobs and available resources"
+        if plan.task_limits_source == "calculated"
+        else "Configured in this plan"
+    )
+    print(
+        f"{source}. Caps are shared across models; per-job costs are estimates and network speed was not benchmarked.",
+        file=stream,
+    )
+
+
+def _format_bytes(value: int | None) -> str:
+    return "Unknown" if value is None else human_size(value)
+
+
+def _storage_name(volume: dict[str, Any]) -> str:
+    roles = volume["roles"]
+    if drive := volume.get("windows_drive"):
+        return f"Windows {drive}" + (" (shared)" if len(roles) > 1 else "")
+    return " + ".join(
+        f"Windows drive for {_STORAGE_LABELS.get(role, role)}"
+        if role.endswith("_host")
+        else _STORAGE_LABELS.get(role, role)
+        for role in roles
+    )
+
+
+def _print_table(
+    stream: TextIO,
+    headers: tuple[str, ...],
+    rows: Sequence[tuple[str, ...]],
+    *,
+    numeric: tuple[int, ...] = (),
+) -> None:
+    widths = [
+        max(len(header), max((len(row[i]) for row in rows), default=0))
+        for i, header in enumerate(headers)
+    ]
+    for index, row in enumerate([headers, *rows]):
+        cells = (
+            value.rjust(widths[i]) if i in numeric else value.ljust(widths[i])
+            for i, value in enumerate(row)
+        )
+        print("  ".join(cells).rstrip(), file=stream)
+        if index == 0:
+            print("  ".join("-" * width for width in widths), file=stream)

@@ -12,12 +12,22 @@ from unittest.mock import patch
 
 import main
 from scripts import src_image
-from src.docker import push_image_digest
+from src.docker import docker_uses_containerd_store, push_image_digest
 from src.run_logging import run_logging
 from src.scheduling import docker_storage
 
 
 class DockerUtilsTests(unittest.TestCase):
+    def test_containerd_store_requires_explicit_daemon_marker(self) -> None:
+        with patch("src.docker.subprocess.check_output") as info:
+            info.return_value = '[["driver-type", "io.containerd.snapshotter.v1"]]'
+            self.assertTrue(docker_uses_containerd_store())
+            for status in ('[["Backing Filesystem", "extfs"]]', "null", "invalid JSON"):
+                info.return_value = status
+                self.assertFalse(docker_uses_containerd_store())
+            info.side_effect = subprocess.TimeoutExpired("docker info", 5)
+            self.assertFalse(docker_uses_containerd_store())
+
     def test_docker_desktop_storage_is_not_treated_as_local_through_unix_socket(
         self,
     ) -> None:

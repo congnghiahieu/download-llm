@@ -112,13 +112,21 @@ python3 main.py --plan --phases pull_dockerhub,restore_llm --model-name my-model
 ```
 
 1. `--max-workers` is the maximum number of active models, not a multiplier for task limits.
-2. The initial command-wide limits are 2 Hugging Face downloads, 1 split, 1 build, 1 push, 2 Docker pulls, and 1 shared extract/restore slot.
+2. Command-wide task caps are calculated for each run from pending jobs, measured CPU and available RAM, and measured free space. Extract and restore share one operation limit.
 3. No-args interactive mode shows the plan before execution and lets you revise the model and task limits for that run.
 4. The planner distinguishes final storage from temporary peak per filesystem and reserves 1 GiB of headroom per filesystem.
 5. A plan that does not fit at the requested concurrency can reduce model concurrency or serialize tasks; known insufficient storage blocks execution.
 6. If local Docker storage needs elevated read access, execution may ask permission to use `sudo stat`; the application does not handle the password.
 7. Unknown storage requires explicit confirmation before execution; without a terminal the command exits nonzero instead.
 8. Docker layer/cache and network estimates are approximate; runtime admission rechecks free space and stops with checkpoints if no task can safely proceed.
+9. If the scheduler cannot admit new work because a disk probe fails, it waits for in-flight tasks and checkpoints successful results before reporting the failure. A forced process termination cannot guarantee this.
+10. If the Docker daemon reports a containerd image store, push streams existing layers and does not reserve another image-sized allocation or probe disk at task admission. If the backend cannot be verified or uses the classic store, push keeps the conservative reservation and probe. Preflight and admission checks for write-heavy tasks such as build, pull, and restore are unchanged.
+
+The table starts with the disk decision and shows `Extra kept` (additional bytes still used after the run) and `Extra at peak` (the largest additional requirement during the run).
+The per-model section also reports the original model size, which is not necessarily the amount kept locally. Use the combined table to judge a multi-model run; individual peaks are estimates for a model running on its own.
+The operation table shows the remaining jobs and shared caps for the selected phases. CPU and RAM costs per job are estimates, not measured job usage or a throughput benchmark.
+The planner starts with one slot per operation and only adds slots if enough jobs remain and the disk and compute budgets permit it. Unknown disk capacity prevents scaling up and still requires confirmation before execution.
+JSON output also includes network estimates, capacity inputs, and both the configured and effective task limits.
 
 On WSL 2, the planner checks the Linux filesystem and the Windows drive backing its VHDX separately.
 For Docker Desktop with its WSL backend, it measures the daemon's guest filesystem and checks the Windows drive containing `docker_data.vhdx`.

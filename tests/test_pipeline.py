@@ -302,6 +302,122 @@ class PipelineTests(unittest.TestCase):
             )
             self.assertTrue(main.phase_status(load_state(model))["restore_llm"])
 
+    def test_resume_after_cleanup_regenerates_only_unpublished_parts_from_pinned_commit(self) -> None:
+        commit = "a" * 40
+        digest = "sha256:" + "b" * 64
+
+        def download(repo: str, name: str, revision: str, dest: Path) -> Path:
+            self.assertEqual((repo, revision), ("o/m", commit))
+            dest.mkdir(parents=True, exist_ok=True)
+            path = dest / name
+            path.write_bytes(b"abcd")
+            return path
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            model = root / "m"
+            extra = ("--huggingface-link", "https://huggingface.co/o/m", "--max-part-size", "2B", "--max-docker-image-size", "2B")
+            with (
+                patch("src.pipeline.model_snapshot", return_value=(commit, [("a.bin", 4)])) as snapshot,
+                patch("src.pipeline.download_snapshot_file", side_effect=download) as download_file,
+                patch("src.pipeline.build_isolated_image", return_value=2) as build,
+                patch("src.pipeline.push_image_digest", return_value=digest) as push,
+                patch("src.pipeline.docker_image_exists", return_value=False),
+                patch("src.pipeline.remove_local_image"),
+                patch("src.planning.planning_cache_dir", return_value=None),
+                patch("src.planning.docker_storage", return_value=root),
+            ):
+                plan = make_plan(self._args(root, "pull_llm,push_docker", *extra, "--keep-raw", "--keep-parts"))
+                run_models(plan.models, plan.max_workers, plan.scheduler())
+                state = load_state(model)
+                published, pending = state["dockerfiles"]
+                pending.update(pushed=False, built=False)
+                pending.pop("digest")
+                state["publication"]["complete"] = False
+                main.save_state(model, state)
+                # Simulate a crash after deleting the parts but before updating their flags.
+                for part in (model / "parts").iterdir():
+                    part.unlink()
+                with redirect_stdout(io.StringIO()):
+                    self.assertEqual(main.execute(main.parse_args([
+                        "--cleanup", "--model-name", "m", "--model-weights-dir", tmp,
+                        "--delete", "raw", "--yes",
+                    ])), 0)
+                self.assertTrue(all(not part["deleted"] for part in load_state(model)["parts"]))
+                build.reset_mock()
+                push.reset_mock()
+                download_file.reset_mock()
+                plan = make_plan(self._args(root, "pull_llm,push_docker", *extra))
+                self.assertEqual(plan.output()["remaining_tasks"]["split"], 1)
+                run_models(plan.models, plan.max_workers, plan.scheduler())
+                download_file.assert_called_once()
+                snapshot.assert_called_once()  # The retry does not resolve the moving branch.
+                build.assert_called_once()
+                self.assertEqual(build.call_args.args[1]["tag"], pending["tag"])
+                push.assert_called_once_with(pending["tag"])
+            current = load_state(model)
+            self.assertTrue(is_pull_push_complete(current))
+            self.assertEqual(current["dockerfiles"][0]["digest"], published["digest"])
+            self.assertFalse((model / "parts" / published["included_parts"][0]).exists())
+
+    def test_restore_after_cleanup_reuses_extracted_then_pulls_exact_digest(self) -> None:
+        payload = b"xy"
+        digest = "sha256:" + "d" * 64
+        sha = hashlib.sha256(payload).hexdigest()
+        commit = "a" * 40
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            model = root / "model"
+            state = main.make_initial_state("model", "o/m", "main", "https://huggingface.co/o/m", 2, 2)
+            state["snapshot"] = {"commit": commit, "files": [["a.bin", 2]]}
+            state["publication"] = {"complete": True, "commit": commit}
+            state["raw"] = [{"filename": "a.bin", "downloaded": True, "split": True, "size_bytes": 2, "sha256": sha}]
+            state["parts"] = [{"part_filename": "a-part0001.bin", "raw_filename": "a.bin", "size_bytes": 2,
+                               "sha256": sha, "index": 1, "extracted": True}]
+            state["restore"] = [{"raw_filename": "a.bin", "restored": True, "sha256": sha}]
+            state["dockerfiles"] = [{"tag": "o/m:part0001", "built": True, "pushed": True, "pulled": True,
+                                     "digest": digest, "included_parts": ["a-part0001.bin"]}]
+            main.save_state(model, state)
+            extracted = model / "extracted/parts/a-part0001.bin"
+            restored = model / "extracted/restored/a.bin"
+            for path in (extracted, restored):
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(payload)
+
+            def clean(categories: str) -> None:
+                with redirect_stdout(io.StringIO()):
+                    self.assertEqual(main.execute(main.parse_args([
+                        "--cleanup", "--model-name", "model", "--model-weights-dir", tmp,
+                        "--delete", categories, "--yes",
+                    ])), 0)
+
+            def extract(directory, entry, prefix, *, target_dir):
+                (target_dir / extracted.name).write_bytes(payload)
+
+            args = self._args(root, "restore_llm", "--model-name", "model", "--keep-extracted-parts")
+            with (
+                patch("src.planning.docker_storage", return_value=root),
+                patch("src.pipeline.docker_image_exists", return_value=False),
+                patch("src.pipeline.run_docker") as docker,
+                patch("src.pipeline.extract_image_parts", side_effect=extract),
+                patch("src.pipeline.remove_local_image"),
+            ):
+                clean("restored")
+                self.assertFalse(restored.exists())
+                self.assertTrue(load_state(model)["restore"][0]["deleted"])
+                plan = make_plan(args)
+                run_models(plan.models, plan.max_workers, plan.scheduler())
+                docker.assert_not_called()
+                self.assertEqual(restored.read_bytes(), payload)
+                clean("restored,extracted")
+                plan = make_plan(args)
+                run_models(plan.models, plan.max_workers, plan.scheduler())
+                docker.assert_called_once_with(["pull", f"o/m@{digest}"])
+            self.assertEqual(restored.read_bytes(), payload)
+            current = load_state(model)
+            self.assertFalse(current["restore"][0]["deleted"])
+            self.assertTrue(is_pull_push_complete(current))
+
     def test_disk_plan_distinguishes_final_and_temporary_space(self) -> None:
         dummy = unittest.mock.Mock()
         estimate = Estimate({"weights": "vol"})

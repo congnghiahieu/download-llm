@@ -16,7 +16,7 @@ from src.constants import (
 )
 from src.docker import docker_image_exists, docker_uses_containerd_store
 from src.execution import copy_args_for_model, resolve_pull_targets
-from src.files import extracted_parts_exist, path_matches, restored_file_valid
+from src.files import extracted_parts_exist, restored_file_valid
 from src.huggingface import planning_cache_dir
 from src.naming import docker_pull_tag
 from src.pipeline import ModelPipeline, _pushed, prepare_model
@@ -137,23 +137,27 @@ class Estimate:
 
 
 def _estimate_send(model: ModelPipeline, calc: Estimate) -> set[str]:
+    if not (model.downloading or model.publishing):
+        return set()
     state, args = model.state, model.args
     entries = state["dockerfiles"] if model.publishing else []
-    ready = {part["part_filename"] for part in state["parts"]}
+    ready = {part["part_filename"] for part in state["parts"] if model.part_available(part)}
     parts = {part["part_filename"]: part for part in model.inventory}
     pinned = bool(state.get("snapshot"))
     remaining = [entry for entry in entries if not _pushed(entry, pinned)]
+    existing_builds = {entry["tag"] for entry in remaining if entry.get("built") and docker_image_exists(entry["tag"])}
+    required = model.required_send_parts(existing_builds)
     added_parts: set[str] = set()
     local_builds: set[str] = set()
 
     def publish_ready() -> None:
         for entry in remaining[:]:
-            if not ready.issuperset(entry["included_parts"]):
+            tag = entry["tag"]
+            if tag not in existing_builds and not ready.issuperset(entry["included_parts"]):
                 continue
             remaining.remove(entry)
-            tag = entry["tag"]
             size = model.image_estimate(entry)
-            if not entry.get("built") or not docker_image_exists(tag):
+            if tag not in existing_builds:
                 calc.task("docker_build", docker=2 * size)
                 calc.step(
                     "docker",
@@ -178,11 +182,9 @@ def _estimate_send(model: ModelPipeline, calc: Estimate) -> set[str]:
 
     publish_ready()
     if model.downloading:
-        by_raw: dict[str, list[str]] = defaultdict(list)
-        for name, part in parts.items():
-            by_raw[part["raw_filename"]].append(name)
         for raw in state["raw"]:
-            if raw.get("split"):
+            split = model.needs_split(raw, ready, required)
+            if not split and not args.keep_raw:
                 calc.transfer["hf_reused"] += raw["size_bytes"]
                 continue
             size = raw["size_bytes"]
@@ -190,9 +192,7 @@ def _estimate_send(model: ModelPipeline, calc: Estimate) -> set[str]:
             calc.transfer["hf_download"] += download
             calc.transfer["hf_reused"] += size - download
             added_raw = 0
-            if not (
-                raw.get("downloaded") and path_matches(model.raw_path(raw), size, None)
-            ):
+            if not model.raw_available(raw):
                 if model.cache_role:
                     calc.step("hf_cache", download, download, temporary=False)
                     calc.keep("hf_cache", download)
@@ -202,16 +202,19 @@ def _estimate_send(model: ModelPipeline, calc: Estimate) -> set[str]:
                 calc.step("weights", size, size, temporary=not args.keep_raw)
                 if args.keep_raw:
                     calc.keep("weights", size)
-            calc.task("split", weights=size)
+            if not split:
+                continue
+            names = model.missing_split_parts(raw, ready, required)
+            split_size = sum(parts[name]["size_bytes"] for name in names)
+            calc.task("split", weights=split_size)
             calc.step(
                 "weights",
-                size,
-                size,
+                split_size,
+                split_size,
                 temporary=model.publishing and not args.keep_parts,
             )
             if not model.publishing or args.keep_parts:
-                calc.keep("weights", size)
-            names = by_raw[raw["filename"]]
+                calc.keep("weights", split_size)
             added_parts.update(names)
             ready.update(names)
             if not args.keep_raw:
@@ -229,16 +232,16 @@ def _estimate_receive(
     for name, part in parts.items():
         by_raw[part["raw_filename"]].add(name)
     pending: dict[str, int] = {}
-    saved = {item["raw_filename"] for item in state["restore"] if item.get("restored")}
     if model.restoring:
         for raw in state["raw"]:
             name = raw["filename"]
-            if name not in saved or not restored_file_valid(model.directory, raw):
+            if not raw.get("sha256") or not restored_file_valid(model.directory, raw):
                 pending[name] = raw["size_bytes"]
     ready = {
-        name
-        for name, part in parts.items()
-        if part.get("extracted") and extracted_parts_exist(model.directory, [part])
+        part["part_filename"]
+        for part in state["parts"]
+        if part["raw_filename"] in pending and part.get("sha256")
+        and part["part_filename"] in parts and extracted_parts_exist(model.directory, [part])
     }
     new_parts: set[str] = set()
 
@@ -272,6 +275,8 @@ def _estimate_receive(
         ) or (entry["tag"] in local_builds and not args.docker_pull_prefix)
         retained_image = args.keep_images or not model.restoring
         if not local:
+            if not model.publishing or _pushed(entry, bool(state.get("snapshot"))):
+                model.require_pull_digest(entry)
             calc.transfer["docker_download_uncompressed_estimate"] += size
             calc.task("docker_pull", docker=2 * size)
             calc.step("docker", 2 * size, size, temporary=False, kind="docker_pull")

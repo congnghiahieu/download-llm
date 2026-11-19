@@ -40,8 +40,11 @@ def prompt_phases(console: Console) -> list[str] | None:
     table.add_row("3", "custom", "Enter phases manually, single phase allowed")
     table.add_row("4", "list", "Show models with phase status and sizes")
     table.add_row("5", "transfer", "Transfer restored models over SSH")
+    table.add_row("6", "cleanup", "Clean up selected local model data")
     console.print(table)
-    choice = Prompt.ask("Choose workflow", choices=["1", "2", "3", "4", "5"], default="1")
+    choice = Prompt.ask("Choose workflow", choices=["1", "2", "3", "4", "5", "6"], default="1")
+    if choice == "6":
+        return ["cleanup"]
     if choice == "5":
         return ["transfer"]
     if choice == "1":

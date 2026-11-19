@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import fcntl
 import hashlib
 import logging
 import os
@@ -44,6 +43,7 @@ from src.files import (
     remove_file,
     restore_raw_file,
     restored_file_valid,
+    restored_record,
     split_raw_file,
 )
 from src.huggingface import (
@@ -63,6 +63,7 @@ from src.state import (
     is_pull_push_complete,
     load_state,
     make_initial_state,
+    model_lock,
     phase_progress,
     phase_status,
     resolve_state_path,
@@ -274,6 +275,7 @@ class ModelPipeline:
     pulled: set[str] = field(default_factory=set)
     awaiting_extract: set[str] = field(default_factory=set)
     built: set[str] = field(default_factory=set)
+    _verified: dict[Path, tuple[tuple[int, ...], str | None, bool]] = field(default_factory=dict)
     started: float = 0.0
 
     @property
@@ -336,6 +338,55 @@ class ModelPipeline:
     def part_path(self, part: Record) -> Path:
         return resolve_state_path(self.directory, part["path"])
 
+    def _available(self, path: Path, size: int, digest: str | None) -> bool:
+        try:
+            info = path.stat()
+        except FileNotFoundError:
+            return False
+        if info.st_size != size:
+            return False
+        fingerprint = (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns)
+        cached = self._verified.get(path)
+        if cached is not None and cached[:2] == (fingerprint, digest):
+            return cached[2]
+        ready = path_matches(path, size, digest)
+        self._verified[path] = fingerprint, digest, ready
+        return ready
+
+    def raw_available(self, raw: Record) -> bool:
+        return bool(raw.get("downloaded") or raw.get("sha256")) and self._available(
+            self.raw_path(raw), raw["size_bytes"], raw.get("sha256")
+        )
+
+    def part_available(self, part: Record) -> bool:
+        return self._available(self.part_path(part), part["size_bytes"], part.get("sha256"))
+
+    def required_send_parts(self, built: set[str]) -> set[str]:
+        if not self.publishing or self.args.keep_parts:
+            return set(self.part_layout)
+        return {
+            name
+            for entry in self.state["dockerfiles"]
+            if not _pushed(entry, bool(self.state.get("snapshot"))) and entry["tag"] not in built
+            for name in entry["included_parts"]
+        }
+
+    @cached_property
+    def parts_by_raw(self) -> dict[str, set[str]]:
+        result: dict[str, set[str]] = defaultdict(set)
+        for name, part in self.part_layout.items():
+            result[part["raw_filename"]].add(name)
+        return result
+
+    def needs_split(self, raw: Record, ready: set[str], required: set[str]) -> bool:
+        return not raw.get("split") or bool(self.missing_split_parts(raw, ready, required))
+
+    def missing_split_parts(self, raw: Record, ready: set[str], required: set[str]) -> set[str]:
+        names = self.parts_by_raw[raw["filename"]]
+        if raw.get("split"):
+            names = names & required
+        return names - ready
+
     def output_path(self, raw: Record) -> Path:
         return self.directory / expected_restored_path(raw["filename"])
 
@@ -360,7 +411,7 @@ class ModelPipeline:
 
     def missing_download_bytes(self, raw: Record) -> int:
         size = raw["size_bytes"]
-        if raw.get("downloaded") and path_matches(self.raw_path(raw), size, None):
+        if self.raw_available(raw):
             return 0
         commit = self.state["snapshot"]["commit"]
         return size - cached_download_bytes(
@@ -375,20 +426,40 @@ class ModelPipeline:
             self.state["snapshot"]["commit"],
             self.directory / RAW_DIRNAME,
         )
-        if path.stat().st_size != size:
-            raise RuntimeError(f"Size mismatch for pinned Hugging Face file {name!r}")
+        if not path_matches(path, size, raw.get("sha256")):
+            raise RuntimeError(f"Content mismatch for pinned Hugging Face file {name!r}")
 
     def _downloaded(self, raw: Record, _: Any) -> None:
         raw.update(downloaded=True, deleted=False, size=human_size(raw["size_bytes"]))
         self.save()
 
-    def _split(self, raw: Record) -> tuple[str, list[Record]]:
-        return split_raw_file(
-            self.raw_path(raw),
-            Path(raw["filename"]),
-            self.directory / PARTS_DIRNAME,
-            self.state["max_part_size_bytes"],
-        )
+    def _split(self, raw: Record, missing: set[str]) -> tuple[str, list[Record]]:
+        root = self.directory / PARTS_DIRNAME
+        root.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix=".split-", dir=root) as tmp:
+            staging = Path(tmp)
+            sha, parts = split_raw_file(
+                self.raw_path(raw), Path(raw["filename"]), staging, self.state["max_part_size_bytes"],
+                write_part=missing.__contains__,
+            )
+            previous = {part["part_filename"]: part for part in self.state["parts"]}
+            if raw.get("sha256") and raw["sha256"] != sha:
+                raise RuntimeError(f"Regenerated file differs from manifest: {raw['filename']}")
+            for part in parts:
+                name = part["part_filename"]
+                old_sha = previous.get(name, {}).get("sha256")
+                expected = self.part_layout.get(name)
+                if (expected is None or expected["size_bytes"] != part["size_bytes"]
+                        or (old_sha and old_sha != part["sha256"])):
+                    raise RuntimeError(f"Regenerated part differs from manifest: {name}")
+            for part in parts:
+                name = part["part_filename"]
+                target = root / name
+                if name in missing:
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    os.replace(staging / name, target)
+                part["deleted"] = not target.is_file()
+        return sha, parts
 
     def _split_done(self, raw: Record, result: tuple[str, list[Record]]) -> None:
         sha, parts = result
@@ -401,7 +472,11 @@ class ModelPipeline:
         ]
         if actual != expected:
             raise RuntimeError(f"Split output differs from plan for {name!r}")
-        raw.update(sha256=sha, split=True)
+        raw.update(sha256=sha, downloaded=True, split=True, deleted=False)
+        previous = {part["part_filename"]: part for part in self.state["parts"]}
+        for part in parts:
+            for field_name in ("extracted", "restored"):
+                part[field_name] = previous.get(part["part_filename"], {}).get(field_name, False)
         self.state["parts"] = [
             part for part in self.state["parts"] if part["raw_filename"] != name
         ] + parts
@@ -459,11 +534,7 @@ class ModelPipeline:
                         partial(push_image_digest, tag),
                         partial(self._pushed_done, entry, ready),
                     )
-                elif len(ready) == len(entry["included_parts"]) and all(
-                    not part.get("deleted")
-                    and path_matches(self.part_path(part), part["size_bytes"], None)
-                    for part in ready
-                ):
+                elif len(ready) == len(entry["included_parts"]) and all(self.part_available(part) for part in ready):
                     yield Task(
                         ("build", tag),
                         "docker_build",
@@ -472,20 +543,26 @@ class ModelPipeline:
                         partial(self._built, entry),
                     )
         if self.downloading:
+            required = self.required_send_parts(self.built)
+            present = {name for name, part in parts.items() if name in required and self.part_available(part)}
             for raw in self.state["raw"]:
-                if raw.get("split"):
+                split = self.needs_split(raw, present, required)
+                if not split and not self.args.keep_raw:
                     continue
                 name, size = raw["filename"], raw["size_bytes"]
-                if raw.get("downloaded") and path_matches(
-                    self.raw_path(raw), size, None
-                ):
-                    yield Task(
-                        ("split", name),
-                        "split",
-                        {"weights": size},
-                        partial(self._split, raw),
-                        partial(self._split_done, raw),
-                    )
+                if self.raw_available(raw):
+                    if split:
+                        missing = self.missing_split_parts(raw, present, required)
+                        yield Task(
+                            ("split", name),
+                            "split",
+                            {"weights": sum(self.part_layout[part]["size_bytes"] for part in missing)},
+                            partial(self._split, raw, missing),
+                            partial(self._split_done, raw),
+                        )
+                    elif raw.get("deleted"):
+                        raw["deleted"] = False
+                        self.save()
                 else:
                     # Cache may hard-link the materialized file, but reserve for copy fallback.
                     demand = {"weights": size}
@@ -505,23 +582,34 @@ class ModelPipeline:
         _validate_manifest(self.state, self.state["parts"], published=True)
         parts = {part["part_filename"]: part for part in self.state["parts"]}
         if self.restoring:
-            saved = {
-                item["raw_filename"]
-                for item in self.state["restore"]
-                if item.get("restored")
-            }
-            self.restored = {
-                raw["filename"]
-                for raw in self.state["raw"]
-                if raw["filename"] in saved and restored_file_valid(self.directory, raw)
-            }
+            saved = {item["raw_filename"]: item for item in self.state["restore"]}
+            changed = False
+            for raw in self.state["raw"]:
+                name = raw["filename"]
+                record = saved.get(name)
+                if restored_file_valid(self.directory, raw):
+                    self.restored.add(name)
+                    if record is None or not record.get("restored"):
+                        saved[name] = restored_record(name, raw["size_bytes"], raw["sha256"])
+                        changed = True
+                    elif record.get("deleted"):
+                        record["deleted"] = False
+                        changed = True
+                elif record and not record.get("deleted") and not self.output_path(raw).exists():
+                    record["deleted"] = True
+                    changed = True
             for part in parts.values():
-                if (
-                    part.get("extracted")
-                    and part["raw_filename"] not in self.restored
-                    and extracted_parts_exist(self.directory, [part])
-                ):
+                if part["raw_filename"] in self.restored:
+                    continue
+                available = extracted_parts_exist(self.directory, [part])
+                if available:
                     self.extracted.add(part["part_filename"])
+                if part.get("extracted") != available:
+                    part["extracted"] = available
+                    changed = True
+            if changed:
+                self.state["restore"] = list(saved.values())
+                self.save()
         for entry in self.state["dockerfiles"]:
             reference = docker_pull_tag(entry, self.args.docker_pull_prefix)
             if (entry.get("pulled") or entry.get("digest")) and docker_image_exists(
@@ -581,6 +669,7 @@ class ModelPipeline:
 
     def _restored(self, raw: Record, parts: list[Record], result: Record) -> None:
         name = raw["filename"]
+        result["deleted"] = False
         self.state["restore"] = [
             item for item in self.state["restore"] if item["raw_filename"] != name
         ] + [result]
@@ -644,6 +733,7 @@ class ModelPipeline:
                     continue
             elif tag in self.pulled:
                 continue
+            self.require_pull_digest(entry)
             yield Task(
                 ("pull", tag),
                 "docker_pull",
@@ -651,6 +741,10 @@ class ModelPipeline:
                 partial(run_docker, ["pull", reference]),
                 partial(self._pulled, entry, reference),
             )
+
+    def require_pull_digest(self, entry: Record) -> None:
+        if self.state.get("cleanup_requires_pinned_pull") and not entry.get("digest"):
+            raise ValueError(f"{self.name}: cannot reproduce {entry['tag']} after cleanup without a published digest")
 
     def tasks(self) -> list[Task]:
         if not self.send_done:
@@ -670,7 +764,8 @@ class ModelPipeline:
                 for entry in self.state["dockerfiles"]
             ):
                 raise RuntimeError(
-                    f"{self.name}: missing local parts required to build remaining images"
+                    f"{self.name}: missing local parts required to build remaining images; "
+                    "rerun pull_llm,push_docker with the original Hugging Face link, revision and part size"
                 )
             if self.publishing and "publication" in self.state:
                 if not phase_status(self.state)[PHASE_PULL_LLM]:
@@ -771,15 +866,7 @@ def run_models(
             ):
                 try:
                     model.directory.mkdir(parents=True, exist_ok=True)
-                    lock = locks.enter_context(
-                        (model.directory / ".pipeline.lock").open("a")
-                    )
-                    try:
-                        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-                    except BlockingIOError as exc:
-                        raise RuntimeError(
-                            f"{model.name}: another pipeline already owns this model directory"
-                        ) from exc
+                    locks.enter_context(model_lock(model.directory))
                     model.start()
                 except Exception as exc:  # noqa: BLE001 - preserve failures per model
                     failures.append((model.name, exc))

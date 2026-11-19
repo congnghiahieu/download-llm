@@ -162,6 +162,8 @@ def run_interactive() -> int:
         weights_dir = prompt_weights_dir(console)
         base_dir = Path(weights_dir)
         phases = prompt_phases(console)
+        if phases == ["cleanup"]:
+            return prompt_cleanup(console, weights_dir)
         if phases == ["transfer"]:
             return prompt_transfer(console, weights_dir)
         if phases is None:
@@ -269,6 +271,44 @@ def preview_plan(plan: PhasePlan) -> bool:
             for kind, current in plan.selected_task_limits().items()
         }
         plan.configure(workers, limits)
+
+
+def prompt_cleanup(console: Console, weights_dir: str) -> int:
+    from src.cleanup import CATEGORIES, apply_cleanup, make_cleanup_plan, render_cleanup
+    from src.interactive_prompts import show_available_models
+
+    show_available_models(console, Path(weights_dir))
+    name = Prompt.ask("Model name or alias (empty to cancel)", default="").strip()
+    if not name:
+        return 0
+    try:
+        plan = make_cleanup_plan(argparse.Namespace(
+            model_name=name, model_weights_dir=weights_dir,
+            docker_pull_prefix=os.environ.get(DOCKER_PULL_PREFIX_ENV),
+        ))
+        render_cleanup(plan)
+        choices = {str(i): key for i, key in enumerate(CATEGORIES, 1) if plan.items[key].targets}
+        if not choices:
+            return 0
+        selected: set[str] = set()
+        while True:
+            for index, key in choices.items():
+                print(f"  {index}. [{'x' if key in selected else ' '}] {key}")
+            choice = Prompt.ask("Toggle number(s), or Enter to finish", default="").strip()
+            if not choice:
+                break
+            toggles = dict.fromkeys(choice.replace(",", " ").split())
+            if not toggles or any(number not in choices for number in toggles):
+                print("Choose numbers from the available items.")
+                continue
+            selected.symmetric_difference_update(choices[number] for number in toggles)
+        if not selected:
+            return 0
+        render_cleanup(plan, selected)
+        return apply_cleanup(plan, selected) if Confirm.ask("Remove the selected local data?", default=False) else 0
+    except (OSError, RuntimeError, ValueError) as exc:
+        print(f"Cleanup failed: {exc}")
+        return 1
 
 
 def prompt_transfer(console: Console, weights_dir: str) -> int:

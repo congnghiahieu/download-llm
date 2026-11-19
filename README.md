@@ -10,6 +10,21 @@ Download Hugging Face model files, split them into disk-friendly parts, push tho
 
 ## Common usage
 
+### Clean up local model data
+
+Select workflow 6 in interactive mode to inspect each available category, toggle the ones to remove, and confirm the selection. For the CLI, preview first, then explicitly pass `--delete` and `--yes` to delete:
+
+```bash
+python3 main.py --cleanup --model-name MyModel --dry-run
+python3 main.py --cleanup --model-name MyModel --delete raw,parts,hf-cache --yes
+```
+
+1. Cleanup targets one model and supports `--model-weights-dir` / `MODEL_WEIGHTS_DIR`. Categories are `raw`, `parts`, `images`, `extracted`, `restored`, and `hf-cache`; `extracted` removes only `extracted/parts`, not `extracted/restored`.
+2. Preview inspects actual paths and local Docker references and reports their sizes. Shared Docker layers and hard-linked files mean the reported sizes are not guaranteed disk savings. Image cleanup requires a local Docker socket and never forces deletion, prunes Docker data, or contacts the registry.
+3. `hf-cache` includes the model's `raw/.cache/huggingface` directory and exact files for its pinned snapshot under `DOWNLOAD_LLM_CACHE` (default `~/.cache/download-llm/hf`), including unfinished downloads. Removing `raw` also removes the nested cache. Global Hugging Face Hub and Xet caches are not removed.
+4. Cleanup refuses to delete while the model's pipeline is active, or while another download uses the shared snapshot cache being deleted. It retains `state.json`, Dockerfiles, and publication metadata; statuses such as `push_docker: done` do not imply that local images are still present.
+5. To recover local data, rerun the relevant phase with the original settings. Use `pull_llm --keep-raw` for raw files, `pull_llm,push_docker` if unpublished images need missing parts, or `restore_llm` for restored files. The pipeline reuses valid artifacts, uses the pinned commit or Docker digest when it needs to fetch, and skips images already published. Legacy states without the pins required to reproduce deleted data do not silently fall back to a movable reference.
+
 ### Transfer restored models over SSH
 
 Use the standalone transfer workflow, or select workflow 5 in interactive mode.
@@ -204,13 +219,13 @@ Rerunning the original multi-model command is also safe because completed files 
 
 Progress is tracked per model in `model_weights/<model>/state.json` and saved after every file and entry.
 
-`pull_llm` skips files that are already downloaded and split.
+`pull_llm` skips files whose requested outputs already exist and are valid; it regenerates missing outputs when rerun after cleanup.
 
 `push_docker` skips images that are already built and pushed.
 
 `pull_dockerhub` skips images that are already pulled and present locally.
 
-`restore_llm` skips parts that are already extracted and outputs that are already valid.
+`restore_llm` reuses valid extracted parts and restored files, even if writing their checkpoints was interrupted.
 
 ## Interactive mode
 

@@ -62,6 +62,8 @@ DOCKER_PULL_PREFIX_HELP = (
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
+    from src.cleanup import CATEGORIES
+
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument(
         "--phases",
@@ -135,25 +137,34 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--destination-path", help="Absolute destination root; model folders are added beneath it.")
     parser.add_argument("--existing-destination", choices=("ask", "merge"),
                         help="Non-empty model folders: ask (default) or explicitly allow merge.")
-    parser.add_argument("--dry-run", action="store_true", help="Preview transfer without remote payload writes.")
+    parser.add_argument("--cleanup", action="store_true", help="Remove selected local model data, independently of phases.")
+    parser.add_argument("--delete", action="append", help=f"Cleanup categories (repeatable or comma-separated): {','.join(CATEGORIES)}.")
+    parser.add_argument("--yes", action="store_true", help="Explicitly authorize the selected cleanup.")
+    parser.add_argument("--dry-run", action="store_true", help="Preview cleanup or transfer without changing data.")
     args = parser.parse_args(argv)
 
     if args.transfer_models:
-        if args.phases or args.list_models or args.plan:
-            parser.error("--transfer-models cannot be combined with --phases, --list-models or --plan")
+        if args.phases or args.list_models or args.plan or args.cleanup:
+            parser.error("--transfer-models cannot be combined with --phases, --list-models, --plan or --cleanup")
         if not args.ssh_host or not args.destination_path:
             parser.error("--transfer-models requires --ssh-host and --destination-path")
     elif (args.ssh_host or args.ssh_option or args.destination_path
-          or args.existing_destination or args.dry_run):
-        parser.error("SSH, destination and dry-run options require --transfer-models")
+          or args.existing_destination):
+        parser.error("SSH and destination options require --transfer-models")
+    if args.dry_run and not (args.transfer_models or args.cleanup):
+        parser.error("--dry-run requires --transfer-models or --cleanup")
+    if args.cleanup and (args.phases is not None or args.list_models or args.plan or args.huggingface_links):
+        parser.error("--cleanup is standalone; specify --model-name, not phases or Hugging Face links")
+    if not args.cleanup and (args.delete is not None or args.yes):
+        parser.error("--delete and --yes require --cleanup")
     args.existing_destination = args.existing_destination or "ask"
 
     if args.list_models and args.phases:
         parser.error("--list-models cannot be combined with --phases")
     if args.plan and (not args.phases or args.list_models):
         parser.error("--plan requires --phases and cannot be combined with --list-models")
-    if not args.list_models and not args.phases and not args.transfer_models:
-        parser.error("--phases is required unless --list-models or --transfer-models is set")
+    if not args.list_models and not args.phases and not args.transfer_models and not args.cleanup:
+        parser.error("--phases is required unless --list-models, --transfer-models or --cleanup is set")
     if args.output is not None and not (args.list_models or args.plan):
         parser.error("--output requires --list-models or --plan")
     if args.output is None:
@@ -170,7 +181,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     args.max_part_size_bytes = parse_size(args.max_part_size)
     args.max_docker_image_size_bytes = parse_size(args.max_docker_image_size)
 
-    from src.state import get_huggingface_links, get_model_names
+    from src.state import get_huggingface_links, get_model_names, split_multi_values
 
     args.huggingface_links = get_huggingface_links(args)
     args.model_names = get_model_names(args)
@@ -178,6 +189,14 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         args.huggingface_links[0] if args.huggingface_links else None
     )
     args.model_name = args.model_names[0] if args.model_names else None
+    if args.cleanup:
+        if len(args.model_names) != 1:
+            parser.error("--cleanup requires exactly one --model-name")
+        args.delete = split_multi_values(args.delete)
+        if set(args.delete) - set(CATEGORIES):
+            parser.error(f"Invalid cleanup category; choose from {','.join(CATEGORIES)}")
+        if not args.dry_run and not (args.yes and args.delete):
+            parser.error("Cleanup requires explicit --delete categories and --yes (or use --dry-run)")
     if args.max_workers is not None and args.max_workers <= 0:
         parser.error("--max-workers must be a positive integer")
     return args
@@ -189,6 +208,10 @@ def validate_execution_prereqs(args: argparse.Namespace) -> None:
 
 
 def execute(args: argparse.Namespace) -> int:
+    if getattr(args, "cleanup", False):
+        from src.cleanup import run_cleanup
+
+        return run_cleanup(args)
     if getattr(args, "list_models", False):
         from src.listing import run_list_models
 

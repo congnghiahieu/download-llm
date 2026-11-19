@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import argparse
+import fcntl
 import json
 import os
 import tempfile
+from collections.abc import Iterator
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
@@ -18,6 +21,16 @@ from src.constants import (
 )
 from src.naming import docker_repo_name
 from src.sizes import human_size
+
+
+@contextmanager
+def model_lock(directory: Path) -> Iterator[None]:
+    with os.fdopen(os.open(directory / ".pipeline.lock", os.O_WRONLY | os.O_CREAT | os.O_NOFOLLOW, 0o600), "w") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as exc:
+            raise RuntimeError(f"{directory.name}: another pipeline or cleanup owns this model directory") from exc
+        yield
 
 
 def atomic_write_json(path: Path, data: dict[str, Any]) -> None:

@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import hashlib
 import os
+from collections.abc import Callable
+from contextlib import nullcontext
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Any
@@ -79,6 +81,17 @@ def restored_file_valid(model_dir: Path, raw: dict[str, Any]) -> bool:
     )
 
 
+def restored_record(filename: str, size: int, digest: str) -> dict[str, Any]:
+    return {
+        "raw_filename": filename,
+        "restored_path": f"{EXTRACTED_DIRNAME}/{RESTORED_DIRNAME}/{Path(filename).as_posix()}",
+        "size_bytes": size,
+        "size": human_size(size),
+        "sha256": digest,
+        "restored": True,
+    }
+
+
 def part_path_for_file(raw_rel: Path, index: int) -> Path:
     return raw_rel.parent / f"{raw_rel.stem}-{part_label(index)}{raw_rel.suffix}"
 
@@ -89,6 +102,8 @@ def split_raw_file(
     parts_dir: Path,
     max_part_size: int,
     progress_cb: Any | None = None,
+    *,
+    write_part: Callable[[str], bool] | None = None,
 ) -> tuple[str, list[dict[str, Any]]]:
     raw_digest = hashlib.sha256()
     part_entries: list[dict[str, Any]] = []
@@ -102,17 +117,20 @@ def split_raw_file(
 
             part_rel = part_path_for_file(raw_rel, part_index)
             part_path = parts_dir / part_rel
-            part_path.parent.mkdir(parents=True, exist_ok=True)
+            materialize = write_part is None or write_part(part_rel.as_posix())
+            if materialize:
+                part_path.parent.mkdir(parents=True, exist_ok=True)
             part_digest = hashlib.sha256()
             written = 0
 
-            with part_path.open("wb") as target:
+            with (part_path.open("wb") if materialize else nullcontext()) as target:
                 chunk = first
                 while chunk:
                     remaining = max_part_size - written
                     data = chunk[:remaining]
                     extra = chunk[remaining:]
-                    target.write(data)
+                    if target is not None:
+                        target.write(data)
                     written += len(data)
                     raw_digest.update(data)
                     part_digest.update(data)
@@ -176,11 +194,4 @@ def restore_raw_file(
             if written != raw["size_bytes"] or restored_sha != raw["sha256"]:
                 raise ValueError(f"Restored file mismatch for {raw['filename']}")
         os.replace(temporary, restored_path)
-    return {
-        "raw_filename": raw["filename"],
-        "restored_path": f"{EXTRACTED_DIRNAME}/{RESTORED_DIRNAME}/{Path(str(raw['filename'])).as_posix()}",
-        "size_bytes": written,
-        "size": human_size(written),
-        "sha256": restored_sha,
-        "restored": True,
-    }
+    return restored_record(raw["filename"], written, restored_sha)

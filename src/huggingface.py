@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import fcntl
 import json
 import os
 import re
 import shutil
 import urllib.error
 import urllib.request
+from collections.abc import Iterator
+from contextlib import ExitStack, contextmanager
 from pathlib import Path
 from threading import Lock
 from typing import Any
@@ -68,6 +71,20 @@ def _hf_cache_paths(
         blob.with_name(blob.name + ".part"),
         blob.with_name(blob.name + ".part.etag"),
     )
+
+
+@contextmanager
+def snapshot_cache_lock(repo_id: str, commit: str, *, wait: bool) -> Iterator[None]:
+    # Match the on-disk cache key, including any aliases in its legacy encoding.
+    root = _hf_cache_paths(repo_id, commit, "placeholder")[0].parent
+    root.parent.mkdir(parents=True, exist_ok=True)
+    lock_path = root.with_name(f"{root.name}.cleanup.lock")
+    with os.fdopen(os.open(lock_path, os.O_WRONLY | os.O_CREAT | os.O_NOFOLLOW, 0o600), "w") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_SH if wait else fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as exc:
+            raise RuntimeError("Hugging Face snapshot cache is in use") from exc
+        yield
 
 
 def _hf_is_offline() -> bool:
@@ -384,4 +401,16 @@ def download_model_file(
                 local_dir=local_dir,
             )
         )
-    return _download_model_file_stdlib(repo_id, filename, revision, local_dir)
+    with ExitStack() as locks:
+        try:
+            locks.enter_context(snapshot_cache_lock(repo_id, revision, wait=True))
+        except OSError:
+            if _hf_is_offline():
+                raise
+            # Do not write unlocked shared cache when locking is unavailable.
+            dest = local_dir / filename
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            url = f"{_hf_endpoint()}/{repo_id}/resolve/{quote(revision, safe='')}/{quote(filename)}"
+            _hf_stream_body(url, filename, _hf_auth_headers(), dest, dest.stat().st_size if dest.exists() else 0)
+            return dest
+        return _download_model_file_stdlib(repo_id, filename, revision, local_dir)

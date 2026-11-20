@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import hashlib
+import io
+import json
 import os
 import shutil
 import subprocess
@@ -12,7 +14,7 @@ from unittest.mock import patch
 
 from src.cli import parse_args
 from src.delivery import Receiver, file_stamp, run_with_retry
-from src.delivery_remote import META
+from src.delivery_remote import META, receive
 from src.pipeline import run_models
 from src.planning import DeliveryDiskForecast, _backlog_peak, make_plan
 from src.scheduling import DISK_HEADROOM
@@ -94,6 +96,46 @@ class DeliveryTests(unittest.TestCase):
             plan = make_plan(args)
             self.assertTrue(plan.authorize_run())
             run_models(plan.models, plan.max_workers, plan.scheduler())
+
+    def test_plain_rename_resumes_publish_after_failure(self):
+        payload = b"weights already verified on the receiver"
+        manifest = json.dumps(
+            {
+                "weights.bin": [len(payload), hashlib.sha256(payload).hexdigest()],
+            }
+        ).encode()
+        identity = hashlib.sha256(manifest).hexdigest()
+        stage = self.destination / "m.transferring"
+        final = self.destination / "m"
+        (stage / META).mkdir(parents=True)
+        (stage / META / "manifest.json").write_bytes(manifest)
+        (stage / "weights.bin").write_bytes(payload)
+        original = (stage / "weights.bin").stat()
+        rename = os.rename
+        fail_publish = True
+
+        def rename_with_failure(source, target):
+            if source == stage and target == final and fail_publish:
+                raise PermissionError("publish temporarily denied")
+            rename(source, target)
+
+        def publish():
+            with patch("sys.stdin", io.TextIOWrapper(io.BytesIO(manifest))):
+                receive("publish", self.destination, "m", identity, [])
+
+        with patch("src.delivery_remote.os.rename", side_effect=rename_with_failure):
+            with self.assertRaisesRegex(PermissionError, "publish temporarily denied"):
+                publish()
+            self.assertFalse(final.exists())
+            self.assertEqual((stage / META / "manifest.json").read_bytes(), manifest)
+            fail_publish = False
+            publish()
+
+        self.assertFalse(stage.exists())
+        self.assertTrue(final.is_dir())
+        self.assertFalse(final.is_symlink())
+        self.assertFalse((final / META).exists())
+        self.assertTrue(os.path.samestat(original, (final / "weights.bin").stat()))
 
     @unittest.skipUnless(shutil.which("rsync"), "real rsync required")
     def test_real_rsync_stages_and_resumes_then_publishes_without_clobbering(self):

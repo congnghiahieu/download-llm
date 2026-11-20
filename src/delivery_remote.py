@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import ctypes
 import fcntl
 import hashlib
 import json
@@ -60,15 +59,6 @@ def sync(path: Path) -> None:
         os.fsync(fd)
     finally:
         os.close(fd)
-
-
-def publish_directory(source: Path, target: Path) -> None:
-    # Linux renameat2 with RENAME_NOREPLACE also protects against writers that
-    # do not take our receiver lock. Plain rename can replace an empty directory.
-    rename = ctypes.CDLL(None, use_errno=True).renameat2
-    if rename(-100, os.fsencode(source), -100, os.fsencode(target), 1):
-        error = ctypes.get_errno()
-        raise OSError(error, os.strerror(error), target)
 
 
 def sync_staged_file(path: Path, stage: Path) -> None:
@@ -228,7 +218,8 @@ def receive(op: str, root: Path, name: str, identity: str, args: list[str]) -> N
                 sync(locks)
                 if final.exists() or final.is_symlink():
                     raise ValueError(f"Conflicting destination: {final}")
-                publish_directory(stage, final)
+                # Rename sibling directories without flags unsupported on some filesystems.
+                os.rename(stage, final)
             except BaseException:
                 saved_meta.rename(meta)
                 raise
